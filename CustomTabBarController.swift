@@ -30,7 +30,6 @@ class CustomTabBarController: UITabBarController {
             self.view.addSubview(customButton)
         }
         
-        
     }
     //         自定義按鈕點擊事件的處理程式
     @objc func customButtonTapped() {
@@ -38,6 +37,11 @@ class CustomTabBarController: UITabBarController {
         // 這裡只是示範，你可以根據需求自行定義
         print("Custom Button Tapped!")
         print("\(self.tabBar.frame)")
+        guard let addNoteVC = storyboard?.instantiateViewController(withIdentifier: "addNoteViewController") as? addNoteViewController else{
+                   assertionFailure("123")
+                   return
+               }
+        present(addNoteVC, animated: true, completion: nil)
     }
 
     /*

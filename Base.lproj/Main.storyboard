@@ -15,8 +15,10 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zkq-bq-iqb" customClass="CustomTabBarController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yhY-0i-Xmy">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" systemColor="systemBackgroundColor"/>
                         <color key="selectedImageTintColor" name="AccentColor"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
@@ -28,8 +30,8 @@
                         <segue destination="RF2-Ee-oTm" kind="relationship" relationship="viewControllers" id="tcf-1T-GUp"/>
                         <segue destination="JSw-an-mo9" kind="relationship" relationship="viewControllers" id="mQz-8H-CgA"/>
                         <segue destination="m9N-n6-RVO" kind="relationship" relationship="viewControllers" id="IDi-bh-vHE"/>
-                        <segue destination="coe-1A-btH" kind="relationship" relationship="viewControllers" id="ZAT-gd-sQf"/>
                         <segue destination="V1Z-Ok-Wlg" kind="relationship" relationship="viewControllers" id="tDf-cQ-pFo"/>
+                        <segue destination="coe-1A-btH" kind="relationship" relationship="viewControllers" id="ZAT-gd-sQf"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AO5-4c-fIv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -51,15 +53,41 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F9J-di-25S" customClass="MKRingProgressView">
+                                <rect key="frame" x="76" y="308" width="240" height="214"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hi-fL-oyP">
+                                        <rect key="frame" x="99" y="97" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fZ-aW-y9d">
+                                <rect key="frame" x="143" y="554" width="94" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="測試一下"/>
+                                <connections>
+                                    <action selector="testBtnPressed:" destination="RF2-Ee-oTm" eventType="touchUpInside" id="oAB-00-yfF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zou-Pa-rAa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="首頁" image="icon_home.png" selectedImage="icon_home_selected.png" id="84H-Me-0NZ"/>
+                    <connections>
+                        <outlet property="ringProgressView" destination="F9J-di-25S" id="eey-nS-ig0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hS3-sr-aas" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-306" y="607"/>
+            <point key="canvasLocation" x="-306.1068702290076" y="606.33802816901414"/>
         </scene>
         <!--紀錄-->
         <scene sceneID="K1O-8B-heo">
@@ -143,6 +171,15 @@
                     <view key="view" contentMode="scaleToFill" id="hxM-WM-1AV">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="看屁喔" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccz-4q-MNi">
+                                <rect key="frame" x="152" y="393" width="52" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="cqF-lM-BNf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -150,7 +187,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7eT-v7-fIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1622" y="706"/>
+            <point key="canvasLocation" x="1620.6106870229007" y="705.63380281690149"/>
         </scene>
     </scenes>
     <resources>
@@ -164,7 +201,7 @@
         <image name="icon_shop_selected.png" width="24" height="24"/>
         <image name="transparent.png" width="24" height="24"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.74509803921568629" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.74500000476837158" blue="0.64300000667572021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
