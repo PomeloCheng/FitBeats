@@ -12,15 +12,18 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBar.items?[0].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        tabBar.items?[1].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        tabBar.items?[3].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        tabBar.items?[4].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        
         // 創建自定義按鈕
         if let image = UIImage(named: "add_btn") {
             let customButton = UIButton(type: .custom)
             customButton.setImage(image, for: .normal)
             
             customButton.frame = CGRect(x: tabBar.center.x - image.size.width/2, y: tabBar.frame.origin.y - image.size.width/2, width: image.size.width, height: image.size.height)
-            print("\(tabBar.frame.origin.y)")
-            print("\(tabBar.center.y)")
-            //customButton.center = CGPoint(x: tabBar.center.x, y: tabBar.frame.origin.y ) // 調整y的位置
+            
             
             
             // 添加按鈕點擊事件的處理程式
@@ -41,6 +44,7 @@ class CustomTabBarController: UITabBarController {
                    assertionFailure("123")
                    return
                }
+        addNoteVC.modalPresentationStyle = .fullScreen
         present(addNoteVC, animated: true, completion: nil)
     }
 

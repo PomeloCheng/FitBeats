@@ -7,10 +7,13 @@
 
 import UIKit
 import MKRingProgressView
+import Lottie
 
 class homeViewController: UIViewController {
 
     @IBOutlet weak var ringProgressView: RingProgressView!
+    
+    @IBOutlet weak var animationView: LottieAnimationView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +28,22 @@ class homeViewController: UIViewController {
         ringProgressView.shadowOpacity = 0.0
         view.addSubview(ringProgressView)
         
-        
+//        let anim = LottieAnimation.named("animation.json")
+//        animationView.animation = anim
+//        animationView.play()
         
     }
 
     
     @IBAction func testBtnPressed(_ sender: Any) {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 1) { [self] in
             self.ringProgressView.progress = 1.0
+        }
+        
+        if self.ringProgressView.progress == 1.0 {
+            let anim = LottieAnimation.named("animation.json")
+            animationView.animation = anim
+            self.animationView.play()
         }
     }
     

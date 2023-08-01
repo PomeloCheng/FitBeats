@@ -76,12 +76,18 @@
                                     <action selector="testBtnPressed:" destination="RF2-Ee-oTm" eventType="touchUpInside" id="oAB-00-yfF"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nf5-TN-63z" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="76" y="597" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zou-Pa-rAa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="首頁" image="icon_home.png" selectedImage="icon_home_selected.png" id="84H-Me-0NZ"/>
                     <connections>
+                        <outlet property="animationView" destination="Nf5-TN-63z" id="6QD-WD-ldb"/>
                         <outlet property="ringProgressView" destination="F9J-di-25S" id="eey-nS-ig0"/>
                     </connections>
                 </viewController>
@@ -179,11 +185,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n0A-4N-f6S">
+                                <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" name="AccentColor"/>
+                                <items>
+                                    <navigationItem title="Title" id="KLm-1b-ZYL">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" image="xmark" catalog="system" id="3jB-XL-h3d">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="cancelBtnPressed:" destination="m9N-n6-RVO" id="MwI-C5-TUl"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="儲存" id="JqZ-ft-YOR">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cqF-lM-BNf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" tag="2" enabled="NO" title="" image="transparent.png" id="OUB-QX-4Hh"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7eT-v7-fIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -200,6 +226,7 @@
         <image name="icon_shop.png" width="24" height="24"/>
         <image name="icon_shop_selected.png" width="24" height="24"/>
         <image name="transparent.png" width="24" height="24"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.74500000476837158" blue="0.64300000667572021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
