@@ -24,12 +24,19 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBar>
+                    <connections>
+                        <segue destination="RF2-Ee-oTm" kind="relationship" relationship="viewControllers" id="tcf-1T-GUp"/>
+                        <segue destination="JSw-an-mo9" kind="relationship" relationship="viewControllers" id="mQz-8H-CgA"/>
+                        <segue destination="m9N-n6-RVO" kind="relationship" relationship="viewControllers" id="IDi-bh-vHE"/>
+                        <segue destination="coe-1A-btH" kind="relationship" relationship="viewControllers" id="ZAT-gd-sQf"/>
+                        <segue destination="V1Z-Ok-Wlg" kind="relationship" relationship="viewControllers" id="tDf-cQ-pFo"/>
+                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AO5-4c-fIv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064.885496183206" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="657" y="-118"/>
         </scene>
-        <!--Home View Controller-->
+        <!--首頁-->
         <scene sceneID="8EK-Pn-SO1">
             <objects>
                 <viewController storyboardIdentifier="homeViewController" id="RF2-Ee-oTm" customClass="homeViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
@@ -48,12 +55,13 @@
                         <viewLayoutGuide key="safeArea" id="zou-Pa-rAa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="首頁" image="icon_home.png" selectedImage="icon_home_selected.png" id="84H-Me-0NZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hS3-sr-aas" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1802" y="-2"/>
+            <point key="canvasLocation" x="-306" y="607"/>
         </scene>
-        <!--Record View Controller-->
+        <!--紀錄-->
         <scene sceneID="K1O-8B-heo">
             <objects>
                 <viewController storyboardIdentifier="recordViewController" id="JSw-an-mo9" customClass="recordViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,12 +80,13 @@
                         <viewLayoutGuide key="safeArea" id="uq1-Qu-wIl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" tag="1" title="紀錄" image="icon_record.png" selectedImage="icon_record_selected.png" id="hU0-Mu-gzJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="roU-UV-Z6m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2564" y="-2"/>
+            <point key="canvasLocation" x="656" y="689"/>
         </scene>
-        <!--Shop View Controller-->
+        <!--我的-->
         <scene sceneID="Q3l-QK-WLg">
             <objects>
                 <viewController storyboardIdentifier="shopViewController" id="coe-1A-btH" customClass="shopViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
@@ -96,12 +105,13 @@
                         <viewLayoutGuide key="safeArea" id="dst-sE-NOU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" tag="4" title="我的" image="icon_me.png" selectedImage="icon_me_selected.png" id="ksA-Fh-8jY"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mJd-sH-WkK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3496.9465648854962" y="-18.30985915492958"/>
+            <point key="canvasLocation" x="4370" y="689"/>
         </scene>
-        <!--Me View Controller-->
+        <!--商城-->
         <scene sceneID="eHu-ld-Bjs">
             <objects>
                 <viewController storyboardIdentifier="meViewController" id="V1Z-Ok-Wlg" customClass="meViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
@@ -120,10 +130,11 @@
                         <viewLayoutGuide key="safeArea" id="VMW-za-Gwr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" tag="3" title="商城" image="icon_shop.png" selectedImage="icon_shop_selected.png" id="vzM-Wg-N6B"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0c9-qq-djg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4647" y="-23"/>
+            <point key="canvasLocation" x="2677" y="689"/>
         </scene>
         <!--Add Note View Controller-->
         <scene sceneID="Oow-kO-t7m">
@@ -135,13 +146,23 @@
                         <viewLayoutGuide key="safeArea" id="cqF-lM-BNf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" tag="2" enabled="NO" title="" image="transparent.png" id="OUB-QX-4Hh"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7eT-v7-fIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5659" y="-24"/>
+            <point key="canvasLocation" x="1622" y="706"/>
         </scene>
     </scenes>
     <resources>
+        <image name="icon_home.png" width="24" height="24"/>
+        <image name="icon_home_selected.png" width="24" height="24"/>
+        <image name="icon_me.png" width="24" height="24"/>
+        <image name="icon_me_selected.png" width="24" height="24"/>
+        <image name="icon_record.png" width="24" height="24"/>
+        <image name="icon_record_selected.png" width="24" height="24"/>
+        <image name="icon_shop.png" width="24" height="24"/>
+        <image name="icon_shop_selected.png" width="24" height="24"/>
+        <image name="transparent.png" width="24" height="24"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.74509803921568629" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
