@@ -13,7 +13,7 @@ class homeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        view.backgroundColor = .white
         let ringProgressView = RingProgressView(frame: CGRect(x: 180, y: 375, width: 200, height: 200))
         ringProgressView.startColor = UIColor(red: 0, green: 190/255, blue: 164/255, alpha: 1)
         ringProgressView.endColor = UIColor(red: 0, green: 190/255, blue: 164/255, alpha: 1)

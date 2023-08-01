@@ -33,7 +33,7 @@
         <scene sceneID="8EK-Pn-SO1">
             <objects>
                 <viewController storyboardIdentifier="homeViewController" id="RF2-Ee-oTm" customClass="homeViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fNy-di-cb7" customClass="home">
+                    <view key="view" contentMode="scaleToFill" id="fNy-di-cb7">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -75,7 +75,70 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="roU-UV-Z6m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2859" y="-2"/>
+            <point key="canvasLocation" x="2564" y="-2"/>
+        </scene>
+        <!--Shop View Controller-->
+        <scene sceneID="Q3l-QK-WLg">
+            <objects>
+                <viewController storyboardIdentifier="shopViewController" id="coe-1A-btH" customClass="shopViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="J1l-i4-xSF">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="789" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTY-rE-MHa">
+                                <rect key="frame" x="175" y="279" width="30" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dst-sE-NOU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mJd-sH-WkK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3496.9465648854962" y="-18.30985915492958"/>
+        </scene>
+        <!--Me View Controller-->
+        <scene sceneID="eHu-ld-Bjs">
+            <objects>
+                <viewController storyboardIdentifier="meViewController" id="V1Z-Ok-Wlg" customClass="meViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vi3-Px-8hv">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="11111" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWD-71-CRB">
+                                <rect key="frame" x="163" y="325" width="38" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="VMW-za-Gwr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0c9-qq-djg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4647" y="-23"/>
+        </scene>
+        <!--Add Note View Controller-->
+        <scene sceneID="Oow-kO-t7m">
+            <objects>
+                <viewController storyboardIdentifier="addNoteViewController" id="m9N-n6-RVO" customClass="addNoteViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hxM-WM-1AV">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cqF-lM-BNf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7eT-v7-fIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5659" y="-24"/>
         </scene>
     </scenes>
     <resources>
