@@ -36,16 +36,18 @@ class homeViewController: UIViewController {
 
     
     @IBAction func testBtnPressed(_ sender: Any) {
-        UIView.animate(withDuration: 1) { [self] in
-            self.ringProgressView.progress = 1.0
-        }
         
-        if self.ringProgressView.progress == 1.0 {
-            let anim = LottieAnimation.named("animation.json")
-            animationView.animation = anim
-            self.animationView.play()
+        UIView.animate(withDuration: 1, delay: 0) {
+            self.ringProgressView.progress = 1.0
+        } completion: { result in
+            if result {
+                let anim = LottieAnimation.named("check.json")
+                self.animationView.animation = anim
+                self.animationView.play()
+            }
         }
-    }
-    
+
+        }
+
 }
 

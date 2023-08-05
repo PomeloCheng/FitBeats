@@ -128,7 +128,7 @@
         <!--我的-->
         <scene sceneID="Q3l-QK-WLg">
             <objects>
-                <viewController storyboardIdentifier="shopViewController" id="coe-1A-btH" customClass="shopViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="shopViewController" id="coe-1A-btH" customClass="meViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J1l-i4-xSF">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -148,7 +148,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mJd-sH-WkK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4370" y="689"/>
+            <point key="canvasLocation" x="3430" y="642"/>
         </scene>
         <!--Add Note View Controller-->
         <scene sceneID="Oow-kO-t7m">
