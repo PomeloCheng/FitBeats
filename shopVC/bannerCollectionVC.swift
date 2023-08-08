@@ -7,7 +7,7 @@
 
 import UIKit
 
-class shopViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class bannerCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension shopViewController {
+extension bannerCollectionVC {
     
     @objc func changeBanner(){
             

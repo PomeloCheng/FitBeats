@@ -9,20 +9,17 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--商城-->
+        <!--Banner CollectionVC-->
         <scene sceneID="MvS-d9-Fme">
             <objects>
-                <viewController storyboardIdentifier="shop" id="x4d-7T-1fA" customClass="shopViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="x4d-7T-1fA" customClass="bannerCollectionVC" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gYr-b2-zVW">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="221"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Z8b-C1-GKJ">
-                                <rect key="frame" x="0.0" y="59" width="393" height="221"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="221"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Z8b-C1-GKJ" secondAttribute="height" multiplier="16:9" id="LWz-gN-7Lh"/>
-                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1ai-rY-o12">
                                     <size key="itemSize" width="317" height="201"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -42,10 +39,10 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="0lu-JS-fMr" secondAttribute="bottom" id="8jg-5n-LVq"/>
-                                                <constraint firstItem="0lu-JS-fMr" firstAttribute="leading" secondItem="aFu-8o-NLW" secondAttribute="leading" id="FgC-Ue-f0g"/>
-                                                <constraint firstItem="0lu-JS-fMr" firstAttribute="top" secondItem="aFu-8o-NLW" secondAttribute="top" id="PeW-XD-DM9"/>
-                                                <constraint firstAttribute="trailing" secondItem="0lu-JS-fMr" secondAttribute="trailing" id="itG-2A-yrl"/>
+                                                <constraint firstAttribute="trailing" secondItem="0lu-JS-fMr" secondAttribute="trailing" id="MuC-D6-c9t"/>
+                                                <constraint firstItem="0lu-JS-fMr" firstAttribute="leading" secondItem="aFu-8o-NLW" secondAttribute="leading" id="pog-8x-oSF"/>
+                                                <constraint firstItem="0lu-JS-fMr" firstAttribute="top" secondItem="aFu-8o-NLW" secondAttribute="top" id="rqr-58-FAe"/>
+                                                <constraint firstAttribute="bottom" secondItem="0lu-JS-fMr" secondAttribute="bottom" id="wbR-2c-dJA"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="317" height="201"/>
@@ -62,14 +59,14 @@
                         <viewLayoutGuide key="safeArea" id="mfb-ha-LHE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="trailing" secondItem="mfb-ha-LHE" secondAttribute="trailing" id="JFl-Xu-yBO"/>
-                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="leading" secondItem="mfb-ha-LHE" secondAttribute="leading" id="Lpv-Jn-4gc"/>
-                            <constraint firstItem="iqo-SO-oQC" firstAttribute="centerX" secondItem="mfb-ha-LHE" secondAttribute="centerX" id="YYp-Cy-gxb"/>
-                            <constraint firstItem="iqo-SO-oQC" firstAttribute="top" secondItem="mfb-ha-LHE" secondAttribute="top" constant="180" id="YrN-RO-MxT"/>
-                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="top" secondItem="mfb-ha-LHE" secondAttribute="top" id="aXY-EN-9Cc"/>
+                            <constraint firstItem="iqo-SO-oQC" firstAttribute="centerX" secondItem="Z8b-C1-GKJ" secondAttribute="centerX" id="MIP-vp-3cs"/>
+                            <constraint firstAttribute="bottom" secondItem="Z8b-C1-GKJ" secondAttribute="bottom" id="Qz4-EM-yHy"/>
+                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="top" secondItem="gYr-b2-zVW" secondAttribute="top" id="U7u-C5-G7u"/>
+                            <constraint firstItem="iqo-SO-oQC" firstAttribute="top" secondItem="mfb-ha-LHE" secondAttribute="top" constant="180" id="WEQ-yZ-ppg"/>
+                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="trailing" secondItem="mfb-ha-LHE" secondAttribute="trailing" id="qc7-Qp-oUd"/>
+                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="leading" secondItem="mfb-ha-LHE" secondAttribute="leading" id="wEt-a1-49O"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="商城" image="icon_shop.png" selectedImage="icon_shop_selected.png" id="coh-IY-FWm"/>
                     <connections>
                         <outlet property="bannerCollectionView" destination="Z8b-C1-GKJ" id="diK-rx-HQE"/>
                         <outlet property="pageControl" destination="iqo-SO-oQC" id="AqT-Zb-o44"/>
@@ -77,7 +74,122 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erm-2f-Vzr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2541.2213740458014" y="703.52112676056345"/>
+            <point key="canvasLocation" x="2581" y="809"/>
+        </scene>
+        <!--商城-->
+        <scene sceneID="Oqf-Ui-cOc">
+            <objects>
+                <viewController storyboardIdentifier="shop" id="5lQ-vB-jgL" customClass="ShopViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cue-53-W5q">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7S-xI-p03">
+                                <rect key="frame" x="0.0" y="59" width="393" height="221"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="k7S-xI-p03" secondAttribute="height" multiplier="16:9" id="cyd-kn-eRI"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="x4d-7T-1fA" kind="embed" id="ahO-fO-rQD"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kW7-rj-XJs">
+                                <rect key="frame" x="0.0" y="389" width="393" height="380"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="DZP-gM-QI9" kind="embed" id="rBV-ja-XwB"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yiH-r7-Hti"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="k7S-xI-p03" firstAttribute="leading" secondItem="yiH-r7-Hti" secondAttribute="leading" id="00x-lP-Ipb"/>
+                            <constraint firstItem="k7S-xI-p03" firstAttribute="top" secondItem="yiH-r7-Hti" secondAttribute="top" id="f7I-q6-r3g"/>
+                            <constraint firstItem="k7S-xI-p03" firstAttribute="trailing" secondItem="yiH-r7-Hti" secondAttribute="trailing" id="iH9-0T-3x5"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="商城" image="icon_shop.png" selectedImage="icon_shop_selected.png" id="coh-IY-FWm"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dlw-WE-kHd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3467.9389312977096" y="648.59154929577471"/>
+        </scene>
+        <!--Shop ItemVC-->
+        <scene sceneID="QgA-mv-mMM">
+            <objects>
+                <viewController id="DZP-gM-QI9" customClass="shopItemVC" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XBb-d2-tqJ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="380"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5GO-NR-gZO">
+                                <rect key="frame" x="0.0" y="48" width="393" height="332"/>
+                            </scrollView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="50g-6v-yx8" customClass="ButtonBarView" customModule="XLPagerTabStrip">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="0a0-4O-Dt0"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MPI-7L-x9T">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="50g-6v-yx8" firstAttribute="leading" secondItem="XBb-d2-tqJ" secondAttribute="leading" id="4BC-1n-dsC"/>
+                            <constraint firstAttribute="trailing" secondItem="5GO-NR-gZO" secondAttribute="trailing" id="8nh-7q-G9d"/>
+                            <constraint firstAttribute="trailing" secondItem="50g-6v-yx8" secondAttribute="trailing" id="D9Q-yQ-tmB"/>
+                            <constraint firstAttribute="bottom" secondItem="5GO-NR-gZO" secondAttribute="bottom" id="Fml-Wp-vLz"/>
+                            <constraint firstItem="50g-6v-yx8" firstAttribute="top" secondItem="XBb-d2-tqJ" secondAttribute="top" id="ITF-dh-Gzn"/>
+                            <constraint firstItem="5GO-NR-gZO" firstAttribute="top" secondItem="XBb-d2-tqJ" secondAttribute="top" constant="48" id="SgD-yP-I1l"/>
+                            <constraint firstItem="5GO-NR-gZO" firstAttribute="leading" secondItem="XBb-d2-tqJ" secondAttribute="leading" id="oY8-es-MVk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBarView" destination="50g-6v-yx8" id="fiF-et-vqo"/>
+                        <outlet property="containerView" destination="5GO-NR-gZO" id="AAh-zQ-ABt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4mG-l6-rtK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2774.8091603053435" y="1329.5774647887324"/>
+        </scene>
+        <!--Child Controller1-->
+        <scene sceneID="FXI-L6-OGn">
+            <objects>
+                <viewController storyboardIdentifier="VC1" id="Xjh-vj-xBE" customClass="ChildController1" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="o6q-Ak-EME">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="dQ9-n7-UzF"/>
+                        <color key="backgroundColor" systemColor="systemMintColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n7f-j2-WFv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3647" y="1665"/>
+        </scene>
+        <!--Child Controller2-->
+        <scene sceneID="RrG-OX-aS8">
+            <objects>
+                <viewController storyboardIdentifier="VC2" id="bct-Y4-wBb" customClass="ChildController2" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ibS-xN-3QI">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="aib-eb-iNT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WY9-nd-3ZC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4579" y="1690"/>
         </scene>
     </scenes>
     <resources>
@@ -85,6 +197,9 @@
         <image name="icon_shop_selected.png" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
