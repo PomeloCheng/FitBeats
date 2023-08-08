@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--商城-->
+        <scene sceneID="MvS-d9-Fme">
+            <objects>
+                <viewController storyboardIdentifier="shop" id="x4d-7T-1fA" customClass="shopViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gYr-b2-zVW">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Z8b-C1-GKJ">
+                                <rect key="frame" x="0.0" y="59" width="393" height="221"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Z8b-C1-GKJ" secondAttribute="height" multiplier="16:9" id="LWz-gN-7Lh"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1ai-rY-o12">
+                                    <size key="itemSize" width="317" height="201"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="BannerCollectionViewCell" id="tkZ-ms-pzK" customClass="BannerCollectionViewCell" customModule="FitBeats" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="10" width="317" height="201"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="aFu-8o-NLW">
+                                            <rect key="frame" x="0.0" y="0.0" width="317" height="201"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0lu-JS-fMr">
+                                                    <rect key="frame" x="0.0" y="0.0" width="317" height="201"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="0lu-JS-fMr" secondAttribute="bottom" id="8jg-5n-LVq"/>
+                                                <constraint firstItem="0lu-JS-fMr" firstAttribute="leading" secondItem="aFu-8o-NLW" secondAttribute="leading" id="FgC-Ue-f0g"/>
+                                                <constraint firstItem="0lu-JS-fMr" firstAttribute="top" secondItem="aFu-8o-NLW" secondAttribute="top" id="PeW-XD-DM9"/>
+                                                <constraint firstAttribute="trailing" secondItem="0lu-JS-fMr" secondAttribute="trailing" id="itG-2A-yrl"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="317" height="201"/>
+                                        <connections>
+                                            <outlet property="bannerImageView" destination="0lu-JS-fMr" id="AZX-cA-ybr"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="iqo-SO-oQC">
+                                <rect key="frame" x="138.66666666666666" y="239" width="115.66666666666666" height="26"/>
+                            </pageControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mfb-ha-LHE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="trailing" secondItem="mfb-ha-LHE" secondAttribute="trailing" id="JFl-Xu-yBO"/>
+                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="leading" secondItem="mfb-ha-LHE" secondAttribute="leading" id="Lpv-Jn-4gc"/>
+                            <constraint firstItem="iqo-SO-oQC" firstAttribute="centerX" secondItem="mfb-ha-LHE" secondAttribute="centerX" id="YYp-Cy-gxb"/>
+                            <constraint firstItem="iqo-SO-oQC" firstAttribute="top" secondItem="mfb-ha-LHE" secondAttribute="top" constant="180" id="YrN-RO-MxT"/>
+                            <constraint firstItem="Z8b-C1-GKJ" firstAttribute="top" secondItem="mfb-ha-LHE" secondAttribute="top" id="aXY-EN-9Cc"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="商城" image="icon_shop.png" selectedImage="icon_shop_selected.png" id="coh-IY-FWm"/>
+                    <connections>
+                        <outlet property="bannerCollectionView" destination="Z8b-C1-GKJ" id="diK-rx-HQE"/>
+                        <outlet property="pageControl" destination="iqo-SO-oQC" id="AqT-Zb-o44"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="erm-2f-Vzr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2541.2213740458014" y="703.52112676056345"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon_shop.png" width="24" height="24"/>
+        <image name="icon_shop_selected.png" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

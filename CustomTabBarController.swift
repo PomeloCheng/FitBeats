@@ -9,13 +9,22 @@ import UIKit
 
 class CustomTabBarController: UITabBarController {
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // 設置選中時的文字顏色
+        if let tabBarItems = tabBar.items {
+            for item in tabBarItems {
+                item.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        tabBar.items?[0].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        tabBar.items?[1].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        tabBar.items?[3].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        tabBar.items?[4].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        
         
         // 創建自定義按鈕
         if let image = UIImage(named: "add_btn") {
