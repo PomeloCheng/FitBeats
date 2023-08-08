@@ -10,12 +10,14 @@ import UIKit
 class CustomTabBarController: UITabBarController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
         tabBar.items?[0].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         tabBar.items?[1].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         tabBar.items?[3].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         tabBar.items?[4].setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        
+        super.viewDidLoad()
+        
+        
         
         // 創建自定義按鈕
         if let image = UIImage(named: "add_btn") {
