@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum ChildIdentifier: String {
+    case child1 = "Child1"
+    case child2 = "Child2"
+}

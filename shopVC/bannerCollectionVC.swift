@@ -45,7 +45,7 @@ class bannerCollectionVC: UIViewController, UICollectionViewDelegate, UICollecti
             let indexPath = banners[indexPath.item]
             cell.bannerImageView.contentMode = .scaleAspectFit
             let orginImage = UIImage(named: "\(indexPath).jpg")
-            cell.bannerImageView.image = orginImage?.resize(maxEdge: 393)
+            cell.bannerImageView.image = orginImage?.resize(maxEdge: collectionView.frame.width)
             
             return cell
             
