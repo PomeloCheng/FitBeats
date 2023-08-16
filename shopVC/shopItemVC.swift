@@ -10,8 +10,6 @@ import XLPagerTabStrip
 let purpleInspireColor = UIColor(red:0.13, green:0.03, blue:0.25, alpha:1.0)
 class shopItemVC: ButtonBarPagerTabStripViewController {
     
-    
-
     override func viewDidLoad() {
         configure()
         super.viewDidLoad()
@@ -39,18 +37,19 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        
-        let childIdentifiers = ["Child1", "Child2"]
-        var childViewControllers: [UIViewController] = []
+        let category = [0, 1]
+        var shopContentVCs: [UIViewController] = []
 
-        for identifier in childIdentifiers {
-            let childVC = UIStoryboard(name: "shop", bundle: nil).instantiateViewController(withIdentifier: "VC1") as! ChildController1
-        childVC.identifier = identifier
-        childViewControllers.append(childVC)
+        for categoryTag in category {
+            let storyboard = UIStoryboard(name: "shop", bundle: nil)
+                    if let shopContentVC = storyboard.instantiateViewController(withIdentifier: "shopContentVC") as? shopContentVC {
+                        shopContentVC.categoryTag = categoryTag
+                        shopContentVCs.append(shopContentVC)
+                    }
+        }
+
+        return shopContentVCs
     }
-
-    return childViewControllers
-}
     /*
     // MARK: - Navigation
 

@@ -25,44 +25,45 @@ class ShopViewController: UIViewController {
     
     @objc func handleScrollViewDidScroll(_ notification: Notification) {
         // Check if the animation is locked or not
-                if !isAnimationInProgress {
-                    
-                    guard let topHeightConstraint = topHeightConstraint,
-                        let verticalOffset = notification.object as? CGFloat
-                    else { return }
-                    
-                    // Check if an animation is required
-                    if verticalOffset > .zero &&
-                        topHeightConstraint.constant > .zero {
-                        
-                        topHeightConstraint.constant = .zero
-                        animateTopViewHeight()
-                    }
-                    else if verticalOffset <= .zero
-                                && topHeightConstraint.constant <= .zero {
-                        
-                        topHeightConstraint.constant = viewHeight
-                        animateTopViewHeight()
-                    }
-                }
-        }
-    
-    // Animate the top view
-        private func animateTopViewHeight() {
+        if !isAnimationInProgress {
             
-            // Lock the animation functionality
-            isAnimationInProgress = true
             
-            UIView.animate(withDuration: 0.2) {
+            guard let topHeightConstraint = topHeightConstraint,
+                  let verticalOffset = notification.userInfo?["contentOffsetY"] as? CGFloat
+            else { return }
+            
+            // Check if an animation is required
+            if verticalOffset > .zero &&
+                topHeightConstraint.constant > .zero {
                 
-                self.view.layoutIfNeeded()
+                topHeightConstraint.constant = .zero
+                animateTopViewHeight()
+            }
+            else if verticalOffset <= .zero
+                        && topHeightConstraint.constant <= .zero {
                 
-            } completion: { [weak self] (_) in
-                
-                // Unlock the animation functionality
-                self?.isAnimationInProgress = false
+                topHeightConstraint.constant = viewHeight
+                animateTopViewHeight()
             }
         }
+    }
+    
+    // Animate the top view
+    private func animateTopViewHeight() {
+        
+        // Lock the animation functionality
+        isAnimationInProgress = true
+        
+        UIView.animate(withDuration: 0.2) {
+            
+            self.view.layoutIfNeeded()
+            
+        } completion: { [weak self] (_) in
+            
+            // Unlock the animation functionality
+            self?.isAnimationInProgress = false
+        }
+    }
     /*
     // MARK: - Navigation
 
