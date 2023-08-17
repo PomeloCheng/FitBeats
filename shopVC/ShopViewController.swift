@@ -7,11 +7,16 @@
 
 import UIKit
 
-class ShopViewController: UIViewController {
+class ShopViewController: UIViewController, UINavigationControllerDelegate {
     
 
     
+   
+    @IBOutlet weak var topConstrant: NSLayoutConstraint!
     @IBOutlet weak var topHeightConstraint: NSLayoutConstraint!
+    var customTabBarController: CustomTabBarController? {
+            return tabBarController as? CustomTabBarController
+        }
     // Original height of the top view
     var viewHeight: CGFloat = 221
     // Keep track of the
@@ -21,6 +26,10 @@ class ShopViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(handleScrollViewDidScroll(_:)), name: Notification.Name("ScrollViewDidScroll"), object: nil)
         // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(didSelectItem), name: Notification.Name("pushView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(popView), name: Notification.Name("popView"), object: nil)
+        
+        
     }
     
     @objc func handleScrollViewDidScroll(_ notification: Notification) {
@@ -29,7 +38,7 @@ class ShopViewController: UIViewController {
             
             
             guard let topHeightConstraint = topHeightConstraint,
-                  let verticalOffset = notification.userInfo?["contentOffsetY"] as? CGFloat
+                let verticalOffset = notification.object as? CGFloat
             else { return }
             
             // Check if an animation is required
@@ -75,4 +84,34 @@ class ShopViewController: UIViewController {
     }
     
      */
+    
+    
+    @objc func didSelectItem(_ notification: Notification) {
+        customTabBarController?.customButton.isHidden = true
+        tabBarController?.tabBar.isHidden = true
+        topConstrant.constant = .zero
+        
+            self.view.layoutIfNeeded()
+            
+        
+    }
+    
+    @objc func popView(){
+        
+        topConstrant.constant = 299
+        UIView.animate(withDuration: 0.07) {
+            self.view.layoutIfNeeded()
+        }
+        
+        
+        
+    }
+    
+    
+    
 }
+
+
+    
+    
+

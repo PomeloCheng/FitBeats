@@ -13,7 +13,7 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
     override func viewDidLoad() {
         configure()
         super.viewDidLoad()
-    
+        
         // Do any additional setup after loading the view.
     }
     
@@ -46,6 +46,7 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
                         shopContentVC.categoryTag = categoryTag
                         shopContentVCs.append(shopContentVC)
                     }
+            
         }
 
         return shopContentVCs

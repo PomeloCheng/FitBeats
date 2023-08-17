@@ -7,7 +7,9 @@
 
 import UIKit
 import XLPagerTabStrip
-
+protocol ShopContentDelegate: AnyObject {
+    func didSelectItem(product: Product, navigationController: UINavigationController)
+}
 
 class shopContentVC: UIViewController,IndicatorInfoProvider {
     
@@ -17,7 +19,8 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
     var histories: [History] = []
     @IBOutlet weak var shopContentView: UICollectionView!
     var categoryTag: Int = 0
-
+    weak var delegate : ShopContentDelegate?
+    var navigationControllerRef: UINavigationController?
     
     func indicatorInfo(for pagerTabStripController: XLPagerTabStrip.PagerTabStripViewController) -> XLPagerTabStrip.IndicatorInfo {
         switch categoryTag {
@@ -33,7 +36,6 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         shopContentView.delegate = self
         shopContentView.dataSource = self
         
@@ -64,7 +66,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: nil, userInfo: ["contentOffsetY": scrollView.contentOffset.y])
+        NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
     }
     
     @IBAction func testBtnPress(_ sender: Any) {
@@ -157,12 +159,17 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
         return CGSize(width: itemWidth, height: itemHeight)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "shop", bundle: nil)
-            if let itemVC = storyboard.instantiateViewController(withIdentifier: "itemViewController") as? itemViewController {
-                // 設置 itemVC 需要的數據或內容
-                navigationController?.pushViewController(itemVC, animated: true)
-            }
+        
+//        let selectedProduct = products[indexPath.row]
+//        guard let navigationController = navigationControllerRef else {
+//            return
+//        }
+////        self.delegate?.didSelectItem(product: selectedProduct, navigationController: navigationController)
+//        let userInfo: [String: Any] = ["product": selectedProduct, "navigationRef": navigationController]
+        
+        NotificationCenter.default.post(name: Notification.Name("pushView"), object: nil)
         
     }
+    
 }
 

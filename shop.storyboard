@@ -93,12 +93,6 @@
                                     <segue destination="x4d-7T-1fA" kind="embed" identifier="shopItem" id="ahO-fO-rQD"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kW7-rj-XJs">
-                                <rect key="frame" x="0.0" y="358" width="393" height="411"/>
-                                <connections>
-                                    <segue destination="DZP-gM-QI9" kind="embed" id="rBV-ja-XwB"/>
-                                </connections>
-                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SIT-2Y-9Wy">
                                 <rect key="frame" x="0.0" y="280" width="393" height="78"/>
                                 <constraints>
@@ -106,6 +100,12 @@
                                 </constraints>
                                 <connections>
                                     <segue destination="uQf-wt-02t" kind="embed" id="fsw-ah-JLq"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kW7-rj-XJs">
+                                <rect key="frame" x="0.0" y="358" width="393" height="411"/>
+                                <connections>
+                                    <segue destination="iJb-Qu-DcH" kind="embed" id="rBV-ja-XwB"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -121,12 +121,13 @@
                             <constraint firstItem="k7S-xI-p03" firstAttribute="trailing" secondItem="yiH-r7-Hti" secondAttribute="trailing" id="iH9-0T-3x5"/>
                             <constraint firstItem="kW7-rj-XJs" firstAttribute="leading" secondItem="yiH-r7-Hti" secondAttribute="leading" id="qgM-3l-G2T"/>
                             <constraint firstItem="SIT-2Y-9Wy" firstAttribute="top" secondItem="yiH-r7-Hti" secondAttribute="top" constant="221" id="rRs-Ji-9zC"/>
-                            <constraint firstItem="kW7-rj-XJs" firstAttribute="top" secondItem="SIT-2Y-9Wy" secondAttribute="bottom" id="t7g-DV-Vj1"/>
+                            <constraint firstItem="kW7-rj-XJs" firstAttribute="top" secondItem="yiH-r7-Hti" secondAttribute="top" constant="299" id="t7g-DV-Vj1"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="商城" image="icon_shop.png" selectedImage="icon_shop_selected.png" id="coh-IY-FWm"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="topConstrant" destination="t7g-DV-Vj1" id="sDp-Yi-4m2"/>
                         <outlet property="topHeightConstraint" destination="rRs-Ji-9zC" id="uii-Ps-pEK"/>
                     </connections>
                 </viewController>
@@ -143,7 +144,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5GO-NR-gZO">
-                                <rect key="frame" x="0.0" y="48" width="393" height="363"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="308"/>
                             </scrollView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="50g-6v-yx8" customClass="ButtonBarView" customModule="XLPagerTabStrip">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="48"/>
@@ -167,10 +168,11 @@
                             <constraint firstAttribute="trailing" secondItem="50g-6v-yx8" secondAttribute="trailing" id="D9Q-yQ-tmB"/>
                             <constraint firstAttribute="bottom" secondItem="5GO-NR-gZO" secondAttribute="bottom" id="Fml-Wp-vLz"/>
                             <constraint firstItem="50g-6v-yx8" firstAttribute="top" secondItem="XBb-d2-tqJ" secondAttribute="top" id="ITF-dh-Gzn"/>
-                            <constraint firstItem="5GO-NR-gZO" firstAttribute="top" secondItem="XBb-d2-tqJ" secondAttribute="top" constant="48" id="SgD-yP-I1l"/>
+                            <constraint firstItem="5GO-NR-gZO" firstAttribute="top" secondItem="XBb-d2-tqJ" secondAttribute="top" constant="103" id="SgD-yP-I1l"/>
                             <constraint firstItem="5GO-NR-gZO" firstAttribute="leading" secondItem="XBb-d2-tqJ" secondAttribute="leading" id="oY8-es-MVk"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="lA3-7C-ydX"/>
                     <connections>
                         <outlet property="buttonBarView" destination="50g-6v-yx8" id="fiF-et-vqo"/>
                         <outlet property="containerView" destination="5GO-NR-gZO" id="AAh-zQ-ABt"/>
@@ -178,7 +180,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mG-l6-rtK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2813" y="1253"/>
+            <point key="canvasLocation" x="3736.6412213740455" y="1252.4647887323945"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="STe-5o-IYk">
@@ -264,7 +266,7 @@
                                             <outlet property="imageView" destination="shH-ce-soP" id="tr6-u6-oiK"/>
                                             <outlet property="name" destination="7OW-7e-rAJ" id="hHW-of-f1i"/>
                                             <outlet property="price" destination="3i6-wk-qSk" id="dy5-sb-V1c"/>
-                                            <segue destination="O2d-qu-kyb" kind="show" id="ZMa-SJ-dTR"/>
+                                            <segue destination="O2d-qu-kyb" kind="show" id="NGM-Ja-Gkc"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -393,6 +395,7 @@
         <!--Item View Controller-->
         <scene sceneID="8rt-2D-ezi">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hIE-Lz-Wnw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="itemViewController" id="O2d-qu-kyb" customClass="itemViewController" customModule="FitBeats" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bB3-xM-B9s">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -569,9 +572,8 @@
                         <outlet property="shopStackView" destination="sZN-J1-jKz" id="pb5-0q-BWq"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hIE-Lz-Wnw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3744.2748091603053" y="17.605633802816904"/>
+            <point key="canvasLocation" x="3735" y="-31"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uLC-Or-yg3">
@@ -590,6 +592,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z78-xE-fVY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1993.1297709923663" y="3.5211267605633805"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="6JU-O0-hm9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iJb-Qu-DcH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DPK-ox-ohW">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="DZP-gM-QI9" kind="relationship" relationship="rootViewController" id="jP3-cM-xJw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXC-hj-Axq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2812.9770992366412" y="1252.4647887323945"/>
         </scene>
     </scenes>
     <resources>

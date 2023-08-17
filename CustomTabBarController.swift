@@ -8,7 +8,9 @@
 import UIKit
 
 class CustomTabBarController: UITabBarController {
-
+    
+    var customButton: UIButton!
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -28,7 +30,7 @@ class CustomTabBarController: UITabBarController {
         
         // 創建自定義按鈕
         if let image = UIImage(named: "add_btn") {
-            let customButton = UIButton(type: .custom)
+            customButton = UIButton(type: .custom)
             customButton.setImage(image, for: .normal)
             
             customButton.frame = CGRect(x: tabBar.center.x - image.size.width/2, y: tabBar.frame.origin.y - image.size.width/2, width: image.size.width, height: image.size.height)
