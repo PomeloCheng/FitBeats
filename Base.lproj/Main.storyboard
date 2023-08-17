@@ -14,12 +14,11 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zkq-bq-iqb" customClass="CustomTabBarController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yhY-0i-Xmy">
+                    <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="yhY-0i-Xmy">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" systemColor="systemBackgroundColor"/>
-                        <color key="selectedImageTintColor" name="AccentColor"/>
+                        <tabBarAppearance key="scrollEdgeAppearance"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
                                 <color key="value" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="0.68085688694267521" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,10 +57,10 @@
             </objects>
             <point key="canvasLocation" x="2554" y="-454"/>
         </scene>
-        <!--shop-->
+        <!--shopNav-->
         <scene sceneID="xAI-Dv-3mL">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="shop" storyboardName="shop" referencedIdentifier="shop" id="Txh-hi-qru" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="shopNav" storyboardName="shop" referencedIdentifier="shopNav" id="Txh-hi-qru" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="5iF-nx-leJ"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ciJ-Dx-BlF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -118,7 +117,7 @@
                             <constraint firstItem="ccz-4q-MNi" firstAttribute="centerY" secondItem="hxM-WM-1AV" secondAttribute="centerY" id="QSU-5u-Wt5"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="2" enabled="NO" title="" image="tabBarItem:OUB-QX-4Hh:image" id="OUB-QX-4Hh"/>
+                    <tabBarItem key="tabBarItem" tag="2" enabled="NO" title="" id="OUB-QX-4Hh"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
@@ -128,11 +127,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="tabBarItem:OUB-QX-4Hh:image" width="24" height="24">
-            <mutableData key="keyedArchiveRepresentation">
-
-</mutableData>
-        </image>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.74500000476837158" blue="0.64300000667572021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

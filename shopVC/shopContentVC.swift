@@ -36,6 +36,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         shopContentView.delegate = self
         shopContentView.dataSource = self
         
@@ -65,7 +66,13 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
         // Do any additional setup after loading the view.
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
+//    }
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
+//    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
     }
     
@@ -160,14 +167,14 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        let selectedProduct = products[indexPath.row]
+       let selectedProduct = products[indexPath.row]
 //        guard let navigationController = navigationControllerRef else {
 //            return
 //        }
 ////        self.delegate?.didSelectItem(product: selectedProduct, navigationController: navigationController)
 //        let userInfo: [String: Any] = ["product": selectedProduct, "navigationRef": navigationController]
         
-        NotificationCenter.default.post(name: Notification.Name("pushView"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("pushView"), object: selectedProduct)
         
     }
     

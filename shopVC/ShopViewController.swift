@@ -22,12 +22,28 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
     // Keep track of the
     private var isAnimationInProgress = false
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 在進入內頁時顯示導航欄
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if topHeightConstraint.constant <= 0 {
+            topHeightConstraint.constant = viewHeight
+            
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleScrollViewDidScroll(_:)), name: Notification.Name("ScrollViewDidScroll"), object: nil)
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(didSelectItem), name: Notification.Name("pushView"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(popView), name: Notification.Name("popView"), object: nil)
         
         
     }
@@ -63,7 +79,7 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
         // Lock the animation functionality
         isAnimationInProgress = true
         
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.15) {
             
             self.view.layoutIfNeeded()
             
@@ -89,23 +105,20 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
     @objc func didSelectItem(_ notification: Notification) {
         customTabBarController?.customButton.isHidden = true
         tabBarController?.tabBar.isHidden = true
-        topConstrant.constant = .zero
-        
-            self.view.layoutIfNeeded()
+        if let itemVC = storyboard?.instantiateViewController(withIdentifier: "itemViewController") as? itemViewController,
+           let product = notification.object as? Product {
+            
+            itemVC.product = product
+            
+            navigationController?.pushViewController(itemVC, animated: true)
+            
+            //topConstrant.constant = .zero
+        }
+            //self.view.layoutIfNeeded()
             
         
     }
-    
-    @objc func popView(){
-        
-        topConstrant.constant = 299
-        UIView.animate(withDuration: 0.07) {
-            self.view.layoutIfNeeded()
-        }
-        
-        
-        
-    }
+
     
     
     

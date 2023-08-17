@@ -13,7 +13,6 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
     override func viewDidLoad() {
         configure()
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
     }
     

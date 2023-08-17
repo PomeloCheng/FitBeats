@@ -65,11 +65,12 @@ class Communicator {
     let purchaseHistoryPhp = "purchaseHistory.php"
     let shearchHistoryPhp = "searchHistory.php?userID="
     let pointPHP = "point.php?userID="
+    var NavC : UINavigationController? = nil
     
     static let shared = Communicator()
     private init() {}
     
-    
+   
     
     func uploadUser(username:String, phoneNumber:String, uuid: String, completion: @escaping (Bool) -> Void){
         let parameters = ["username": username, "phoneNumber": phoneNumber, "uuid": uuid]

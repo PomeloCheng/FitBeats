@@ -13,21 +13,22 @@ class CustomTabBarController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         // 設置選中時的文字顏色
         if let tabBarItems = tabBar.items {
             for item in tabBarItems {
                 item.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
             }
         }
+        print("viewdidAppera")
     }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        
-        
+        let appearance = UITabBarAppearance()
+        appearance.stackedItemSpacing = 10
+        tabBar.scrollEdgeAppearance = appearance
         // 創建自定義按鈕
         if let image = UIImage(named: "add_btn") {
             customButton = UIButton(type: .custom)
@@ -43,6 +44,7 @@ class CustomTabBarController: UITabBarController {
             // 將自定義按鈕添加到Tab Bar Controller的view中
             self.view.addSubview(customButton)
         }
+        
         
     }
     //         自定義按鈕點擊事件的處理程式

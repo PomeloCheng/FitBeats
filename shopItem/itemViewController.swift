@@ -33,14 +33,16 @@ class itemViewController: UIViewController {
         
         // 在進入內頁時顯示導航欄
         navigationController?.setNavigationBarHidden(false, animated: true)
+        setNavBar(nav: self.navigationItem)
     }
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         name.text = product.productsName
-        price.text = String(Int(product.checkPointPrice))
+        price.text = String(product.checkPointPrice)
         itemImage.image = logImage.shared.load(filename: product.productsName)
         amountTextView.text = "1"
         purchaseAmount = finalAmount * product.checkPointPrice
@@ -141,9 +143,31 @@ override func viewWillDisappear(_ animated: Bool) {
             
             // 重新顯示 tabBarController
             customTabBarController?.tabBar.isHidden = false
-        //NotificationCenter.default.post(name: Notification.Name("popView"), object: nil)
+       
         }
-    override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.post(name: Notification.Name("popView"), object: nil)
-    }
+    
 }
+
+func setNavBar(nav:UINavigationItem) {
+    
+    // 創建自定義的UIView，包含圖片和Label
+    let customView = UIView(frame: CGRect(x: 0, y: 0, width: 120, height: 40))
+    
+    let imageView = UIImageView(image: UIImage(named: "home_recommend_icon.png"))
+    imageView.contentMode = .scaleAspectFit
+    imageView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+    
+    let label = UILabel(frame: CGRect(x: 40, y: 0, width: 80, height: 40))
+    label.text = "\(checkPoint)"
+    label.textColor = .black
+    
+    customView.addSubview(imageView)
+    customView.addSubview(label)
+    
+    // 創建自定義的UIBarButtonItem
+    let customBarButtonItem = UIBarButtonItem(customView: customView)
+    
+    // 設置自定義的BarButtonItem為左邊的NavigationBar項目
+    nav.rightBarButtonItem = customBarButtonItem
+}
+
