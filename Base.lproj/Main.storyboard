@@ -3,22 +3,22 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Custom Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="Kop-tp-vbQ">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zkq-bq-iqb" customClass="CustomTabBarController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zkq-bq-iqb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="yhY-0i-Xmy">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" systemColor="systemBackgroundColor"/>
-                        <tabBarAppearance key="scrollEdgeAppearance"/>
+                        <tabBarAppearance key="scrollEdgeAppearance" stackedItemPositioning="centered" stackedItemSpacing="12">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </tabBarAppearance>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
                                 <color key="value" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="0.68085688694267521" colorSpace="custom" customColorSpace="sRGB"/>
@@ -28,7 +28,6 @@
                     <connections>
                         <segue destination="6da-Nj-3Oo" kind="relationship" relationship="viewControllers" id="C6J-wW-cXI"/>
                         <segue destination="iYf-uB-fjx" kind="relationship" relationship="viewControllers" id="FUS-J2-Y0a"/>
-                        <segue destination="m9N-n6-RVO" kind="relationship" relationship="viewControllers" id="IDi-bh-vHE"/>
                         <segue destination="Txh-hi-qru" kind="relationship" relationship="viewControllers" id="ApW-S0-3Dq"/>
                         <segue destination="dlK-7n-WNK" kind="relationship" relationship="viewControllers" id="fAO-tf-pKl"/>
                     </connections>
@@ -77,60 +76,8 @@
             </objects>
             <point key="canvasLocation" x="3712" y="-284"/>
         </scene>
-        <!--Add Note View Controller-->
-        <scene sceneID="Oow-kO-t7m">
-            <objects>
-                <viewController storyboardIdentifier="addNoteViewController" id="m9N-n6-RVO" customClass="addNoteViewController" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hxM-WM-1AV">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n0A-4N-f6S">
-                                <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="barTintColor" name="AccentColor"/>
-                                <items>
-                                    <navigationItem title="Title" id="KLm-1b-ZYL">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" image="xmark" catalog="system" id="3jB-XL-h3d">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <connections>
-                                                <action selector="cancelBtnPressed:" destination="m9N-n6-RVO" id="iZm-g4-KYn"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="儲存" id="JqZ-ft-YOR">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="看屁喔" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccz-4q-MNi">
-                                <rect key="frame" x="170.66666666666666" y="415.66666666666669" width="52" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="cqF-lM-BNf"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="ccz-4q-MNi" firstAttribute="centerX" secondItem="hxM-WM-1AV" secondAttribute="centerX" id="MiN-cS-cmr"/>
-                            <constraint firstItem="ccz-4q-MNi" firstAttribute="centerY" secondItem="hxM-WM-1AV" secondAttribute="centerY" id="QSU-5u-Wt5"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" tag="2" enabled="NO" title="" id="OUB-QX-4Hh"/>
-                    <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7eT-v7-fIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="656" y="704"/>
-        </scene>
     </scenes>
     <resources>
-        <image name="xmark" catalog="system" width="128" height="113"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.74500000476837158" blue="0.64300000667572021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -14,9 +14,7 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
    
     @IBOutlet weak var topConstrant: NSLayoutConstraint!
     @IBOutlet weak var topHeightConstraint: NSLayoutConstraint!
-    var customTabBarController: CustomTabBarController? {
-            return tabBarController as? CustomTabBarController
-        }
+    
     // Original height of the top view
     var viewHeight: CGFloat = 221
     // Keep track of the
@@ -103,7 +101,7 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func didSelectItem(_ notification: Notification) {
-        customTabBarController?.customButton.isHidden = true
+        
         tabBarController?.tabBar.isHidden = true
         if let itemVC = storyboard?.instantiateViewController(withIdentifier: "itemViewController") as? itemViewController,
            let product = notification.object as? Product {

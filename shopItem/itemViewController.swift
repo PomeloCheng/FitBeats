@@ -24,9 +24,7 @@ class itemViewController: UIViewController {
     @IBOutlet weak var price: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
     weak var updateMoneyDelegate : updateMoneyDelegate?
-    var customTabBarController: CustomTabBarController? {
-            return tabBarController as? CustomTabBarController
-        }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -138,11 +136,8 @@ class itemViewController: UIViewController {
 override func viewWillDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
             
-            // 重新顯示自定義按鈕
-            customTabBarController?.customButton.isHidden = false
-            
             // 重新顯示 tabBarController
-            customTabBarController?.tabBar.isHidden = false
+            tabBarController?.tabBar.isHidden = false
        
         }
     
