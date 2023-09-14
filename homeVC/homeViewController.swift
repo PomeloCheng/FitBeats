@@ -8,46 +8,69 @@
 import UIKit
 import MKRingProgressView
 import Lottie
+import FSCalendar
 
-class homeViewController: UIViewController {
+class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
 
-    @IBOutlet weak var ringProgressView: RingProgressView!
+    @IBOutlet weak var calendarViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var homeRingView: RingProgressView!
     
-    @IBOutlet weak var animationView: LottieAnimationView!
-    
+    @IBOutlet weak var calendarView: FSCalendar!
+    @IBOutlet weak var targetBG: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        targetBG.layer.cornerRadius = 20
+        targetBG.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        targetBG.layer.shadowColor = UIColor.lightGray.cgColor
+        targetBG.layer.shadowOpacity = 0.2
         
-//        let ringProgressView = RingProgressView(frame: CGRect(x: 180, y: 500, width: 200, height: 200))
-        ringProgressView.startColor = UIColor(red: 0, green: 190/255, blue: 164/255, alpha: 1)
-        ringProgressView.endColor = UIColor(red: 0, green: 190/255, blue: 164/255, alpha: 1)
-        ringProgressView.gradientImageScale = 0.5
-        ringProgressView.ringWidth = 25
-        ringProgressView.progress = 0.0
-        ringProgressView.shadowOpacity = 0.0
-        view.addSubview(ringProgressView)
+        targetBG.isUserInteractionEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(targetViewTapped))
+        self.view.addGestureRecognizer(tapGestureRecognizer)
         
-//        let anim = LottieAnimation.named("animation.json")
-//        animationView.animation = anim
-//        animationView.play()
+        homeRingView.startColor = UIColor.tintColor
+        homeRingView.endColor = UIColor.tintColor
+        homeRingView.gradientImageScale = 0.3
+        homeRingView.ringWidth = 25
+        homeRingView.progress = 0.0
+        homeRingView.shadowOpacity = 0.0
+//        checkAnimation.isHidden = true
+//        cancelAnimation.isHidden = true
+//        isGoalLabel.isHidden = true
+//        healthTitleLabel.isHidden = true
+
+        
+        
+        calendarView.locale = .init(identifier: "zh-tw")
+        
+        calendarView.appearance.caseOptions = .weekdayUsesSingleUpperCase
+        calendarView.scope = .week
+        calendarView.firstWeekday = 2
+        calendarView.weekdayHeight = 40
+        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 0) // Hide the title
+        calendarView.headerHeight = 0
+        calendarViewHeight.constant = 200
+        calendarView.delegate = self
+        calendarView.dataSource = self
+        
+        calendarView.appearance.weekdayTextColor = .black
+        calendarView.allowsSelection = false
         
     }
-
     
-    @IBAction func testBtnPressed(_ sender: Any) {
-        
-        UIView.animate(withDuration: 1, delay: 0) {
-            self.ringProgressView.progress = 1.0
-        } completion: { result in
-            if result {
-                let anim = LottieAnimation.named("check.json")
-                self.animationView.animation = anim
-                self.animationView.play()
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+     self.calendarViewHeight.constant = bounds.height
+    self.view.layoutIfNeeded()
+    }
+    
+    @objc func targetViewTapped() {
+        // 获取对应的UITabBarController
+            if let tabBarController = self.tabBarController {
+                // 设置要切换到的选项卡的索引（假设索引0代表第一个选项卡，1代表第二个选项卡，以此类推）
+                let tabIndexToSwitch = 1 // 例如，切换到第二个选项卡
+                tabBarController.selectedIndex = tabIndexToSwitch
             }
-        }
-
-        }
-
+    }
+   
 }
 

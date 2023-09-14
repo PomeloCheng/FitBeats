@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" systemColor="systemBackgroundColor"/>
-                        <tabBarAppearance key="scrollEdgeAppearance" stackedItemPositioning="centered" stackedItemSpacing="12">
+                        <tabBarAppearance key="scrollEdgeAppearance" stackedItemPositioning="automatic">
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tabBarAppearance>
                         <userDefinedRuntimeAttributes>
@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="3052" y="-292"/>
         </scene>
-        <!--me-->
+        <!--meNav-->
         <scene sceneID="jBE-44-cDe">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="me" storyboardName="me" referencedIdentifier="me" id="dlK-7n-WNK" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="meNav" storyboardName="me" referencedIdentifier="meNav" id="dlK-7n-WNK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="54D-ck-P5H"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="otv-sL-chV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
