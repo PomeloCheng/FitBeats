@@ -26,7 +26,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
         targetBG.isUserInteractionEnabled = true
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(targetViewTapped))
-        self.view.addGestureRecognizer(tapGestureRecognizer)
+        targetBG.addGestureRecognizer(tapGestureRecognizer)
         
         homeRingView.startColor = UIColor.tintColor
         homeRingView.endColor = UIColor.tintColor

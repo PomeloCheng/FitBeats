@@ -132,6 +132,9 @@
                                 <color key="tintColor" name="Color 1"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="登出"/>
+                                <connections>
+                                    <action selector="logoutBtnPressed:" destination="ujK-9X-VEy" eventType="touchUpInside" id="f6v-TR-lHz"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yrn-sl-ISi">
                                 <rect key="frame" x="24" y="344" width="366" height="224"/>
@@ -222,7 +225,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.050000000000000003" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="千库网_创意水果底纹海报背景_背景编号5814378.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ahb-lN-wQE">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.14999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconBG.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ahb-lN-wQE">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
@@ -453,11 +456,11 @@
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="home_hot_icon.png" width="84" height="84"/>
         <image name="home_recommend_icon.png" width="84" height="84"/>
+        <image name="iconBG.jpg" width="414" height="896"/>
         <image name="icon_me.png" width="24" height="24"/>
         <image name="icon_me_selected.png" width="24" height="24"/>
-        <image name="千库网_创意水果底纹海报背景_背景编号5814378.jpg" width="510.48001098632812" height="792.47998046875"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.74500000476837158" blue="0.64300000667572021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color 1">
             <color red="1" green="0.17599999904632568" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

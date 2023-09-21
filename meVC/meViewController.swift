@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import FirebaseAuth
 
 class meViewController: UIViewController {
 
@@ -65,6 +66,33 @@ class meViewController: UIViewController {
     }
     */
 
+    @IBAction func logoutBtnPressed(_ sender: Any) {
+        let logoutAlert = UIAlertController(title: "確定要登出？", message: "登出將會跳回初始化面", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK", style: .default) { _ in
+            do {
+                try Auth.auth().signOut()
+                // 用户已成功登出
+                
+                
+                var initialViewController: UIViewController
+                // 返回到 PhoneViewController
+                let storyboard = UIStoryboard(name: "Main", bundle: .main)
+                if let phoneViewController = storyboard.instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController {
+                initialViewController = UINavigationController(rootViewController: phoneViewController)
+                self.view.window?.rootViewController = initialViewController
+                self.view.window?.makeKeyAndVisible()
+                    }
+            } catch let signOutError as NSError {
+                print("登出错误: %@", signOutError)
+            }
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        logoutAlert.addAction(ok)
+        logoutAlert.addAction(cancel)
+        
+        self.present(logoutAlert, animated: true, completion: nil)
+    }
 }
 
 extension meViewController: UITableViewDataSource,UITableViewDelegate{

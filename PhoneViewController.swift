@@ -1,17 +1,17 @@
 //
-//  recordViewController.swift
+//  PhoneViewController.swift
 //  FitBeats
 //
-//  Created by YuCheng on 2023/8/1.
+//  Created by YuCheng on 2023/9/20.
 //
 
 import UIKit
 
-class recordViewController: UIViewController {
+class PhoneViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view.
     }
     
@@ -25,6 +25,5 @@ class recordViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-   
 
 }
