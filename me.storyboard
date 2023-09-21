@@ -25,12 +25,18 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mask group.png" translatesAutoresizingMaskIntoConstraints="NO" id="QOt-vS-Y9b">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="164"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avar.png" translatesAutoresizingMaskIntoConstraints="NO" id="e2q-ub-7YZ">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="e2q-ub-7YZ">
                                         <rect key="frame" x="163" y="16" width="88" height="88"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="6Qs-ho-qhD"/>
                                             <constraint firstAttribute="height" constant="88" id="UxG-bA-FXb"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="44"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YuCheng" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kvl-R9-7YE">
                                         <rect key="frame" x="164" y="112" width="86" height="24"/>
@@ -206,11 +212,14 @@
                     </view>
                     <navigationItem key="navigationItem" title="個人主頁" id="pBv-p0-SFn"/>
                     <connections>
+                        <outlet property="caroLabel" destination="MYR-1x-LYA" id="NlX-EN-yRX"/>
+                        <outlet property="checkLabel" destination="32P-dO-2wW" id="PDL-Tt-tIb"/>
                         <outlet property="currencyBG" destination="yCh-JP-y1R" id="7IO-nc-T9E"/>
                         <outlet property="logoutBtn" destination="ecq-eq-Qs8" id="c7Z-nV-x7p"/>
                         <outlet property="profileImage" destination="e2q-ub-7YZ" id="Okc-PJ-mME"/>
                         <outlet property="settingTableView" destination="khx-Pt-Mzy" id="YgI-mg-6Qz"/>
                         <outlet property="tableViewBG" destination="Yrn-sl-ISi" id="zv2-Pq-iXa"/>
+                        <outlet property="userName" destination="Kvl-R9-7YE" id="6O6-35-2TR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UNY-ID-4yj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -229,12 +238,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avar.png" translatesAutoresizingMaskIntoConstraints="NO" id="y3a-4H-3gs">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="y3a-4H-3gs">
                                 <rect key="frame" x="147" y="64" width="120" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="1hY-p1-xOf"/>
                                     <constraint firstAttribute="width" constant="120" id="wfY-Kq-qnf"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="60"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vVI-ST-HIO">
                                 <rect key="frame" x="24" y="208" width="366" height="150"/>
@@ -451,7 +466,7 @@
     </scenes>
     <resources>
         <image name="Mask group.png" width="386" height="164"/>
-        <image name="avar.png" width="86" height="86"/>
+        <image name="avatar.png" width="1024" height="1024"/>
         <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="home_hot_icon.png" width="84" height="84"/>

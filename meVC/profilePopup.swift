@@ -9,6 +9,25 @@ import UIKit
 
 extension profileViewController {
     @objc func okButtonTapped() {
+        if messageTitle == "編輯使用者名稱" {
+            // 在这里存储 name，您可以从 customAlertView.textField 中获取用户输入的名字
+            if let newName = customAlertView?.textField.text {
+                currentName = newName
+                
+                userData.currentUserData?["name"] = newName
+                UserDataManager.shared.updateUserInfoInFirestore(fieldName: "name", fieldValue: newName)
+                profileTable.reloadData()
+            }
+        } else {
+                // 在这里存储 email，您可以从 customAlertView.textField 中获取用户输入的邮箱
+                if let newEmail = customAlertView?.textField.text {
+                    currentEmail = newEmail
+                    userData.currentUserData?["email"] = newEmail
+                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "email", fieldValue: newEmail)
+                    profileTable.reloadData()
+                }
+            }
+            
         
         maskView?.removeFromSuperview()
         
@@ -29,7 +48,8 @@ extension profileViewController {
         }
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         // 創建一個自定義的UIView，模擬警告框的效果
-        let customAlertView = CustomAlertView(frame: CGRect(x: 0, y: 0, width: 300, height: 162))
+        customAlertView = CustomAlertView(frame: CGRect(x: 0, y: 0, width: 300, height: 162))
+        guard let customAlertView = customAlertView else { return }
         customAlertView.backgroundColor = UIColor.white
         customAlertView.layer.cornerRadius = 15
         customAlertView.titleLabel.text = messageTitle

@@ -12,7 +12,7 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var wrongType: UILabel!
     @IBOutlet weak var phoneNumberField: UITextField!
-    var userNumber: String?
+    let userData = UserDataManager.shared
     override func viewDidLoad() {
         super.viewDidLoad()
         phoneNumberField.delegate = self
@@ -54,13 +54,12 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
         
         if let text = phoneNumberField.text, !text.isEmpty {
             let number = "+886\(text)"
-            self.userNumber = number
+            userData.currentUserPhoneNumber = text
             AuthManager.shared.startAuth(phoneNumber: number) { [weak self] success in
                 guard success else { return }
                 
                 DispatchQueue.main.async {
                     let vc = storyBoard.instantiateViewController(withIdentifier: "SMSViewController") as! SMSViewController
-                    vc.phoneNumber = self?.userNumber ?? ""
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             }

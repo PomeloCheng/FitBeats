@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SMSViewController: UIViewController, UITextFieldDelegate {
 
@@ -16,11 +17,12 @@ class SMSViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var textField3: UITextField!
     @IBOutlet weak var textField2: UITextField!
     @IBOutlet weak var textField1: UITextField!
-    var phoneNumber: String = ""
+    
+    let userData = UserDataManager.shared
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-        inputPhoneNumber.text = phoneNumber
+        inputPhoneNumber.text = userData.currentUserPhoneNumber
         textField1.delegate = self
         textField2.delegate = self
         textField3.delegate = self
@@ -36,6 +38,7 @@ class SMSViewController: UIViewController, UITextFieldDelegate {
         textField6.keyboardType = .phonePad
         // Do any additional setup after loading the view.
         textField1.becomeFirstResponder()
+        
     }
     
     @IBAction func backToPhoneNumber(_ sender: Any) {
@@ -104,16 +107,22 @@ class SMSViewController: UIViewController, UITextFieldDelegate {
         AuthManager.shared.verifyCode(smsCode: combinedText) { [weak self] success in
             guard success else { return }
           
+            self?.userData.checkUserExists { result in
+                if result {
+                    self?.userData.fetchUserData()
+                } else {
+                    if let phoneNumber = self?.userData.currentUserPhoneNumber {
+                        
+                        UserDataManager.shared.createUserInFirestore(phoneNumber: phoneNumber)
+                    }
+                }
+            }
+            
             DispatchQueue.main.async {
                 let storyBoard = UIStoryboard(name: "Main", bundle: .main)
                 let vc = storyBoard.instantiateViewController(withIdentifier: "mainScreen")
-                let alertController = UIAlertController(title: "登录成功", message: "欢迎回来！", preferredStyle: .alert)
-                self?.present(alertController, animated: true, completion: nil)
                 self?.navigationController?.pushViewController(vc, animated: true)
-                // 延迟一段时间后自动关闭弹窗
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            alertController.dismiss(animated: true, completion: nil)
-                        }
+            
             }
             
         }

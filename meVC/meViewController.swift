@@ -11,15 +11,26 @@ import FirebaseAuth
 
 class meViewController: UIViewController {
 
+    @IBOutlet weak var checkLabel: UILabel!
+    @IBOutlet weak var caroLabel: UILabel!
+    @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var settingTableView: UITableView!
     @IBOutlet weak var tableViewBG: UIView!
     @IBOutlet weak var logoutBtn: UIButton!
     @IBOutlet weak var currencyBG: UIView!
     
     @IBOutlet weak var profileImage: UIImageView!
-    
+    let userData = UserDataManager.shared
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let name = userData.currentUserData?["name"] as? String,
+           let checkPoint = userData.currentUserData?["CheckinPoints"] as? Double,
+           let caroPoint = userData.currentUserData?["CaloriesPoints"] as? Double {
+            userName.text = name
+            checkLabel.text = String(format: "%.0f", checkPoint)
+            caroLabel.text = String(format: "%.0f", caroPoint)
+        }
         
         
         currencyBG.layer.cornerRadius = 12
@@ -44,18 +55,28 @@ class meViewController: UIViewController {
         
         profileImage.isUserInteractionEnabled = true
         profileImage.addGestureRecognizer(tapGestureRecognizer)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProfileData), name: .userProfileDataUpdated, object: nil)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        setImage()
     }
     
     
     @objc func imageViewTapped() {
         setVC(VCName: "profileViewController")
     }
+    
+    @objc func updateProfileData() {
+        if let name = userData.currentUserData?["name"] as? String {
+            userName.text = name
+        }
+        // 更新其他界面元素
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -67,13 +88,10 @@ class meViewController: UIViewController {
     */
 
     @IBAction func logoutBtnPressed(_ sender: Any) {
-        let logoutAlert = UIAlertController(title: "確定要登出？", message: "登出將會跳回初始化面", preferredStyle: .alert)
         
-        let ok = UIAlertAction(title: "OK", style: .default) { _ in
             do {
                 try Auth.auth().signOut()
                 // 用户已成功登出
-                
                 
                 var initialViewController: UIViewController
                 // 返回到 PhoneViewController
@@ -86,12 +104,7 @@ class meViewController: UIViewController {
             } catch let signOutError as NSError {
                 print("登出错误: %@", signOutError)
             }
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        logoutAlert.addAction(ok)
-        logoutAlert.addAction(cancel)
         
-        self.present(logoutAlert, animated: true, completion: nil)
     }
 }
 
@@ -169,4 +182,45 @@ extension meViewController: UITableViewDataSource,UITableViewDelegate{
         
     }
     
+    
+    func setImage() {
+        
+        guard let imageURL = userData.currentUserData?["profileImageURL"] as? String else {
+            return
+        }
+        
+                
+        
+        if imageURL != "" {
+            if let image = logImage.shared.load(filename: self.userData.currentUserUid),
+               userData.uploadImageIndex == 0 {
+                DispatchQueue.main.async {
+                    self.profileImage.image = image
+                }
+                print("* Load from cache: \(userData.currentUserUid)") //方便我們自己觀察真的從快取讀出來的
+            } else {
+                userData.downloadProfileImage(imageURLString: imageURL) { imageData in
+                    guard let imageData = imageData else {
+                        return
+                    }
+                    let orginImage = UIImage(data:imageData)
+                    let newimage = orginImage!.resize(maxEdge: 120)
+                    do {
+                        try logImage.shared.save(data: imageData, filename: self.userData.currentUserUid)
+                    } catch {
+                        print("write File error : \(error) ")
+                        //建議不要print，用alert秀出來比較方便
+                    }
+                    DispatchQueue.main.async {
+                        self.profileImage.image = newimage
+                    }
+                }
+            }
+        } else {
+            let originalimage = UIImage(named: "avatar.png")
+            let image = originalimage?.resize(maxEdge: 120)
+            self.profileImage.image = image
+            
+        }
+    }
 }

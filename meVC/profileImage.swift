@@ -67,6 +67,19 @@ extension profileViewController: UIImagePickerControllerDelegate, UINavigationCo
         self.profileImage.image = image
         self.profileImage.layer.cornerRadius = 60
         self.profileImage.contentMode = .scaleAspectFill
+        
+        
+        userData.uploadProfileImage(image: image) { imageURLString in
+                if let imageURLString = imageURLString {
+                    // 图片上传成功，您可以在此处将 imageURLString 存储到用户数据中
+                    // 然后更新用户数据到 Firestore
+                    self.userData.currentUserData?["profileImageURL"] = imageURLString
+                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "profileImageURL", fieldValue: imageURLString)
+                } else {
+                    print("Failed to upload profile image.")
+                }
+            }
+        
         self.dismiss(animated: true)
     }
     

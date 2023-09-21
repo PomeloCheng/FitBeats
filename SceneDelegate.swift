@@ -31,6 +31,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             } else {
                 // 用户已登录，显示主屏幕视图控制器
                 initialViewController = storyboard.instantiateViewController(withIdentifier: "mainScreen")
+                if let userID = Auth.auth().currentUser?.uid {
+                    UserDataManager.shared.currentUserUid = userID
+                    UserDataManager.shared.currentUserPhoneNumber = phoneNumber
+                    UserDataManager.shared.fetchUserData()
+                }
             }
             
             window.rootViewController = initialViewController
