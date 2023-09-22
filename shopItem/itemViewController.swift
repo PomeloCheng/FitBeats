@@ -15,6 +15,7 @@ class itemViewController: UIViewController {
     
     @IBOutlet weak var intro: UILabel!
     @IBOutlet weak var shopStackView: UIStackView!
+    var fireProducts: fireBaseProduct!
     var product: Product!
     var finalAmount = 1
     var purchaseAmount = 0
@@ -39,13 +40,13 @@ class itemViewController: UIViewController {
         
         super.viewDidLoad()
         
-        name.text = product.productsName
-        price.text = String(product.checkPointPrice)
-        itemImage.image = logImage.shared.load(filename: product.productsName)
+        name.text = fireProducts.productsName
+        price.text = String(fireProducts.checkPointPrice)
+        itemImage.image = logImage.shared.load(filename: fireProducts.productsName)
         amountTextView.text = "1"
-        purchaseAmount = finalAmount * product.checkPointPrice
+        purchaseAmount = finalAmount * fireProducts.checkPointPrice
         finalPrice.text = "總金額$ \(purchaseAmount)"
-        intro.text = product.intro
+        intro.text = fireProducts.intro
         // Do any additional setup after loading the view.
         
         
@@ -60,7 +61,7 @@ class itemViewController: UIViewController {
             amountTextView.text = "\(shopNumber)"
             finalAmount = shopNumber
         }
-        purchaseAmount = finalAmount * product.checkPointPrice
+        purchaseAmount = finalAmount * fireProducts.checkPointPrice
         finalPrice.text = "總金額$ \(purchaseAmount)"
         
     }

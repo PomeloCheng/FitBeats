@@ -14,7 +14,7 @@ protocol ShopContentDelegate: AnyObject {
 class shopContentVC: UIViewController,IndicatorInfoProvider {
     
     
-    
+    var fireProducts: [fireBaseProduct] = []
     var products: [Product] = []
     var histories: [History] = []
     @IBOutlet weak var shopContentView: UICollectionView!
@@ -42,26 +42,37 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
         
         switch categoryTag {
         case 0:
-            Communicator.shared.getPoints(userID: 3) { result in
-                
-                checkPoint = result.checkPoint
-                DispatchQueue.main.async {
-                    self.shopContentView.reloadData()
-                }
-            }
-            Communicator.shared.getList(categoryID: 1){ result in
-
-                if !result.isEmpty {
-                    self.products = result
+            
+            ShopItemManager.shared.fetchProductData(categoryID: 1){ products in
+                if let products = products {
+                    self.fireProducts = products
+                    print("categoryID 1")
                     DispatchQueue.main.async {
                         self.shopContentView.reloadData()
                     }
                 }
             }
+//            Communicator.shared.getList(categoryID: 1){ result in
+//
+//                if !result.isEmpty {
+//                    self.products = result
+//                    DispatchQueue.main.async {
+//                        self.shopContentView.reloadData()
+//                    }
+//                }
+//            }
         case 1:
-            shopContentView.backgroundColor = .red
+            ShopItemManager.shared.fetchProductData(categoryID: 2){ products in
+                if let products = products {
+                    self.fireProducts = products
+                    print("categoryID 2")
+                    DispatchQueue.main.async {
+                        self.shopContentView.reloadData()
+                    }
+                }
+            }
         default:
-            shopContentView.backgroundColor = .white
+            break
         }
         // Do any additional setup after loading the view.
     }
@@ -76,27 +87,15 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
         NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
     }
     
-    @IBAction func testBtnPress(_ sender: Any) {
-        checkPoint += 1000
-        Communicator.shared.uploadPoints(userID: 3, newCheckPoint: checkPoint, newHeatPoint: 0) { result in
-            switch result {
-            case true:
-                    DispatchQueue.main.async {
-                    }
-                print("upload Success.")
-            case false:
-                print("error.")
-            }
-        }
-    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if let nextVC = segue.destination as? itemViewController,
                let indexPath = shopContentView.indexPathsForSelectedItems?.first {
                 
                 // 根據 indexPath 取得點選的 cell 的資料
-                let selectedProduct = products[indexPath.row]
+                let selectedProduct = fireProducts[indexPath.row]
                 // 將資料傳遞給內頁
-                nextVC.product = selectedProduct
+                nextVC.fireProducts = selectedProduct
                 
             }
         }
@@ -114,35 +113,30 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
 
 extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        products.count
+        return fireProducts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PHPcell", for: indexPath) as! PHPCollectionViewCell
-        let product = products[indexPath.row]
+        let product = fireProducts[indexPath.row]
         cell.name.text = product.productsName
         cell.price.text = String(product.checkPointPrice)
         
-        //下載檢查
+        
         if let image = logImage.shared.load(filename: product.productsName) {
-            DispatchQueue.main.async {
-                cell.imageView.image = image
-            }
-            
-            print("* Load from cache: \(product.productsName)") //方便我們自己觀察真的從快取讀出來的
-            return cell
-        }
+           DispatchQueue.main.async {
+               cell.imageView.image = image
+           }
         
-        
-        if let imageURL = product.image{
-            Communicator.shared.downloadPhoto(fileURL: imageURL) { data in
-                guard let data = data else {
+        } else {
+            ShopItemManager.shared.downloadProductsImage(imageURLString: product.image!) { imageData in
+                guard let imageData = imageData else {
                     return
                 }
-                let orginImage = UIImage(data:data)
+                let orginImage = UIImage(data:imageData)
                 let newimage = orginImage!.resize(maxEdge: 120)
                 do {
-                    try logImage.shared.save(data: data, filename: product.productsName)
+                    try logImage.shared.save(data: imageData, filename: product.productsName)
                 } catch {
                     print("write File error : \(error) ")
                     //建議不要print，用alert秀出來比較方便
@@ -150,10 +144,9 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
                 DispatchQueue.main.async {
                     cell.imageView.image = newimage
                 }
-                
             }
         }
-        
+
         return cell
     }
     
@@ -167,7 +160,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-       let selectedProduct = products[indexPath.row]
+       let selectedProduct = fireProducts[indexPath.row]
 //        guard let navigationController = navigationControllerRef else {
 //            return
 //        }

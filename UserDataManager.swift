@@ -17,7 +17,7 @@ class UserDataManager {
     var currentUserUid: String = ""
     var currentUserPhoneNumber: String?
     var uploadImageIndex = 0
-    
+    private init() {}
     
     func checkUserExists(completion: @escaping(Bool) -> Void){
         if let userID = Auth.auth().currentUser?.uid {

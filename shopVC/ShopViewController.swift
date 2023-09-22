@@ -104,9 +104,9 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
         
         tabBarController?.tabBar.isHidden = true
         if let itemVC = storyboard?.instantiateViewController(withIdentifier: "itemViewController") as? itemViewController,
-           let product = notification.object as? Product {
+           let product = notification.object as? fireBaseProduct {
             
-            itemVC.product = product
+            itemVC.fireProducts = product
             
             navigationController?.pushViewController(itemVC, animated: true)
             
