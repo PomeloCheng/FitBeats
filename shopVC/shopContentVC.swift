@@ -15,8 +15,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
     
     
     var fireProducts: [fireBaseProduct] = []
-    var products: [Product] = []
-    var histories: [History] = []
+    
     @IBOutlet weak var shopContentView: UICollectionView!
     var categoryTag: Int = 0
     weak var delegate : ShopContentDelegate?
@@ -46,26 +45,17 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
             ShopItemManager.shared.fetchProductData(categoryID: 1){ products in
                 if let products = products {
                     self.fireProducts = products
-                    print("categoryID 1")
+                    
                     DispatchQueue.main.async {
                         self.shopContentView.reloadData()
                     }
                 }
             }
-//            Communicator.shared.getList(categoryID: 1){ result in
-//
-//                if !result.isEmpty {
-//                    self.products = result
-//                    DispatchQueue.main.async {
-//                        self.shopContentView.reloadData()
-//                    }
-//                }
-//            }
+
         case 1:
             ShopItemManager.shared.fetchProductData(categoryID: 2){ products in
                 if let products = products {
                     self.fireProducts = products
-                    print("categoryID 2")
                     DispatchQueue.main.async {
                         self.shopContentView.reloadData()
                     }
@@ -117,11 +107,17 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PHPcell", for: indexPath) as! PHPCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PHPcell", for: indexPath) as! shopCollectionViewCell
         let product = fireProducts[indexPath.row]
         cell.name.text = product.productsName
-        cell.price.text = String(product.checkPointPrice)
-        
+        if categoryTag == 1 {
+            cell.price.text = String(product.checkinPoints)
+            cell.iconView.image = UIImage(named: "home_recommend_icon.png")
+        }
+        else {
+            cell.price.text = String(product.caloriesPoints)
+            cell.iconView.image = UIImage(named: "home_hot_icon.png")
+        }
         
         if let image = logImage.shared.load(filename: product.productsName) {
            DispatchQueue.main.async {
@@ -161,13 +157,15 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
        let selectedProduct = fireProducts[indexPath.row]
+        
+        let productInfo : [String: Any] = ["selectedProduct": selectedProduct, "categoryTag": categoryTag]
 //        guard let navigationController = navigationControllerRef else {
 //            return
 //        }
 ////        self.delegate?.didSelectItem(product: selectedProduct, navigationController: navigationController)
 //        let userInfo: [String: Any] = ["product": selectedProduct, "navigationRef": navigationController]
         
-        NotificationCenter.default.post(name: Notification.Name("pushView"), object: selectedProduct)
+        NotificationCenter.default.post(name: Notification.Name("pushView"), object: productInfo)
         
     }
     

@@ -14,8 +14,8 @@ struct fireBaseProduct {
     let productsID: Int
     let productsName: String
     let amount: Int
-    let checkPointPrice: Int
-    let heatPointPrice: Int
+    let checkinPoints: Int
+    let caloriesPoints: Int
     let image : String?
     let categoryIDs: [Int]
     let intro: String
@@ -34,13 +34,12 @@ class ShopItemManager {
                 completion(nil)
                 return
             }
-            print(querySnapshot?.documents)
-            print("is in")
+           
             var products: [fireBaseProduct] = []
             
             // 处理从 Firebase 获取的商品数据
             for document in querySnapshot!.documents {
-                print("in")
+                
                 let productData = document.data()
                 
                 if let productName = productData["productsName"] as? String,
@@ -49,15 +48,52 @@ class ShopItemManager {
                    let productsID = productData["productsID"] as? Int,
                    let productAmount = productData["amount"] as? Int,
                    let productCategories = productData["categoryIDs"] as? [Int],
-                   let productCheckPrice = productData["checkPointPrice"] as? Int,
-                   let productHeatPrice = productData["heatPointPrice"] as? Int {
-                   let product = fireBaseProduct(productsID: productsID, productsName: productName, amount: productAmount, checkPointPrice: productCheckPrice, heatPointPrice: productHeatPrice, image: imageURL, categoryIDs: productCategories, intro: productDescription)
+                   let productCheckPrice = productData["checkinPoints"] as? Int,
+                   let productHeatPrice = productData["caloriesPoints"] as? Int {
+                   let product = fireBaseProduct(productsID: productsID, productsName: productName, amount: productAmount, checkinPoints: productCheckPrice, caloriesPoints: productHeatPrice, image: imageURL, categoryIDs: productCategories, intro: productDescription)
                     products.append(product)
-                    print(product)
+                    
                 }
             }
             completion(products)
         }
+    }
+    func updateProducts(productName: String, purchQuantity: Int) {
+        let db = Firestore.firestore()
+        let productsCollection = db.collection("Products")
+        
+        productsCollection.whereField("productsName", isEqualTo: productName).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching products: \(error.localizedDescription)")
+                return
+            }
+            
+            // 确保查询返回了至少一个文档
+            guard let document = querySnapshot?.documents.first else {
+                print("Product not found.")
+                return
+            }
+            var productData = document.data()
+            if let currentQuantity = productData["amount"] as? Int {
+                // 步骤 3：更新数量
+                let updatedQuantity = currentQuantity - purchQuantity
+                if updatedQuantity >= 0 {
+                    productData["amount"] = updatedQuantity // 更新数量字段
+                } else {
+                    print("Insufficient quantity available.")
+                    return
+                }
+                // 步骤 4：将更新后的数据写回数据库
+                productsCollection.document(document.documentID).setData(productData) { error in
+                    if let error = error {
+                        print("Error updating product quantity: \(error.localizedDescription)")
+                    } else {
+                        print("Product quantity updated successfully.")
+                    }
+                }
+            }
+        }
+            
     }
     
     func downloadProductsImage(imageURLString: String, completion: @escaping (Data?) -> Void) {

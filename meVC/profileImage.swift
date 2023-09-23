@@ -33,7 +33,7 @@ extension profileViewController: UIImagePickerControllerDelegate, UINavigationCo
         // 創建一個自定義的UIView，模擬警告框的效果
         let customAlertView = CustomOptionsView(frame: shadowView.bounds)
         customAlertView.backgroundColor = .clear
-        customAlertView.layer.cornerRadius = 10
+        customAlertView.layer.cornerRadius = 8
         customAlertView.clipsToBounds = true
         shadowView.addSubview(customAlertView)
         customAlertView.albumButton.addTarget(self, action: #selector(albumButtonTapped), for: .touchUpInside)

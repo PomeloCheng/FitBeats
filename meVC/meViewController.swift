@@ -28,8 +28,8 @@ class meViewController: UIViewController {
            let checkPoint = userData.currentUserData?["CheckinPoints"] as? Double,
            let caroPoint = userData.currentUserData?["CaloriesPoints"] as? Double {
             userName.text = name
-            checkLabel.text = String(format: "%.0f", checkPoint)
-            caroLabel.text = String(format: "%.0f", caroPoint)
+            checkLabel.text = String(format: "%.0d", checkPoint)
+            caroLabel.text = String(format: "%.0d", caroPoint)
         }
         
         

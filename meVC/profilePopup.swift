@@ -51,7 +51,7 @@ extension profileViewController {
         customAlertView = CustomAlertView(frame: CGRect(x: 0, y: 0, width: 300, height: 162))
         guard let customAlertView = customAlertView else { return }
         customAlertView.backgroundColor = UIColor.white
-        customAlertView.layer.cornerRadius = 15
+        customAlertView.layer.cornerRadius = 16
         customAlertView.titleLabel.text = messageTitle
         // 設置自定義UIView在畫面中心
         customAlertView.center = view.center

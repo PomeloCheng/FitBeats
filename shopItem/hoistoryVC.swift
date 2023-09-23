@@ -9,37 +9,55 @@ import UIKit
 
 class hoistoryVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
-    var histories: [History] = []
-
+    
+    var tradingRecords: [TradingRecord] = []
     @IBOutlet weak var hoistoryTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(false, animated: true)
         hoistoryTable.dataSource = self
         hoistoryTable.delegate = self
-        Communicator.shared.getHistory(userID: 3) { result in
+        
+        let userID = UserDataManager.shared.currentUserUid
+        TradingRecordManager.shared.fetch(ID: userID) { result in
+            guard let result = result else {
+                return
+            }
             if !result.isEmpty {
-                self.histories = result
+                self.tradingRecords = result
+                
                 DispatchQueue.main.async {
                     self.hoistoryTable.reloadData()
                 }
+            }else{
+                print("noData")
             }
         }
-        // Do any additional setup after loading the view.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.histories.count
+        return self.tradingRecords.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = hoistoryTable.dequeueReusableCell(withIdentifier: "historyCell") as! historyTableViewCell
-        let history = self.histories[indexPath.row]
-        cell.itemImage.image = logImage.shared.load(filename: history.productsName)
-        cell.name.text = history.productsName
-        cell.price.text = "$ \(Int(history.checkPointPrice))"
-        cell.amount.text = "x \(history.purchaseQuantity)"
-        cell.totalPrice.text = "總金額 $ \(Int(history.totalAmount))"
-        cell.time.text = "\(history.purchaseTime)"
+        let history = self.tradingRecords[indexPath.row]
+        
+        
+        if let price = history.purchaseDetails["productPrice"] as? Int,
+           let quantity = history.purchaseDetails["quantity"] as? Int,
+           let totalPrice = history.purchaseDetails["finalPrice"] as? Int,
+           let type = history.purchaseDetails["exchangeMethod"] as? String {
+            cell.itemImage.image = logImage.shared.load(filename: history.productName)
+            cell.name.text = history.productName
+            cell.price.text = "\(price)"
+            cell.amount.text = "x \(quantity)"
+            cell.totalPrice.text = "總點數 \(totalPrice)"
+            cell.time.text = history.redemptionDate
+            
+            cell.pointType.image = (type == "checkPoints" ? UIImage(named: "home_recommend_icon") : UIImage(named: "home_hot_icon"))
+            
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

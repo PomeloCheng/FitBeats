@@ -33,7 +33,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 initialViewController = storyboard.instantiateViewController(withIdentifier: "mainScreen")
                 if let userID = Auth.auth().currentUser?.uid {
                     UserDataManager.shared.currentUserUid = userID
-                    UserDataManager.shared.currentUserPhoneNumber = phoneNumber
                     UserDataManager.shared.fetchUserData()
                 }
             }

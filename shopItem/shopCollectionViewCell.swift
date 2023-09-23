@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PHPCollectionViewCell: UICollectionViewCell {
+class shopCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var price: UILabel!
