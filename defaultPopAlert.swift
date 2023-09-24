@@ -40,7 +40,7 @@ class popAlertView: UIView {
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
@@ -71,14 +71,12 @@ class popAlertView: UIView {
         addSubview(imageView)
         addSubview(titleLabel)
         addSubview(messageLabel)
-        addSubview(okButton)
-        addSubview(cancleButton)
+        
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        okButton.translatesAutoresizingMaskIntoConstraints = false
-        cancleButton.translatesAutoresizingMaskIntoConstraints = false
+        
         
         
         NSLayoutConstraint.activate([
@@ -98,19 +96,45 @@ class popAlertView: UIView {
             messageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             messageLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
-            cancleButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 16),
-            cancleButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            cancleButton.trailingAnchor.constraint(equalTo: okButton.leadingAnchor, constant: -8),
-            cancleButton.heightAnchor.constraint(equalToConstant: 40),
             
             
-            okButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor,constant: 16),
-            okButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            okButton.heightAnchor.constraint(equalToConstant: 40),
-            okButton.widthAnchor.constraint(equalTo: cancleButton.widthAnchor)
+            
             
         ])
         
+    }
+    
+    func setOKBtn(isShow: Bool) {
+        if !isShow {
+            
+            self.addSubview(okButton)
+            self.addSubview(cancleButton)
+            okButton.translatesAutoresizingMaskIntoConstraints = false
+            cancleButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                cancleButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 16),
+                cancleButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+                cancleButton.heightAnchor.constraint(equalToConstant: 40),
+                okButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor,constant: 16),
+                okButton.leadingAnchor.constraint(equalTo: cancleButton.trailingAnchor, constant: 8),
+                okButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+                okButton.heightAnchor.constraint(equalToConstant: 40),
+                okButton.widthAnchor.constraint(equalTo: cancleButton.widthAnchor)
+                
+                ])
+        } else {
+            self.addSubview(okButton)
+            okButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                
+                okButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor,constant: 16),
+                okButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+                okButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+                okButton.heightAnchor.constraint(equalToConstant: 40)
+                
+                
+                ])
+        }
     }
     
 }

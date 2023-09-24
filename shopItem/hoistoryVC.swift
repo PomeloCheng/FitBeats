@@ -30,7 +30,19 @@ class hoistoryVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                     self.hoistoryTable.reloadData()
                 }
             }else{
-                print("noData")
+                let label = UILabel()
+                
+                label.text = "尚未擁有兌換紀錄"
+                label.textColor = .lightGray
+                label.font = UIFont.systemFont(ofSize: 16)
+                
+                self.view.addSubview(label)
+                label.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    // 标题布局
+                    label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                    label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+                    label.heightAnchor.constraint(equalToConstant: 40)])
             }
         }
     }

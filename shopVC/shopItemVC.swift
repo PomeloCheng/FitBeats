@@ -20,23 +20,27 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
         // change selected bar color
         settings.style.buttonBarBackgroundColor = .white
         settings.style.buttonBarItemBackgroundColor = .white
-        settings.style.selectedBarBackgroundColor = purpleInspireColor
-        settings.style.buttonBarItemFont = .boldSystemFont(ofSize: 20)
+        settings.style.selectedBarBackgroundColor = UIColor.tintColor
+        settings.style.buttonBarItemFont = .systemFont(ofSize: 18)
         settings.style.selectedBarHeight = 5.0
-        settings.style.buttonBarMinimumLineSpacing = 12
+        settings.style.buttonBarHeight = 40
         settings.style.buttonBarItemTitleColor = .black
         settings.style.buttonBarItemsShouldFillAvailableWidth = true
-        settings.style.buttonBarLeftContentInset = 100
-        settings.style.buttonBarRightContentInset = 100
+        settings.style.buttonBarItemLeftRightMargin = 16
+        settings.style.buttonBarLeftContentInset = 24
+        settings.style.buttonBarRightContentInset = 24
+
         changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
         guard changeCurrentIndex == true else { return }
         oldCell?.label.textColor = .black
-        newCell?.label.textColor = purpleInspireColor
+        oldCell?.label.font = UIFont.systemFont(ofSize: 18)
+        newCell?.label.textColor = UIColor.tintColor
+        newCell?.label.font = UIFont.boldSystemFont(ofSize: 18)
         }
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let category = [0, 1]
+        let category = [0, 1, 2, 3]
         var shopContentVCs: [UIViewController] = []
 
         for categoryTag in category {

@@ -143,7 +143,7 @@ extension profileViewController : UITableViewDelegate, UITableViewDataSource {
                         return
                     }
                     let orginImage = UIImage(data:imageData)
-                    let newimage = orginImage!.resize(maxEdge: 120)
+                    let newimage = orginImage!.resize(maxEdge: 200)
                     do {
                         try logImage.shared.save(data: imageData, filename: self.userData.currentUserUid)
                     } catch {
@@ -157,7 +157,7 @@ extension profileViewController : UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             let originalimage = UIImage(named: "avatar.png")
-            let image = originalimage?.resize(maxEdge: 120)
+            let image = originalimage?.resize(maxEdge: 200)
             self.profileImage.image = image
             
         }

@@ -24,9 +24,13 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
     func indicatorInfo(for pagerTabStripController: XLPagerTabStrip.PagerTabStripViewController) -> XLPagerTabStrip.IndicatorInfo {
         switch categoryTag {
         case 0:
-            return IndicatorInfo(title: "Item One")
+            return IndicatorInfo(title: "精選商品")
         case 1:
-            return IndicatorInfo(title: "Item Two")
+            return IndicatorInfo(title: "新品上市")
+        case 2:
+            return IndicatorInfo(title: "熱門選購")
+        case 3:
+            return IndicatorInfo(title: "特色寵物")
         
         default:
             return IndicatorInfo(title: "")
@@ -54,6 +58,24 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
 
         case 1:
             ShopItemManager.shared.fetchProductData(categoryID: 2){ products in
+                if let products = products {
+                    self.fireProducts = products
+                    DispatchQueue.main.async {
+                        self.shopContentView.reloadData()
+                    }
+                }
+            }
+        case 2:
+            ShopItemManager.shared.fetchProductData(categoryID: 3){ products in
+                if let products = products {
+                    self.fireProducts = products
+                    DispatchQueue.main.async {
+                        self.shopContentView.reloadData()
+                    }
+                }
+            }
+        case 3:
+            ShopItemManager.shared.fetchProductData(categoryID: 1){ products in
                 if let products = products {
                     self.fireProducts = products
                     DispatchQueue.main.async {
@@ -130,7 +152,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
                     return
                 }
                 let orginImage = UIImage(data:imageData)
-                let newimage = orginImage!.resize(maxEdge: 120)
+                let newimage = orginImage!.resize(maxEdge: 200)
                 do {
                     try logImage.shared.save(data: imageData, filename: product.productsName)
                 } catch {

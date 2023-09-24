@@ -20,17 +20,12 @@ class meViewController: UIViewController {
     @IBOutlet weak var currencyBG: UIView!
     
     @IBOutlet weak var profileImage: UIImageView!
+    var maskView: UIView?
     let userData = UserDataManager.shared
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let name = userData.currentUserData?["name"] as? String,
-           let checkPoint = userData.currentUserData?["CheckinPoints"] as? Double,
-           let caroPoint = userData.currentUserData?["CaloriesPoints"] as? Double {
-            userName.text = name
-            checkLabel.text = String(format: "%.0d", checkPoint)
-            caroLabel.text = String(format: "%.0d", caroPoint)
-        }
+       
         
         
         currencyBG.layer.cornerRadius = 12
@@ -55,7 +50,7 @@ class meViewController: UIViewController {
         
         profileImage.isUserInteractionEnabled = true
         profileImage.addGestureRecognizer(tapGestureRecognizer)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateProfileData), name: .userProfileDataUpdated, object: nil)
+        
         
     }
     
@@ -63,6 +58,14 @@ class meViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         setImage()
+        if let name = userData.currentUserData?["name"] as? String,
+           let checkPoint = userData.currentUserData?["CheckinPoints"] as? Int,
+           let caroPoint = userData.currentUserData?["CaloriesPoints"] as? Int {
+            userName.text = name
+            
+            checkLabel.text = String(format: "%d", checkPoint)
+            caroLabel.text = String(format: "%d", caroPoint)
+        }
     }
     
     
@@ -70,12 +73,7 @@ class meViewController: UIViewController {
         setVC(VCName: "profileViewController")
     }
     
-    @objc func updateProfileData() {
-        if let name = userData.currentUserData?["name"] as? String {
-            userName.text = name
-        }
-        // 更新其他界面元素
-    }
+    
     
     /*
     // MARK: - Navigation
@@ -88,7 +86,32 @@ class meViewController: UIViewController {
     */
 
     @IBAction func logoutBtnPressed(_ sender: Any) {
+        maskView = UIView(frame: view.bounds)
+        guard let maskView = maskView else {
+            assertionFailure("create maskView fail")
+            return
+        }
+        maskView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        let alert = popAlertView(frame: CGRect(x: 0, y: 0, width: 300, height: 212))
+        alert.okButton.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
+        alert.cancleButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        alert.backgroundColor = UIColor.white
+        alert.layer.cornerRadius = 15
+        alert.messageLabel.text = "確定要登出？\n登出會返回初始手機登入畫面"
         
+        alert.center = view.center
+        maskView.addSubview(alert)
+        self.view.addSubview(maskView)
+        
+        
+    }
+    
+    @objc func cancelButtonTapped() {
+        maskView?.removeFromSuperview()
+    }
+    
+    @objc func okButtonTapped() {
+        maskView?.removeFromSuperview()
             do {
                 try Auth.auth().signOut()
                 // 用户已成功登出
@@ -104,7 +127,6 @@ class meViewController: UIViewController {
             } catch let signOutError as NSError {
                 print("登出错误: %@", signOutError)
             }
-        
     }
 }
 
@@ -204,7 +226,7 @@ extension meViewController: UITableViewDataSource,UITableViewDelegate{
                         return
                     }
                     let orginImage = UIImage(data:imageData)
-                    let newimage = orginImage!.resize(maxEdge: 120)
+                    let newimage = orginImage!.resize(maxEdge: 200)
                     do {
                         try logImage.shared.save(data: imageData, filename: self.userData.currentUserUid)
                     } catch {
@@ -218,7 +240,7 @@ extension meViewController: UITableViewDataSource,UITableViewDelegate{
             }
         } else {
             let originalimage = UIImage(named: "avatar.png")
-            let image = originalimage?.resize(maxEdge: 120)
+            let image = originalimage?.resize(maxEdge: 200)
             self.profileImage.image = image
             
         }

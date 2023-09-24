@@ -13,6 +13,8 @@ protocol updateMoneyDelegate:AnyObject {
 class itemViewController: UIViewController {
     
     
+    @IBOutlet weak var changeBtn: UIButton!
+    
     @IBOutlet weak var currencyIcon: UIImageView!
     @IBOutlet weak var intro: UILabel!
     @IBOutlet weak var shopStackView: UIStackView!
@@ -56,6 +58,27 @@ class itemViewController: UIViewController {
         }
         
         
+        UserDataManager.shared.fetchUserOwenrProducts(productName: self.fireProducts.productsName) { result in
+            
+            if result {
+                DispatchQueue.main.async {
+                    
+                    self.changeBtn.isEnabled = false
+                    self.changeBtn.backgroundColor = .systemGray6
+                    self.finalPrice.text = "已擁有"
+                }
+            } else {
+                DispatchQueue.main.async {
+                    
+                    self.changeBtn.isEnabled = true
+                    self.changeBtn.backgroundColor = UIColor.tintColor
+                    self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
+                }
+            }
+            
+        }
+        
+        
         setNavBar(nav: self.navigationItem)
     }
     
@@ -79,7 +102,7 @@ class itemViewController: UIViewController {
         price.text = String(fireProducts.checkinPoints)
         itemImage.image = logImage.shared.load(filename: fireProducts.productsName)
         amountTextView.text = "1"
-        finalPrice.text = "總金額$ \(purchaseAmount)"
+        
         intro.text = fireProducts.intro
         // Do any additional setup after loading the view.
         
@@ -98,7 +121,7 @@ class itemViewController: UIViewController {
             finalAmount = shopNumber
         }
         purchaseAmount = finalAmount * purchCurrenct!
-        finalPrice.text = "總金額$ \(purchaseAmount)"
+        finalPrice.text = "購買將花費您 \(purchaseAmount) 點"
         
     }
     
@@ -117,7 +140,7 @@ class itemViewController: UIViewController {
             
         }
         purchaseAmount = finalAmount * purchCurrenct!
-        finalPrice.text = "總金額$ \(purchaseAmount)"
+        finalPrice.text = "購買將花費您 \(purchaseAmount) 點"
     }
     
     @IBAction func buyBtnPressed(_ sender: Any) {
@@ -138,15 +161,28 @@ class itemViewController: UIViewController {
             return
         }
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        var alert = popAlertView()
+        let alert = popAlertView()
        
         if message == "購買成功！" {
             alert.frame = CGRect(x: 0, y: 0, width: 300, height: 192)
+            alert.cancleButton.isHidden = true
+            alert.setOKBtn(isShow: true)
+            
             alert.okButton.addTarget(self, action: #selector(okBuyButtonTapped), for: .touchUpInside)
+        } else if message == "錢不夠喔！\n請注意您的點數是否足夠。" {
+            alert.frame = CGRect(x: 0, y: 0, width: 300, height: 212)
+            alert.cancleButton.isHidden = true
+            alert.setOKBtn(isShow: true)
+            
+            alert.okButton.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
         } else {
-            alert.frame = CGRect(x: 0, y: 0, width: 300, height: 220)
+            alert.frame = CGRect(x: 0, y: 0, width: 300, height: 212)
+            alert.cancleButton.isHidden = false
+            alert.setOKBtn(isShow: false)
+            
             alert.okButton.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
         }
+        
         alert.cancleButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         alert.backgroundColor = UIColor.white
         alert.layer.cornerRadius = 15
@@ -156,24 +192,6 @@ class itemViewController: UIViewController {
         maskView.addSubview(alert)
         self.view.addSubview(maskView)
         currencyLabel?.textColor = UIColor.white
-       
-        
-//        let alert = UIAlertController(title: "", message: message, preferredStyle:.alert)
-//        let OK = UIAlertAction(title: "OK", style: .default)
-//        
-//        
-//        if message == "錢不夠喔！"{
-//            let OK = UIAlertAction(title: "OK", style: .default)
-//            alert.addAction(OK)
-//        } else if message != "購買成功！" {
-//            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-//            alert.addAction(OK)
-//            alert.addAction(cancel)
-//        }else{
-//            alert.addAction(OK)
-//        }
-//        
-//        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func cancelButtonTapped() {
@@ -214,6 +232,7 @@ class itemViewController: UIViewController {
                     if result {
                         let updateCurrency = self.userCurrency! - self.purchaseAmount
                         ShopItemManager.shared.updateProducts(productName: self.fireProducts.productsName, purchQuantity: self.finalAmount)
+                        UserDataManager.shared.addProductToOwnedProducts(productName: self.fireProducts.productsName)
                         if purchaseDetails["exchangeMethod"] as! String == "checkPoints" {
                             UserDataManager.shared.currentUserData?["CheckinPoints"] = updateCurrency
                             UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: updateCurrency)
@@ -222,6 +241,9 @@ class itemViewController: UIViewController {
                                 
                                 if let customLabel = self.currencyLabel {
                                     customLabel.text = String(format: "%d", updateCurrency)
+                                    self.changeBtn.isEnabled = false
+                                    self.changeBtn.backgroundColor = .systemGray6
+                                    self.finalPrice.text = "已擁有"
                                     self.alert(message: "購買成功！")
                                 }
                             }
@@ -234,6 +256,9 @@ class itemViewController: UIViewController {
                                 
                                 if let customLabel = self.currencyLabel {
                                     customLabel.text = String(format: "%d", updateCurrency)
+                                    self.changeBtn.isEnabled = false
+                                    self.changeBtn.backgroundColor = .systemGray6
+                                    self.finalPrice.text = "已擁有"
                                     self.alert(message: "購買成功！")
                                 }
                             }

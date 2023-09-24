@@ -60,7 +60,7 @@ extension profileViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let originalimage = info[.originalImage] as? UIImage,
-            let image = originalimage.resize(maxEdge: 120) else {
+            let image = originalimage.resize(maxEdge: 200) else {
             assertionFailure("Invalid UIImage")
             return
         }

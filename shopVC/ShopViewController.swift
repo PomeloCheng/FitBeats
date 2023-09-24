@@ -23,8 +23,9 @@ class ShopViewController: UIViewController, UINavigationControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // 在進入內頁時顯示導航欄
+        // 在進入內頁時隱藏導航欄
         navigationController?.setNavigationBarHidden(true, animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {

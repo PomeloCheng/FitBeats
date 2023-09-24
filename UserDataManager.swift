@@ -52,7 +52,10 @@ class UserDataManager {
             "phoneNumber": phoneNumber,
             "profileImageURL": "", // 如果头像 URL 为空，可以设置为默认值
             "CheckinPoints": 0,
-            "CaloriesPoints": 0
+            "CaloriesPoints": 0,
+            "homeImage": "",
+            "ownedProducts": [String](),
+            "homePet": "預設怪獸"
         ]
         
         currentUserData = userData
@@ -64,7 +67,49 @@ class UserDataManager {
             } else {
                 
                 print("User data created in Firestore successfully.")
+                
             }
+        }
+    }
+
+    func addProductToOwnedProducts(productName: String) {
+        let db = Firestore.firestore()
+        let usersCollection = db.collection("Users")
+        
+        // 获取用户文档的引用
+        let userDocumentRef = usersCollection.document(currentUserUid)
+        
+        // 创建包含要添加到 ownedProducts 数组的商品名称的字典
+        let productData: [String: Any] = [
+            "ownedProducts": FieldValue.arrayUnion([productName])
+        ]
+        
+        // 更新 Firestore 中的用户数据
+        userDocumentRef.updateData(productData) { error in
+            if let error = error {
+                print("Error adding product to ownedProducts array: \(error.localizedDescription)")
+            } else {
+                print("Product added to ownedProducts array successfully.")
+            }
+        }
+    }
+    
+    func fetchUserOwenrProducts(productName: String, completion: @escaping(Bool)->Void) {
+        let db = Firestore.firestore()
+        let usersCollection = db.collection("Users")
+        usersCollection.whereField("ownedProducts", arrayContains: productName).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching products: \(error.localizedDescription)")
+                return
+            }
+            
+            // 确保查询返回了至少一个文档
+            if querySnapshot?.documents.isEmpty != true {
+                completion(true)
+            } else {
+                completion(false)
+            }
+            
         }
     }
     
@@ -77,9 +122,6 @@ class UserDataManager {
             fieldName: fieldValue
         ]
        
-        // 发送通知，通知其他地方用户信息已更新
-        NotificationCenter.default.post(name: .userProfileDataUpdated, object: nil)
-        
         // 更新 Firestore 中的用户数据
         usersCollection.document(currentUserUid).updateData(updatedUserData) { error in
             if let error = error {
@@ -112,8 +154,7 @@ class UserDataManager {
                     self.currentUserData = userData
                     let currentPhoneNumber = userData["phoneNumber"] as? String
                     self.currentUserPhoneNumber = currentPhoneNumber
-                    // 发送通知，通知其他地方用户数据已更新
-                    NotificationCenter.default.post(name: .userProfileDataUpdated, object: nil)
+                    
                 } else {
                     print("Document data is empty.")
                 }
@@ -178,7 +219,3 @@ class UserDataManager {
 }
 
 
-extension Notification.Name {
-    static let userProfileDataUpdated = Notification.Name("UserProfileDataUpdated")
-    
-}

@@ -58,6 +58,47 @@ class ShopItemManager {
             completion(products)
         }
     }
+    
+    func fetchProductURL(productName: String, completion: @escaping (UIImage?)->Void){
+        let db = Firestore.firestore()
+        let productsCollection = db.collection("Products")
+        
+        productsCollection.whereField("productsName", isEqualTo: productName).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching products: \(error.localizedDescription)")
+                return
+            }
+            
+            // 确保查询返回了至少一个文档
+            guard let document = querySnapshot?.documents.first else {
+                print("Product not found.")
+                return
+            }
+            var productData = document.data()
+            if let productURL = productData["image"] as? String {
+                
+                let storage = Storage.storage()
+                let storageRef = storage.reference(forURL: productURL)
+                
+                // 下载图片数据
+                storageRef.getData(maxSize: 5 * 1024 * 1024) { (data, error) in
+                    if let error = error {
+                        print("Error downloading profile image: \(error.localizedDescription)")
+                        completion(nil)
+                    } else {
+                        if let imageData = data,
+                          let productImage = UIImage(data: imageData) {
+                            completion(productImage)
+                        } else {
+                            completion(nil)
+                        }
+                    }
+                }
+            }
+        }
+            
+    }
+    
     func updateProducts(productName: String, purchQuantity: Int) {
         let db = Firestore.firestore()
         let productsCollection = db.collection("Products")

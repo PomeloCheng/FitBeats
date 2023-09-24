@@ -12,9 +12,13 @@ import FSCalendar
 
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
 
+    @IBOutlet weak var homeCheckLabel: UILabel!
+    @IBOutlet weak var homeCaroLabel: UILabel!
+    @IBOutlet weak var currentPetName: UILabel!
     @IBOutlet weak var calendarViewHeight: NSLayoutConstraint!
     @IBOutlet weak var homeRingView: RingProgressView!
     
+    @IBOutlet weak var petImagView: UIImageView!
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var targetBG: UIView!
     override func viewDidLoad() {
@@ -56,6 +60,22 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         calendarView.appearance.weekdayTextColor = .black
         calendarView.allowsSelection = false
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String, 
+          let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
+          let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
+           
+            DispatchQueue.main.async {
+                self.currentPetName.text = petName
+                self.homeCaroLabel.text = String(format: "%d", homeCaro)
+                self.homeCheckLabel.text = String(format: "%d", homeCheck)
+            }
+            }
+            
     }
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
