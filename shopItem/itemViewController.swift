@@ -54,26 +54,33 @@ class itemViewController: UIViewController {
             userCurrency =  UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int
         }
         
-        
-        UserDataManager.shared.fetchUserOwenrProducts(productName: self.fireProducts.productsName) { result in
-            
-            if result {
-                DispatchQueue.main.async {
-                    
-                    self.changeBtn.isEnabled = false
-                    self.changeBtn.backgroundColor = .systemGray6
-                    self.finalPrice.text = "已擁有"
+        if let ownedProductsArray = UserDataManager.shared.currentUserData?["ownedProducts"] as? String,
+           !ownedProductsArray.isEmpty {
+            UserDataManager.shared.fetchUserOwenrProducts(productName: self.fireProducts.productsName) { result in
+                
+                if result {
+                    DispatchQueue.main.async {
+                        
+                        self.changeBtn.isEnabled = false
+                        self.changeBtn.backgroundColor = .systemGray6
+                        self.finalPrice.text = "已擁有"
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        
+                        self.changeBtn.isEnabled = true
+                        self.changeBtn.backgroundColor = UIColor.tintColor
+                        self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
+                    }
                 }
-            } else {
-                DispatchQueue.main.async {
-                    
-                    self.changeBtn.isEnabled = true
-                    self.changeBtn.backgroundColor = UIColor.tintColor
-                    self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
-                }
+                
             }
-            
+        } else {
+            self.changeBtn.isEnabled = true
+            self.changeBtn.backgroundColor = UIColor.tintColor
+            self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
         }
+        
         
         
         setNavBar(nav: self.navigationItem)

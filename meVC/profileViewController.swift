@@ -39,7 +39,8 @@ class profileViewController: UIViewController, UITextFieldDelegate {
         
         profileImage.isUserInteractionEnabled = true
         profileImage.addGestureRecognizer(tapGestureRecognizer)
-        
+        profileImage.layer.borderColor = .init(red: 1, green: 1, blue: 1, alpha: 1)
+        profileImage.layer.borderWidth = 4
         
     }
     
@@ -65,7 +66,9 @@ class profileViewController: UIViewController, UITextFieldDelegate {
     */
 
     @IBAction func cameraBtnPressed(_ sender: Any) {
-        imageViewTapped()
+    DispatchQueue.main.async {
+        self.imageViewTapped()
+    }
     }
 }
 
@@ -85,15 +88,18 @@ extension profileViewController : UITableViewDelegate, UITableViewDataSource {
                 cell.profileLabel.text = "使用者名稱"
                 cell.statusLabel.text = currentName
                 cell.accessoryType = .disclosureIndicator
+                cell.statusIcon.isHidden = true
             case 1:
                 cell.profileLabel.text = "E-Mail"
                 cell.statusLabel.text = currentEmail
                 cell.accessoryType = .disclosureIndicator
+                cell.statusIcon.isHidden = true
             case 2:
                 cell.profileLabel.text = "手機號碼"
                 cell.statusLabel.text = currentPhoneNumber
                 cell.isUserInteractionEnabled = false
                 cell.accessoryType = .none
+                cell.statusIcon.isHidden = false
             default:
                 break
             }

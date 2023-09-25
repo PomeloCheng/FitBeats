@@ -280,8 +280,8 @@
                                                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tIx-7U-r2P">
-                                                            <rect key="frame" x="252" y="10" width="20" height="20"/>
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="tIx-7U-r2P">
+                                                            <rect key="frame" x="252" y="10.5" width="20" height="19"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="hti-qv-Gt1"/>
                                                                 <constraint firstAttribute="width" constant="20" id="i1H-lF-OfC"/>
@@ -542,6 +542,7 @@
         <image name="Mask group.png" width="386" height="164"/>
         <image name="avatar.png" width="1024" height="1024"/>
         <image name="camera.fill" catalog="system" width="128" height="93"/>
+        <image name="checkmark.circle.fill" catalog="system" width="128" height="123"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="home_hot_icon.png" width="84" height="84"/>
         <image name="home_recommend_icon.png" width="84" height="84"/>

@@ -51,7 +51,8 @@ class meViewController: UIViewController {
         profileImage.isUserInteractionEnabled = true
         profileImage.addGestureRecognizer(tapGestureRecognizer)
         
-        
+        profileImage.layer.borderColor = .init(red: 1, green: 1, blue: 1, alpha: 1)
+        profileImage.layer.borderWidth = 4
     }
     
     override func viewWillAppear(_ animated: Bool) {

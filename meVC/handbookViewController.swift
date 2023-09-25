@@ -42,7 +42,7 @@ class handbookViewController: UIViewController {
         }
         
         if isHomePresent {
-            collectioViewHeigfht.constant = 44
+            collectioViewHeigfht.constant = 60
             self.handBookCollectView.layoutIfNeeded()
             presentNavgation.isHidden = false
         }

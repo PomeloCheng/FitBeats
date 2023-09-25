@@ -64,9 +64,13 @@ extension profileViewController: UIImagePickerControllerDelegate, UINavigationCo
             assertionFailure("Invalid UIImage")
             return
         }
-        self.profileImage.image = image
-        self.profileImage.layer.cornerRadius = 60
-        self.profileImage.contentMode = .scaleAspectFill
+        DispatchQueue.main.async {
+            self.profileImage.image = image
+            self.profileImage.layer.cornerRadius = 60
+            self.profileImage.contentMode = .scaleAspectFill
+        }
+        
+        
         
         
         userData.uploadProfileImage(image: image) { imageURLString in

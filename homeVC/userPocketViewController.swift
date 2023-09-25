@@ -30,7 +30,20 @@ class userPocketViewController: UIViewController {
                 self.userPocketCollectView.reloadData()
             }
         } else {
-            print("Nodata")
+                let label = UILabel()
+                
+                label.text = "尚未擁有怪獸"
+                label.textColor = .lightGray
+                label.font = UIFont.systemFont(ofSize: 16)
+                
+                self.view.addSubview(label)
+                label.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    // 标题布局
+                    label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                    label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+                    label.heightAnchor.constraint(equalToConstant: 40)])
+            
         }
     }
     

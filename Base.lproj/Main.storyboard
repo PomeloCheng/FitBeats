@@ -181,9 +181,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" systemColor="systemBackgroundColor"/>
-                        <tabBarAppearance key="scrollEdgeAppearance" stackedItemPositioning="automatic">
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </tabBarAppearance>
+                        <tabBarAppearance key="scrollEdgeAppearance" stackedItemPositioning="automatic"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
                                 <color key="value" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="0.68085688694267521" colorSpace="custom" customColorSpace="sRGB"/>
