@@ -16,6 +16,8 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    
     private func configure(){
         // change selected bar color
         settings.style.buttonBarBackgroundColor = .white
@@ -40,7 +42,7 @@ class shopItemVC: ButtonBarPagerTabStripViewController {
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let category = [0, 1, 2, 3]
+        let category = [1, 2, 3, 4]
         var shopContentVCs: [UIViewController] = []
 
         for categoryTag in category {

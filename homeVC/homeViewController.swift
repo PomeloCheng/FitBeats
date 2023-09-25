@@ -12,6 +12,9 @@ import FSCalendar
 
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
 
+    @IBOutlet weak var changePetBtn: UIImageView!
+    @IBOutlet weak var petCategoryBtn: UIImageView!
+    @IBOutlet weak var introBtn: UIImageView!
     @IBOutlet weak var homeCheckLabel: UILabel!
     @IBOutlet weak var homeCaroLabel: UILabel!
     @IBOutlet weak var currentPetName: UILabel!
@@ -29,8 +32,20 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         targetBG.layer.shadowOpacity = 0.2
         
         targetBG.isUserInteractionEnabled = true
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(targetViewTapped))
-        targetBG.addGestureRecognizer(tapGestureRecognizer)
+        let targetBGtapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(targetViewTapped))
+        targetBG.addGestureRecognizer(targetBGtapGestureRecognizer)
+        
+        introBtn.isUserInteractionEnabled = true
+        let introBtntapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(introBtnTapped))
+        introBtn.addGestureRecognizer(introBtntapGestureRecognizer)
+        
+        changePetBtn.isUserInteractionEnabled = true
+        let changePetBtntapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changePetBtnTapped))
+        changePetBtn.addGestureRecognizer(changePetBtntapGestureRecognizer)
+        
+        petCategoryBtn.isUserInteractionEnabled = true
+        let petCategoryGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(petCategoryBtnTapped))
+        petCategoryBtn.addGestureRecognizer(petCategoryGestureRecognizer)
         
         homeRingView.startColor = UIColor.tintColor
         homeRingView.endColor = UIColor.tintColor
@@ -64,8 +79,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String, 
+        if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
           let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
           let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
            
@@ -73,6 +87,35 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                 self.currentPetName.text = petName
                 self.homeCaroLabel.text = String(format: "%d", homeCaro)
                 self.homeCheckLabel.text = String(format: "%d", homeCheck)
+                
+                if petName == "預設怪獸" {
+                    self.petImagView.image = UIImage(named: "default_home.png")
+                } else {
+                    self.petImagView.image = logImage.shared.load(filename: petName)
+                }
+            }
+            }
+        
+        //第一次fetch會呼叫
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchUserData), name: .userProfileFetched, object: nil)
+        
+    }
+    
+    @objc func fetchUserData() {
+        if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
+          let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
+          let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
+           
+            DispatchQueue.main.async {
+                self.currentPetName.text = petName
+                self.homeCaroLabel.text = String(format: "%d", homeCaro)
+                self.homeCheckLabel.text = String(format: "%d", homeCheck)
+                
+                if petName == "預設怪獸" {
+                    self.petImagView.image = UIImage(named: "default_home.png")
+                } else {
+                    self.petImagView.image = logImage.shared.load(filename: petName)
+                }
             }
             }
             
@@ -90,6 +133,33 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                 let tabIndexToSwitch = 1 // 例如，切换到第二个选项卡
                 tabBarController.selectedIndex = tabIndexToSwitch
             }
+    }
+    
+    @objc func changePetBtnTapped() {
+        let storyBoard = UIStoryboard(name: "home", bundle: .main)
+        if let userPcoketVC = storyBoard.instantiateViewController(withIdentifier: "userPocketViewController") as? userPocketViewController {
+            
+            present(userPcoketVC, animated: true)
+        }
+    }
+    
+    
+    @objc func introBtnTapped() {
+        let storyBoard = UIStoryboard(name: "me", bundle: .main)
+        if let introVC = storyBoard.instantiateViewController(withIdentifier: "infoViewController") as? infoViewController {
+            introVC.isHomePresent = true
+            
+            present(introVC, animated: true)
+        }
+    }
+    
+    @objc func petCategoryBtnTapped() {
+        
+        let storyBoard = UIStoryboard(name: "me", bundle: .main)
+        if let handbookVC = storyBoard.instantiateViewController(withIdentifier: "handbookViewController") as? handbookViewController {
+            handbookVC.isHomePresent = true
+            present(handbookVC, animated: true)
+        }
     }
    
 }

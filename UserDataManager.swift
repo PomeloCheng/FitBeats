@@ -128,6 +128,7 @@ class UserDataManager {
                 print("Error updating user info in Firestore: \(error.localizedDescription)")
             } else {
                 print("User info updated in Firestore successfully.")
+                
             }
         }
     }
@@ -154,7 +155,7 @@ class UserDataManager {
                     self.currentUserData = userData
                     let currentPhoneNumber = userData["phoneNumber"] as? String
                     self.currentUserPhoneNumber = currentPhoneNumber
-                    
+                    NotificationCenter.default.post(name: .userProfileFetched, object: nil)
                 } else {
                     print("Document data is empty.")
                 }
@@ -218,4 +219,9 @@ class UserDataManager {
 
 }
 
+extension Notification.Name {
+    static let userProfileFetched = Notification.Name("UserFetch")
+    
+    
+}
 

@@ -16,7 +16,8 @@ struct fireBaseProduct {
     let amount: Int
     let checkinPoints: Int
     let caloriesPoints: Int
-    let image : String?
+    let image: String
+    let grayImage: String
     let categoryIDs: [Int]
     let intro: String
 }
@@ -45,12 +46,13 @@ class ShopItemManager {
                 if let productName = productData["productsName"] as? String,
                    let productDescription = productData["intro"] as? String,
                    let imageURL = productData["image"] as? String,
+                   let grayImageURL = productData["grayImage"] as? String,
                    let productsID = productData["productsID"] as? Int,
                    let productAmount = productData["amount"] as? Int,
                    let productCategories = productData["categoryIDs"] as? [Int],
                    let productCheckPrice = productData["checkinPoints"] as? Int,
                    let productHeatPrice = productData["caloriesPoints"] as? Int {
-                   let product = fireBaseProduct(productsID: productsID, productsName: productName, amount: productAmount, checkinPoints: productCheckPrice, caloriesPoints: productHeatPrice, image: imageURL, categoryIDs: productCategories, intro: productDescription)
+                    let product = fireBaseProduct(productsID: productsID, productsName: productName, amount: productAmount, checkinPoints: productCheckPrice, caloriesPoints: productHeatPrice, image: imageURL, grayImage: grayImageURL, categoryIDs: productCategories, intro: productDescription)
                     products.append(product)
                     
                 }
@@ -74,7 +76,7 @@ class ShopItemManager {
                 print("Product not found.")
                 return
             }
-            var productData = document.data()
+            let productData = document.data()
             if let productURL = productData["image"] as? String {
                 
                 let storage = Storage.storage()

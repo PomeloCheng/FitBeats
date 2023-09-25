@@ -98,6 +98,7 @@ class meViewController: UIViewController {
         alert.backgroundColor = UIColor.white
         alert.layer.cornerRadius = 15
         alert.messageLabel.text = "確定要登出？\n登出會返回初始手機登入畫面"
+        alert.setOKBtn(isShow: false)
         
         alert.center = view.center
         maskView.addSubview(alert)

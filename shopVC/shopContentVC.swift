@@ -7,10 +7,6 @@
 
 import UIKit
 import XLPagerTabStrip
-protocol ShopContentDelegate: AnyObject {
-    func didSelectItem(product: Product, navigationController: UINavigationController)
-}
-
 class shopContentVC: UIViewController,IndicatorInfoProvider {
     
     
@@ -18,18 +14,18 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
     
     @IBOutlet weak var shopContentView: UICollectionView!
     var categoryTag: Int = 0
-    weak var delegate : ShopContentDelegate?
+    
     var navigationControllerRef: UINavigationController?
     
     func indicatorInfo(for pagerTabStripController: XLPagerTabStrip.PagerTabStripViewController) -> XLPagerTabStrip.IndicatorInfo {
         switch categoryTag {
-        case 0:
-            return IndicatorInfo(title: "精選商品")
         case 1:
-            return IndicatorInfo(title: "新品上市")
+            return IndicatorInfo(title: "精選商品")
         case 2:
-            return IndicatorInfo(title: "熱門選購")
+            return IndicatorInfo(title: "新品上市")
         case 3:
+            return IndicatorInfo(title: "熱門選購")
+        case 4:
             return IndicatorInfo(title: "特色寵物")
         
         default:
@@ -44,7 +40,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
         shopContentView.dataSource = self
         
         switch categoryTag {
-        case 0:
+        case 1:
             
             ShopItemManager.shared.fetchProductData(categoryID: 1){ products in
                 if let products = products {
@@ -56,7 +52,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
                 }
             }
 
-        case 1:
+        case 2:
             ShopItemManager.shared.fetchProductData(categoryID: 2){ products in
                 if let products = products {
                     self.fireProducts = products
@@ -65,7 +61,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
                     }
                 }
             }
-        case 2:
+        case 3:
             ShopItemManager.shared.fetchProductData(categoryID: 3){ products in
                 if let products = products {
                     self.fireProducts = products
@@ -74,7 +70,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
                     }
                 }
             }
-        case 3:
+        case 4:
             ShopItemManager.shared.fetchProductData(categoryID: 1){ products in
                 if let products = products {
                     self.fireProducts = products
@@ -89,12 +85,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
         // Do any additional setup after loading the view.
     }
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
-//    }
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
-//    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         NotificationCenter.default.post(name: Notification.Name("ScrollViewDidScroll"), object: scrollView.contentOffset.y)
     }
@@ -147,7 +138,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
            }
         
         } else {
-            ShopItemManager.shared.downloadProductsImage(imageURLString: product.image!) { imageData in
+            ShopItemManager.shared.downloadProductsImage(imageURLString: product.image) { imageData in
                 guard let imageData = imageData else {
                     return
                 }
@@ -181,12 +172,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
        let selectedProduct = fireProducts[indexPath.row]
         
         let productInfo : [String: Any] = ["selectedProduct": selectedProduct, "categoryTag": categoryTag]
-//        guard let navigationController = navigationControllerRef else {
-//            return
-//        }
-////        self.delegate?.didSelectItem(product: selectedProduct, navigationController: navigationController)
-//        let userInfo: [String: Any] = ["product": selectedProduct, "navigationRef": navigationController]
-        
+
         NotificationCenter.default.post(name: Notification.Name("pushView"), object: productInfo)
         
     }

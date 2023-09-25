@@ -6,9 +6,6 @@
 //
 
 import UIKit
-protocol updateMoneyDelegate:AnyObject {
-    func updateMoney()
-}
 
 class itemViewController: UIViewController {
     
@@ -26,7 +23,7 @@ class itemViewController: UIViewController {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var price: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
-    weak var updateMoneyDelegate : updateMoneyDelegate?
+    
     var userCurrency: Int?
     var purchCurrenct: Int?
     var categoryTag: Int?
@@ -231,8 +228,16 @@ class itemViewController: UIViewController {
                     
                     if result {
                         let updateCurrency = self.userCurrency! - self.purchaseAmount
+                        
                         ShopItemManager.shared.updateProducts(productName: self.fireProducts.productsName, purchQuantity: self.finalAmount)
+                        
+                        if var ownedProducts = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String] {
+                            // 现在，ownedProducts 是一个可变数组
+                            ownedProducts.append(self.fireProducts.productsName)
+                            UserDataManager.shared.currentUserData?["ownedProducts"] = ownedProducts
+                        }
                         UserDataManager.shared.addProductToOwnedProducts(productName: self.fireProducts.productsName)
+                        
                         if purchaseDetails["exchangeMethod"] as! String == "checkPoints" {
                             UserDataManager.shared.currentUserData?["CheckinPoints"] = updateCurrency
                             UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: updateCurrency)
