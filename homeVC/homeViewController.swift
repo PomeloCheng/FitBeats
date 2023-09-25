@@ -75,6 +75,8 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         calendarView.appearance.weekdayTextColor = .black
         calendarView.allowsSelection = false
         
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,6 +86,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
           let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
            
             DispatchQueue.main.async {
+                
                 self.currentPetName.text = petName
                 self.homeCaroLabel.text = String(format: "%d", homeCaro)
                 self.homeCheckLabel.text = String(format: "%d", homeCheck)
@@ -96,7 +99,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             }
             }
         
-        //第一次fetch會呼叫
+        //fetch會呼叫
         NotificationCenter.default.addObserver(self, selector: #selector(fetchUserData), name: .userProfileFetched, object: nil)
         
     }
@@ -107,6 +110,12 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
           let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
            
             DispatchQueue.main.async {
+                
+                UIView.animate(withDuration: 0.3) {
+                    self.homeCheckLabel.layer.opacity = 0.0
+                    self.homeCaroLabel.layer.opacity = 0.0
+                    self.petImagView.layer.opacity = 0.0
+                            }
                 self.currentPetName.text = petName
                 self.homeCaroLabel.text = String(format: "%d", homeCaro)
                 self.homeCheckLabel.text = String(format: "%d", homeCheck)
@@ -116,6 +125,11 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                 } else {
                     self.petImagView.image = logImage.shared.load(filename: petName)
                 }
+                UIView.animate(withDuration: 0.1) {
+                    self.homeCheckLabel.layer.opacity = 1.0
+                    self.homeCaroLabel.layer.opacity = 1.0
+                    self.petImagView.layer.opacity = 1.0
+                            }
             }
             }
             

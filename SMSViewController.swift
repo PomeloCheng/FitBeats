@@ -114,6 +114,7 @@ class SMSViewController: UIViewController, UITextFieldDelegate {
                     if let phoneNumber = self?.userData.currentUserPhoneNumber {
                         
                         UserDataManager.shared.createUserInFirestore(phoneNumber: phoneNumber)
+                        self?.userData.fetchUserData()
                     }
                 }
             }
