@@ -10,6 +10,9 @@ import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 
+
+
+
 class UserDataManager {
     
     static let shared = UserDataManager()
@@ -54,7 +57,12 @@ class UserDataManager {
             "CheckinPoints": 0,
             "CaloriesPoints": 0,
             "homeImage": "",
-            "ownedProducts": [String](),
+            "ownedProducts": [
+                "預設怪獸": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
+            ],
+            "ownedHistory": [
+                "預設怪獸": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
+            ],
             "homePet": "預設怪獸"
         ]
         
@@ -72,46 +80,71 @@ class UserDataManager {
         }
     }
 
-    func addProductToOwnedProducts(productName: String) {
+    func addProductToOwnedProducts(monsterName: String, monsterData: Monster) {
         let db = Firestore.firestore()
         let usersCollection = db.collection("Users")
         
         // 获取用户文档的引用
         let userDocumentRef = usersCollection.document(currentUserUid)
         
-        // 创建包含要添加到 ownedProducts 数组的商品名称的字典
-        let productData: [String: Any] = [
-            "ownedProducts": FieldValue.arrayUnion([productName])
-        ]
+        let monsterToAdd: [String: Any] = [
+            monsterName: monsterData.toDictionary()
+            ]
         
-        // 更新 Firestore 中的用户数据
-        userDocumentRef.updateData(productData) { error in
+        userDocumentRef.setData(["ownedProducts":monsterToAdd], merge: true) { error in
+                if let error = error {
+                    print("Error adding monster to ownedProducts: \(error.localizedDescription)")
+                } else {
+                    print("Monster added to ownedProducts successfully.")
+                }
+        }
+        userDocumentRef.setData(["ownedHistory":monsterToAdd], merge: true) { error in
             if let error = error {
-                print("Error adding product to ownedProducts array: \(error.localizedDescription)")
+                print("Error adding monster to ownedHistory: \(error.localizedDescription)")
             } else {
-                print("Product added to ownedProducts array successfully.")
+                print("Monster added to ownedHistory successfully.")
             }
         }
     }
     
-    func fetchUserOwenrProducts(productName: String, completion: @escaping(Bool)->Void) {
+    func deleteMonsterFromFirebase(withName monsterName: String) {
         let db = Firestore.firestore()
         let usersCollection = db.collection("Users")
-        usersCollection.whereField("ownedProducts", arrayContains: productName).getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error fetching products: \(error.localizedDescription)")
-                return
+        
+        // 获取用户文档的引用
+        let userDocumentRef = usersCollection.document(currentUserUid)
+
+            // 使用FieldValue.delete()来删除字段
+            let monsterFieldPath = "ownedProducts.\(monsterName)"
+            userDocumentRef.updateData([monsterFieldPath: FieldValue.delete()]) { error in
+                if let error = error {
+                    print("Error deleting monster from Firebase: \(error.localizedDescription)")
+                } else {
+                    print("Monster deleted from Firebase successfully.")
+                   
+                }
             }
-            
-            // 确保查询返回了至少一个文档
-            if querySnapshot?.documents.isEmpty != true {
-                completion(true)
-            } else {
-                completion(false)
-            }
-            
         }
-    }
+    
+    
+//    func fetchUserOwenrProducts(productName: String, completion: @escaping(Bool)->Void) {
+//        let db = Firestore.firestore()
+//        let usersCollection = db.collection("Users")
+//        usersCollection.whereField("ownedProducts", arrayContains: productName).getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                print("Error fetching products: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            // 确保查询返回了至少一个文档
+//            if querySnapshot?.documents.isEmpty != true {
+//                completion(true)
+//            } else {
+//                completion(false)
+//            }
+//
+//        }
+//    }
     
     func updateUserInfoInFirestore(fieldName: String, fieldValue: Any) {
         let db = Firestore.firestore()
@@ -221,6 +254,7 @@ class UserDataManager {
 
 extension Notification.Name {
     static let userProfileFetched = Notification.Name("UserFetch")
+    
     static let userWeekCalendar = Notification.Name("UserWeekCalendar")
     
     

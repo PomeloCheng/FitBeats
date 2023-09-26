@@ -28,8 +28,14 @@ class handbookViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let currentPocket = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String] {
-            self.userPcoket = currentPocket
+        if let currentPocket = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String: Any] {
+            // currentPocket 是一个字典，其中键是怪兽名称，值是怪兽的属性字典
+            // 如果您只需要怪兽名称，您可以通过获取字典的键来获取它们
+            let monsterNames = Array(currentPocket.keys)
+            
+            // 将怪兽名称存储在 userPcoket 中
+            self.userPcoket = monsterNames
+            print(self.userPcoket)
         }
         
         ShopItemManager.shared.fetchProductData(categoryID: 0){ products in
@@ -77,13 +83,38 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "handBook", for: indexPath) as! handBookCell
         let pocketPet = allPet[indexPath.row]
-        
-        print(userPcoket)
-        
+       
         // 检查当前商品是否在 userPet 中
+        
         if userPcoket.contains(pocketPet.productsName) {
+            if pocketPet.productsName == "預設怪獸" {
+                cell.petImage.image = UIImage(named: "default_home.png")
+            } else {
+                if let image = logImage.shared.load(filename: pocketPet.productsName) {
+                   DispatchQueue.main.async {
+                       cell.petImage.image = image
+                   }
+                
+                } else {
+                    ShopItemManager.shared.downloadProductsImage(imageURLString: pocketPet.image) { imageData in
+                        guard let imageData = imageData else {
+                            return
+                        }
+                        let orginImage = UIImage(data:imageData)
+                        let newimage = orginImage!.resize(maxEdge: 200)
+                        do {
+                            try logImage.shared.save(data: imageData, filename: pocketPet.productsName)
+                        } catch {
+                            print("write File error : \(error) ")
+                            //建議不要print，用alert秀出來比較方便
+                        }
+                        DispatchQueue.main.async {
+                            cell.petImage.image = newimage
+                        }
+                    }
+                }
+            }
             cell.petImage.layer.opacity = 1.0
-            cell.petImage.image = logImage.shared.load(filename: pocketPet.productsName)
             cell.petName.layer.opacity = 1.0
         } else {
             cell.petImage.layer.opacity = 0.2

@@ -61,7 +61,7 @@ class ShopItemManager {
         }
     }
     
-    func fetchProductURL(productName: String, completion: @escaping (UIImage?)->Void){
+    func fetchProductURL(productName: String, completion: @escaping (Data?)->Void){
         let db = Firestore.firestore()
         let productsCollection = db.collection("Products")
         
@@ -88,9 +88,8 @@ class ShopItemManager {
                         print("Error downloading profile image: \(error.localizedDescription)")
                         completion(nil)
                     } else {
-                        if let imageData = data,
-                          let productImage = UIImage(data: imageData) {
-                            completion(productImage)
+                        if let imageData = data {
+                            completion(imageData)
                         } else {
                             completion(nil)
                         }

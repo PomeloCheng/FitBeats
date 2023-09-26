@@ -14,6 +14,9 @@ import FSCalendar
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
     
+    @IBOutlet weak var testBtn: UIButton!
+    @IBOutlet weak var experienceView: UIProgressView!
+    @IBOutlet weak var lvLabel: UILabel!
     @IBOutlet weak var changePetBtn: UIImageView!
     @IBOutlet weak var petCategoryBtn: UIImageView!
     @IBOutlet weak var introBtn: UIImageView!
@@ -39,7 +42,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     @IBOutlet weak var isGoalLabel: UILabel!
     
     let healthManager = HealthManager.shared
-    
+    var totalProducts : [fireBaseProduct] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         targetBG.layer.cornerRadius = 20
@@ -76,6 +79,13 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
         
         updateDateTitle(todayDate)
+        ShopItemManager.shared.fetchProductData(categoryID: 0) { products in
+            if let products = products {
+                self.totalProducts = products
+            }
+        }
+        
+        
         
     }
     
@@ -93,57 +103,20 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         self.view.sendSubviewToBack(calendarView)
         
         
-        if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
-           let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
-           let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
-            
-            DispatchQueue.main.async {
-                
-                self.currentPetName.text = petName
-                self.homeCaroLabel.text = String(format: "%d", homeCaro)
-                self.homeCheckLabel.text = String(format: "%d", homeCheck)
-                
-                if petName == "預設怪獸" {
-                    self.petImagView.image = UIImage(named: "default_home.png")
-                } else {
-                    self.petImagView.image = logImage.shared.load(filename: petName)
-                }
-            }
-        }
+        setHomeUserData(animate: false)
         
         //fetch會呼叫
         NotificationCenter.default.addObserver(self, selector: #selector(fetchUserData), name: .userProfileFetched, object: nil)
         
     }
     
+    @IBAction func testBtn(_ sender: Any) {
+        increaseExperience()
+     
+    }
     @objc func fetchUserData() {
-        if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
-           let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
-           let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
-            
-            DispatchQueue.main.async {
-                
-                UIView.animate(withDuration: 0.3) {
-                    self.homeCheckLabel.layer.opacity = 0.0
-                    self.homeCaroLabel.layer.opacity = 0.0
-                    self.petImagView.layer.opacity = 0.0
-                }
-                self.currentPetName.text = petName
-                self.homeCaroLabel.text = String(format: "%d", homeCaro)
-                self.homeCheckLabel.text = String(format: "%d", homeCheck)
-                
-                if petName == "預設怪獸" {
-                    self.petImagView.image = UIImage(named: "default_home.png")
-                } else {
-                    self.petImagView.image = logImage.shared.load(filename: petName)
-                }
-                UIView.animate(withDuration: 0.1) {
-                    self.homeCheckLabel.layer.opacity = 1.0
-                    self.homeCaroLabel.layer.opacity = 1.0
-                    self.petImagView.layer.opacity = 1.0
-                }
-            }
-        }
+        
+        setHomeUserData(animate: true)
         
     }
     
@@ -159,131 +132,127 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             let tabIndexToSwitch = 1 // 例如，切换到第二个选项卡
             tabBarController.selectedIndex = tabIndexToSwitch
             
-          
+            
         }
     }
+    
+    @objc func changePetBtnTapped() {
+        let storyBoard = UIStoryboard(name: "home", bundle: .main)
+        if let userPcoketVC = storyBoard.instantiateViewController(withIdentifier: "userPocketViewController") as? userPocketViewController {
+            
+            present(userPcoketVC, animated: true)
+        }
+    }
+    
+    
+    @objc func introBtnTapped() {
+        let storyBoard = UIStoryboard(name: "me", bundle: .main)
+        if let introVC = storyBoard.instantiateViewController(withIdentifier: "infoViewController") as? infoViewController {
+            introVC.isHomePresent = true
+            
+            present(introVC, animated: true)
+        }
+    }
+    
+    @objc func petCategoryBtnTapped() {
         
-        @objc func changePetBtnTapped() {
-            let storyBoard = UIStoryboard(name: "home", bundle: .main)
-            if let userPcoketVC = storyBoard.instantiateViewController(withIdentifier: "userPocketViewController") as? userPocketViewController {
-                
-                present(userPcoketVC, animated: true)
+        let storyBoard = UIStoryboard(name: "me", bundle: .main)
+        if let handbookVC = storyBoard.instantiateViewController(withIdentifier: "handbookViewController") as? handbookViewController {
+            handbookVC.isHomePresent = true
+            present(handbookVC, animated: true)
+        }
+    }
+    
+    func updateDateTitle(_ date: Date) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy 年 MM 月 dd 日"
+        //dateFormatter.timeZone = TimeZone.current // 使用本地时区
+        let dateString = dateFormatter.string(from: date)
+        
+        todayLabel.text = dateString
+        setHealthData(date)
+        
+    }
+    
+    
+    func setHealthData(_ date: Date){
+        
+        healthManager.readStepDistance(for: date) { distance in
+            
+            DispatchQueue.main.async {
+                self.distanceLabel.text = String(format: "%.2f 公里",distance)
             }
+            
+        }
+        
+        healthManager.readStepCount(for: date) { step in
+            
+            DispatchQueue.main.async {
+                self.stepLabel.text = String(format: "%.0f 步",step)
+            }
+            
         }
         
         
-        @objc func introBtnTapped() {
-            let storyBoard = UIStoryboard(name: "me", bundle: .main)
-            if let introVC = storyBoard.instantiateViewController(withIdentifier: "infoViewController") as? infoViewController {
-                introVC.isHomePresent = true
-                
-                present(introVC, animated: true)
-            }
-        }
-        
-        @objc func petCategoryBtnTapped() {
-            
-            let storyBoard = UIStoryboard(name: "me", bundle: .main)
-            if let handbookVC = storyBoard.instantiateViewController(withIdentifier: "handbookViewController") as? handbookViewController {
-                handbookVC.isHomePresent = true
-                present(handbookVC, animated: true)
-            }
-        }
-        
-        func updateDateTitle(_ date: Date) {
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy 年 MM 月 dd 日"
-            //dateFormatter.timeZone = TimeZone.current // 使用本地时区
-            let dateString = dateFormatter.string(from: date)
-            
-            todayLabel.text = dateString
-            setHealthData(date)
-            
-        }
-        
-        
-        func setHealthData(_ date: Date){
-            
-            healthManager.readStepDistance(for: date) { distance in
-                
-                DispatchQueue.main.async {
-                    self.distanceLabel.text = String(format: "%.2f 公里",distance)
-                }
-                
-            }
-            
-            healthManager.readStepCount(for: date) { step in
-                
-                DispatchQueue.main.async {
-                    self.stepLabel.text = String(format: "%.0f 步",step)
-                }
-                
-            }
-            
-            
-            healthManager.readCalories(for: date) { calories,progress,goal in
-                guard let progress = progress,let calories = calories else {
-                    
-                    DispatchQueue.main.async {
-                        //更新畫面的程式
-                        self.checkAnimation.isHidden = true
-                        self.cancelAnimation.isHidden = true
-                        self.isGoalLabel.isHidden = true
-                        self.homeRingView.progress = 0
-                        self.homeRingView.layer.opacity = 0.2
-                        self.caroLabel.text = " -- 大卡"
-                        
-                        
-                    }
-                    
-                    
-                    return
-                }
+        healthManager.readCalories(for: date) { calories,progress,goal in
+            guard let progress = progress,let calories = calories else {
                 
                 DispatchQueue.main.async {
                     //更新畫面的程式
-                    self.caroLabel.text = String(format: "%.0f 大卡",calories)
+                    self.checkAnimation.isHidden = true
+                    self.cancelAnimation.isHidden = true
+                    self.isGoalLabel.isHidden = true
+                    self.homeRingView.progress = 0
+                    self.homeRingView.layer.opacity = 0.2
+                    self.caroLabel.text = " -- 大卡"
                     
                     
-                    if progress >= 1.0 {
-                        
-                        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
-                            self.homeRingView.progress = 1.0
-                        })
-                        self.checkAnimation.isHidden = false
-                        self.cancelAnimation.isHidden = true
-                        self.isGoalLabel.isHidden = false
-                        self.isGoalLabel.text = "已達成目標"
-                        self.isGoalLabel.textColor = darkGreen
-                        let anim = LottieAnimation.named("check.json")
-                        self.checkAnimation.animation = anim
-                        self.checkAnimation.contentMode = .scaleAspectFill
-                        self.checkAnimation.play()
-                        
-                    } else {
-                        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
-                            self.homeRingView.progress = progress
-                        })
-                        self.checkAnimation.isHidden = true
-                        self.cancelAnimation.isHidden = false
-                        self.isGoalLabel.isHidden = false
-                        self.isGoalLabel.text = "尚未達成目標"
-                        self.isGoalLabel.textColor = redColor
-                        
-                        let anim = LottieAnimation.named("undone.json")
-                        self.cancelAnimation.animation = anim
-                        self.cancelAnimation.contentMode = .scaleAspectFill
-                        self.cancelAnimation.play()
-                    }
                 }
+                
+                
+                return
             }
             
+            DispatchQueue.main.async {
+                //更新畫面的程式
+                self.caroLabel.text = String(format: "%.0f 大卡",calories)
+                
+                
+                if progress >= 1.0 {
+                    
+                    UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
+                        self.homeRingView.progress = 1.0
+                    })
+                    self.checkAnimation.isHidden = false
+                    self.cancelAnimation.isHidden = true
+                    self.isGoalLabel.isHidden = false
+                    self.isGoalLabel.text = "已達成目標"
+                    self.isGoalLabel.textColor = darkGreen
+                    let anim = LottieAnimation.named("check.json")
+                    self.checkAnimation.animation = anim
+                    self.checkAnimation.contentMode = .scaleAspectFill
+                    self.checkAnimation.play()
+                    
+                } else {
+                    UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
+                        self.homeRingView.progress = progress
+                    })
+                    self.checkAnimation.isHidden = true
+                    self.cancelAnimation.isHidden = false
+                    self.isGoalLabel.isHidden = false
+                    self.isGoalLabel.text = "尚未達成目標"
+                    self.isGoalLabel.textColor = redColor
+                    
+                    let anim = LottieAnimation.named("undone.json")
+                    self.cancelAnimation.animation = anim
+                    self.cancelAnimation.contentMode = .scaleAspectFill
+                    self.cancelAnimation.play()
+                }
+            }
         }
         
-        
     }
-
-//
-//
-
+    
+    //
+}

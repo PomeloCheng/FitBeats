@@ -54,34 +54,27 @@ class itemViewController: UIViewController {
             userCurrency =  UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int
         }
         
-        if let ownedProductsArray = UserDataManager.shared.currentUserData?["ownedProducts"] as? String,
-           !ownedProductsArray.isEmpty {
-            UserDataManager.shared.fetchUserOwenrProducts(productName: self.fireProducts.productsName) { result in
-                
-                if result {
-                    DispatchQueue.main.async {
-                        
-                        self.changeBtn.isEnabled = false
-                        self.changeBtn.backgroundColor = .systemGray6
-                        self.finalPrice.text = "已擁有"
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        
-                        self.changeBtn.isEnabled = true
-                        self.changeBtn.backgroundColor = UIColor.tintColor
-                        self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
-                    }
+        if let currentPocket = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String: Any] {
+            // currentPocket 是一个字典，其中键是怪兽名称，值是怪兽的属性字典
+            // 如果您只需要怪兽名称，您可以通过获取字典的键来获取它们
+            let monsterNames = Array(currentPocket.keys)
+            if monsterNames.contains(self.fireProducts.productsName) {
+                DispatchQueue.main.async {
+                    
+                    self.changeBtn.isEnabled = false
+                    self.changeBtn.backgroundColor = .systemGray6
+                    self.finalPrice.text = "已擁有"
                 }
-                
+            } else {
+                DispatchQueue.main.async {
+                    
+                    self.changeBtn.isEnabled = true
+                    self.changeBtn.backgroundColor = UIColor.tintColor
+                    self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
+                }
             }
-        } else {
-            self.changeBtn.isEnabled = true
-            self.changeBtn.backgroundColor = UIColor.tintColor
-            self.finalPrice.text = "購買將花費您 \(self.purchaseAmount) 點"
+            
         }
-        
-        
         
         setNavBar(nav: self.navigationItem)
     }
@@ -238,12 +231,24 @@ class itemViewController: UIViewController {
                         
                         ShopItemManager.shared.updateProducts(productName: self.fireProducts.productsName, purchQuantity: self.finalAmount)
                         
-                        if var ownedProducts = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String] {
-                            // 现在，ownedProducts 是一个可变数组
-                            ownedProducts.append(self.fireProducts.productsName)
+                        if var ownedProducts = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String: Any] {
+                            // 获取要购买的怪兽的名称
+                            let monsterName = self.fireProducts.productsName
+                            
+                            // 创建新的怪兽数据
+                            let newMonster = Monster(level: 1, experience: 0, maxLevel: 3)
+                             
+                            
+                            // 将新的怪兽数据添加到 ownedProducts 字典中
+                            ownedProducts[monsterName] = newMonster.toDictionary()
+                            
+                            // 更新用户数据中的 ownedProducts 字段
                             UserDataManager.shared.currentUserData?["ownedProducts"] = ownedProducts
+                            UserDataManager.shared.currentUserData?["ownedHistory"] = ownedProducts
+                            
+                            // 调用添加怪兽的方法
+                            UserDataManager.shared.addProductToOwnedProducts(monsterName: monsterName, monsterData: newMonster)
                         }
-                        UserDataManager.shared.addProductToOwnedProducts(productName: self.fireProducts.productsName)
                         
                         if purchaseDetails["exchangeMethod"] as! String == "checkPoints" {
                             UserDataManager.shared.currentUserData?["CheckinPoints"] = updateCurrency

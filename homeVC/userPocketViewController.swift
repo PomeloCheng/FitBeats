@@ -23,28 +23,18 @@ class userPocketViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let currentPocket = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String],
-           !currentPocket.isEmpty {
-            self.userPcoket = currentPocket
+        if let currentPocket = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String: Any] {
+            // currentPocket 是一个字典，其中键是怪兽名称，值是怪兽的属性字典
+            // 如果您只需要怪兽名称，您可以通过获取字典的键来获取它们
+            let monsterNames = Array(currentPocket.keys)
+            
+            // 将怪兽名称存储在 userPcoket 中
+            self.userPcoket = monsterNames
             DispatchQueue.main.async {
                 self.userPocketCollectView.reloadData()
             }
-        } else {
-                let label = UILabel()
-                
-                label.text = "尚未擁有怪獸"
-                label.textColor = .lightGray
-                label.font = UIFont.systemFont(ofSize: 16)
-                
-                self.view.addSubview(label)
-                label.translatesAutoresizingMaskIntoConstraints = false
-                NSLayoutConstraint.activate([
-                    // 标题布局
-                    label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                    label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-                    label.heightAnchor.constraint(equalToConstant: 40)])
-            
         }
+       
     }
     
     @IBAction func closeMarkBtnPressed(_ sender: Any) {
@@ -69,8 +59,35 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "userPocket", for: indexPath) as! userPocketViewCell
         let userPocketPet = userPcoket[indexPath.row]
+        if userPocketPet == "預設怪獸" {
+            cell.userOwenPetImage.image = UIImage(named: "default_home.png")
+        } else {
+            if let image = logImage.shared.load(filename: userPocketPet) {
+               DispatchQueue.main.async {
+                   cell.userOwenPetImage.image = image
+               }
+            
+            } else {
+                ShopItemManager.shared.fetchProductURL(productName: userPocketPet) { imageData in
+                    guard let imageData = imageData else {
+                        return
+                    }
+                    let orginImage = UIImage(data: imageData)
+                    let newimage = orginImage!.resize(maxEdge: 200)
+                    do {
+                        try logImage.shared.save(data: imageData, filename: userPocketPet)
+                    } catch {
+                        print("write File error : \(error) ")
+                        //建議不要print，用alert秀出來比較方便
+                    }
+                    DispatchQueue.main.async {
+                        cell.userOwenPetImage.image = newimage
+                    }
+                }
+            }
+        }
         cell.userOwenPetName.text = userPocketPet
-        cell.userOwenPetImage.image = logImage.shared.load(filename: userPocketPet)
+        
         cell.bgView.layer.cornerRadius = 10
         cell.bgView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.bgView.layer.shadowColor = UIColor.lightGray.cgColor
