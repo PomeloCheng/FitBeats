@@ -54,6 +54,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        
+        if let mainVC = self.window?.visibleViewController as? mainRecordVC {
+
+
+                calendarManager.shared.FSCalendar.currentPage = todayDate
+                mainVC.updateDateTitle(todayDate)
+
+                calendarManager.shared.resetSelectedState()
+                calendarManager.shared.selectTodayWeekdayLabel()
+                NotificationCenter.default.post(name: Notification.Name("reloadTableView"), object: nil)
+
+            if appStart {
+                DispatchQueue.main.async {
+                    mainVC.calendarView.reloadData()
+                }
+            }
+        } else {
+            // 转换失败的处理逻辑，例如打印错误信息
+            print("Visible view controller is not of type ViewController")
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

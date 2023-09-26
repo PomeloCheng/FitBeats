@@ -10,12 +10,24 @@ import FirebaseCore
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    let healthManager = HealthManager.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        let _ = EnergyManager.shared //初始化時間生成器
         
+        ValueTransformer.setValueTransformer(HKWorkoutTransformer(), forName: NSValueTransformerName(rawValue: "HKWorkoutTransformer"))
+        healthManager.requestAuthorization { success, error in
+            if let error = error {
+                print("HealthKit authorization error: \(error.localizedDescription)")
+            }
+            
+            if success {
+                NotificationCenter.default.post(name: Notification.Name("HealthKitAuthorizationSuccess"), object: nil)
+                print("HealthKit authorization granted.")
+            }
+        }
         return true
     }
 

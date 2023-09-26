@@ -221,6 +221,7 @@ class UserDataManager {
 
 extension Notification.Name {
     static let userProfileFetched = Notification.Name("UserFetch")
+    static let userWeekCalendar = Notification.Name("UserWeekCalendar")
     
     
 }

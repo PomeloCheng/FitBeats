@@ -209,10 +209,10 @@
             </objects>
             <point key="canvasLocation" x="2874.8091603053435" y="-453.52112676056339"/>
         </scene>
-        <!--record-->
+        <!--recordNav-->
         <scene sceneID="hDb-UM-1Px">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="record" storyboardName="record" referencedIdentifier="record" id="iYf-uB-fjx" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="recordNav" storyboardName="record" referencedIdentifier="recordNav" id="iYf-uB-fjx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="BhJ-s1-sxm"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BpR-cL-H1u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
