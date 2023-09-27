@@ -28,13 +28,10 @@ class handbookViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let currentPocket = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String: Any] {
-            // currentPocket 是一个字典，其中键是怪兽名称，值是怪兽的属性字典
-            // 如果您只需要怪兽名称，您可以通过获取字典的键来获取它们
-            let monsterNames = Array(currentPocket.keys)
+        if let currentPocket = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String] {
             
             // 将怪兽名称存储在 userPcoket 中
-            self.userPcoket = monsterNames
+            self.userPcoket = currentPocket
             print(self.userPcoket)
         }
         
@@ -146,11 +143,24 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
         
         cell.petName.text = pocketPet.productsName
         cell.petName.textColor = .black
-        cell.petBG.backgroundColor = .white
+        
+        
         cell.petBG.layer.cornerRadius = 10
+        cell.petBG.backgroundColor = .clear
+        cell.petBG.layer.borderColor = UIColor.white.cgColor
+        cell.petBG.layer.borderWidth = 3
         cell.petBG.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.petBG.layer.shadowColor = UIColor.lightGray.cgColor
         cell.petBG.layer.shadowOpacity = 0.2
+        
+        cell.backgroundView = UIImageView(image: UIImage(named: "cardBg.png"))
+        cell.backgroundView?.layer.cornerRadius = 10
+        cell.backgroundView?.clipsToBounds = true
+        cell.backgroundView?.layer.opacity = 0.1
+        
+            // 设置图像的显示方式（这里使用了 .scaleAspectFill，您可以根据需要选择其他模式）
+            cell.backgroundView?.contentMode = .scaleAspectFill
+        
         
         return cell
     }

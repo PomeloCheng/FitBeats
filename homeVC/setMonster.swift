@@ -37,12 +37,30 @@ extension homeViewController {
                 }
                 
                 if let currentMonsterData = monster[petName] as? [String:Any],
-                let currentMonster = Monster(dictionary: currentMonsterData) {
+                   let currentMonster = Monster(dictionary: currentMonsterData) {
                     
+                    self.lvLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
+                    self.lvLabel.layer.shadowColor = UIColor.black.cgColor
+                    self.lvLabel.layer.shadowOpacity = 1
+                    self.lvLabel.clipsToBounds = false
                     self.lvLabel.text = String(format: "LV %d", currentMonster.level)
-                    if currentMonster.level <= currentMonster.maxLevel {
-                        self.setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
-                    }
+                    
+//                    self.experienceView.layer.shadowOffset = CGSize(width: 1, height: 1)
+//                    self.experienceView.layer.shadowColor = UIColor.black.cgColor
+//                    self.experienceView.layer.shadowOpacity = 1
+//                    self.experienceView.clipsToBounds = false
+                    self.experienceView.layer.borderColor = UIColor.white.cgColor
+                    self.experienceView.layer.borderWidth = 1
+                    self.experienceView.layer.cornerRadius = 4
+                    self.setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
+                    
+                    self.homePetExperienceLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
+                    self.homePetExperienceLabel.layer.shadowColor = UIColor.black.cgColor
+                    self.homePetExperienceLabel.layer.shadowOpacity = 1
+                    self.homePetExperienceLabel.clipsToBounds = false
+                    let requiredExperience = self.requiredExperienceForLevel(currentMonster.level)
+                    self.homePetExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience,requiredExperience)
+                    
                 }
                 
                 if animate {
@@ -56,46 +74,36 @@ extension homeViewController {
         }
     }
     
-    func setProgressView(currentMonsterExperience: Int,currentMonsterLevel: Int) {
-        switch currentMonsterLevel {
-        case 1:
-            let requiredExperience = 10
-            let experienceProgress =  Float(currentMonsterExperience) / Float(requiredExperience)
-            self.experienceView.progress = experienceProgress
-        case 2:
-            let requiredExperience = 20
-            let experienceProgress =  Float(currentMonsterExperience) / Float(requiredExperience)
-            self.experienceView.progress = experienceProgress
-        case 3:
+        func setProgressView(currentMonsterExperience: Int,currentMonsterLevel: Int) {
+            let requiredExperience = requiredExperienceForLevel(currentMonsterLevel)
+                let experienceProgress =  Float(currentMonsterExperience) / Float(requiredExperience)
+                lvLabel.text = String(format: "LV %d", currentMonsterLevel)
+                self.experienceView.progress = experienceProgress
             
-            self.experienceView.progress = 1
-        default:
-            break
-        }
     
-    }
+        }
     func setEvolutionMonster(oldName: String, newName: String) {
-        let newPetName = newName
+        
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.3) {
                 self.petImagView.layer.opacity = 0.0
             }
             
-            self.currentPetName.text = newPetName
-            if let image = logImage.shared.load(filename: newPetName) {
+            self.currentPetName.text = newName
+            if let image = logImage.shared.load(filename: newName) {
                 self.petImagView.image = image
             } else {
-                ShopItemManager.shared.fetchProductURL(productName: newPetName) { imageData in
+                ShopItemManager.shared.fetchProductURL(productName: newName) { imageData in
                     guard let imageData = imageData else {
                         return
                     }
                     let orginImage = UIImage(data: imageData)
                     let newimage = orginImage!.resize(maxEdge: 200)
                     do {
-                        try logImage.shared.save(data: imageData, filename: newPetName)
+                        try logImage.shared.save(data: imageData, filename: newName)
                     } catch {
                         print("write File error : \(error) ")
-                        //建議不要print，用alert秀出來比較方便
+                        
                     }
                     self.petImagView.image = newimage
                 }
@@ -106,45 +114,43 @@ extension homeViewController {
                 self.petImagView.layer.opacity = 1
             }
         }
-        if var monster = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String:Any] {
+        if var monster = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String:Any],
+           var histotyMonster = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String] {
             // 创建新的怪兽数据
             let newMonster = Monster(level: 1, experience: 0, maxLevel: 3)
             
             
             // 将新的怪兽数据添加到 ownedProducts 字典中
-            monster[newPetName] = newMonster.toDictionary()
+            monster[newName] = newMonster.toDictionary()
+            histotyMonster.append(newName)
             
-            
-            UserDataManager.shared.currentUserData?["ownedHistory"] = monster
+            UserDataManager.shared.currentUserData?["ownedHistory"] = histotyMonster
             
             // 从 ownedProducts 字典中移除怪兽
             monster.removeValue(forKey: oldName)
-
+            
             // 更新用户数据中的 ownedProducts 字段
             UserDataManager.shared.currentUserData?["ownedProducts"] = monster
-            UserDataManager.shared.currentUserData?["homePet"] = newPetName
+            UserDataManager.shared.currentUserData?["homePet"] = newName
             // 调用添加怪兽的方法
-            UserDataManager.shared.updateUserInfoInFirestore(fieldName: "homePet", fieldValue: newPetName)
-            UserDataManager.shared.addProductToOwnedProducts(monsterName: newPetName, monsterData: newMonster)
+            UserDataManager.shared.updateUserInfoInFirestore(fieldName: "homePet", fieldValue: newName)
+            UserDataManager.shared.addProductToOwnedProducts(monsterName: newName, monsterData: newMonster)
             UserDataManager.shared.deleteMonsterFromFirebase(withName: oldName)
         }
-    
+        
     }
-    func evolution(name: String, currentMonsterLevel: Int, currentMonsterMaxLevel: Int) {
+    func evolution(name: String) {
         switch name {
         case "普通蛋":
-            if currentMonsterLevel == currentMonsterMaxLevel {
                 setEvolutionMonster(oldName: name, newName: "小貓頭鷹")
-            }
         case "小貓頭鷹":
-            if currentMonsterLevel == currentMonsterMaxLevel {
                 setEvolutionMonster(oldName: name, newName: "中貓頭鷹")
-            }
         case "中貓頭鷹":
-            if currentMonsterLevel == currentMonsterMaxLevel {
                 setEvolutionMonster(oldName: name, newName: "大貓頭鷹")
-            }
-        default: break
+        default:
+        
+            break
+            
         }
     }
     
@@ -154,80 +160,85 @@ extension homeViewController {
            let currentMonsterData = monster[petName] as? [String:Any],
            let currentMonster = Monster(dictionary: currentMonsterData) {
             
-            if currentMonster.level <= currentMonster.maxLevel {
+            if currentMonster.level < currentMonster.maxLevel || (currentMonster.level == currentMonster.maxLevel && currentMonster.experience < requiredExperienceForLevel(currentMonster.level)) {
+                // 继续增加经验值
+                print("增加前：\(currentMonster.experience)")
                 currentMonster.experience += 1
-                switch currentMonster.level {
-                case 1:
-                    if currentMonster.experience >= 10 {
-                        currentMonster.level += 1
-                        currentMonster.experience = 0
-                        lvLabel.text = String(format: "LV %d", currentMonster.level)
-                        setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
-                        // 将新的怪兽数据添加到 ownedProducts 字典中
-                        monster[petName] = currentMonster.toDictionary()
-                        
-                        // 更新用户数据中的 ownedProducts 字段
-                        UserDataManager.shared.currentUserData?["ownedProducts"] = monster
-                        UserDataManager.shared.currentUserData?["ownedHistory"] = monster
-                        
-                        // 调用添加怪兽的方法
-                        UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
-                        
-                    } else {
-                        setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
-                        // 将新的怪兽数据添加到 ownedProducts 字典中
-                        monster[petName] = currentMonster.toDictionary()
-                        
-                        // 更新用户数据中的 ownedProducts 字段
-                        UserDataManager.shared.currentUserData?["ownedProducts"] = monster
-                        UserDataManager.shared.currentUserData?["ownedHistory"] = monster
-                        
-                        // 调用添加怪兽的方法
-                        UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
-                        
-                    }
-                case 2:
-                    if currentMonster.experience >= 20 {
-                        currentMonster.level += 1
-                        currentMonster.experience = 0
-                        lvLabel.text = String(format: "LV %d", currentMonster.level)
-                        setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
-                        // 将新的怪兽数据添加到 ownedProducts 字典中
-                        monster[petName] = currentMonster.toDictionary()
-                        
-                        // 更新用户数据中的 ownedProducts 字段
-                        UserDataManager.shared.currentUserData?["ownedProducts"] = monster
-                        UserDataManager.shared.currentUserData?["ownedHistory"] = monster
-                        
-                        // 调用添加怪兽的方法
-                        UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
-                        
-                        
-                    } else {
-                        setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
-                        // 将新的怪兽数据添加到 ownedProducts 字典中
-                        monster[petName] = currentMonster.toDictionary()
-                        
-                        // 更新用户数据中的 ownedProducts 字段
-                        UserDataManager.shared.currentUserData?["ownedProducts"] = monster
-                        UserDataManager.shared.currentUserData?["ownedHistory"] = monster
-                        
-                        // 调用添加怪兽的方法
-                        UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
-                        
-                    }
-                case 3:
-                    
-                    lvLabel.text = String(format: "LV %d", currentMonster.level)
-                    setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
-                   
-                    evolution(name: petName, currentMonsterLevel: currentMonster.level, currentMonsterMaxLevel: currentMonster.maxLevel)
-                    
-                    
-                default : break
+                print("增加後：\(currentMonster.experience)")
+                let requiredExperience = requiredExperienceForLevel(currentMonster.level)
+                let experienceProgress = Float(currentMonster.experience) / Float(requiredExperience)
+                
+                // 在主线程上更新进度视图
+                DispatchQueue.main.async {
+                    self.lvLabel.text = String(format: "LV %d", currentMonster.level)
+                    self.experienceView.progress = experienceProgress
                 }
                 
+                // 如果经验值达到所需值，重置进度视图并升级怪兽
+                if currentMonster.experience >= requiredExperience {
+                    if currentMonster.level < currentMonster.maxLevel {
+                        currentMonster.experience = 0
+                        currentMonster.level += 1
+                        print("如果经验值达到所需值，重置进度视图并升级怪兽後：\(currentMonster.experience)")
+                        DispatchQueue.main.async {
+                            self.lvLabel.text = String(format: "LV %d", currentMonster.level)
+                            self.experienceView.progress = 0
+                        }
+                        // 更新怪兽数据
+                        monster[petName] = currentMonster.toDictionary()
+                        
+                        // 更新用户数据中的 ownedProducts 字段
+                        UserDataManager.shared.currentUserData?["ownedProducts"] = monster
+                        
+                        // 调用添加怪兽的方法
+                        UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
+                        
+                    } else if currentMonster.level == currentMonster.maxLevel {
+                        // 更新怪兽数据
+                        monster[petName] = currentMonster.toDictionary()
+                        
+                        // 更新用户数据中的 ownedProducts 字段
+                        UserDataManager.shared.currentUserData?["ownedProducts"] = monster
+                        
+                        // 调用添加怪兽的方法
+                        UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
+                        // 先更新再進化
+                        evolution(name: petName)
+                    }
+                } else {
+                    //經驗值沒大於直接更新數據
+                    // 更新怪兽数据
+                    monster[petName] = currentMonster.toDictionary()
+                    
+                    // 更新用户数据中的 ownedProducts 字段
+                    UserDataManager.shared.currentUserData?["ownedProducts"] = monster
+                    
+                    // 调用添加怪兽的方法
+                    UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
+                }
+                
+                
+            } else {
+                // 不要增加经验值
+                DispatchQueue.main.async {
+                    self.lvLabel.text = String(format: "LV %d", currentMonster.maxLevel)
+                    self.experienceView.progress = 1
+                }
             }
+            
+        }
+    }
+    
+    func requiredExperienceForLevel(_ level: Int) -> Int {
+        switch level {
+        case 1:
+            return 10
+        case 2:
+            return 15
+        case 3:
+            return 20
+        default:
+            return 0
         }
     }
 }

@@ -88,10 +88,35 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
         }
         cell.userOwenPetName.text = userPocketPet
         
+        if let pocketMonsterData = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String: Any],
+              let currentMonsterData = pocketMonsterData[userPocketPet] as? [String:Any],
+              let currentMonster = Monster(dictionary: currentMonsterData) {
+            
+            let requiredExperience = requiredExperienceForLevel(currentMonster.level)
+            cell.userExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience, requiredExperience)
+            let experienceProgress =  Float(currentMonster.experience) / Float(requiredExperience)
+            cell.userExperienceProgress.progress = experienceProgress
+            cell.userOwenPetLevel.text = String(format: "LV %d", currentMonster.level)
+        }
+        
+        
+        
         cell.bgView.layer.cornerRadius = 10
+        cell.bgView.backgroundColor = .clear
+        cell.bgView.layer.borderColor = .init(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.bgView.layer.borderWidth = 3
         cell.bgView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        cell.bgView.layer.shadowColor = UIColor.lightGray.cgColor
+        cell.bgView.layer.shadowColor = UIColor.white.cgColor
         cell.bgView.layer.shadowOpacity = 0.2
+        
+        cell.backgroundView = UIImageView(image: UIImage(named: "cardBg.png"))
+        cell.backgroundView?.layer.cornerRadius = 10
+        cell.backgroundView?.clipsToBounds = true
+        cell.backgroundView?.layer.opacity = 0.1
+        
+            // 设置图像的显示方式（这里使用了 .scaleAspectFill，您可以根据需要选择其他模式）
+            cell.backgroundView?.contentMode = .scaleAspectFill
+        
         
         return cell
     }
@@ -99,7 +124,7 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let screenWidth = collectionView.bounds.width
-        let itemWidth = screenWidth / 2 - 32// 每一列顯示兩個項目
+        let itemWidth = screenWidth / 2 - 36// 每一列顯示兩個項目
         let itemHeight: CGFloat = 200 // 設定固定的高度
         
         return CGSize(width: itemWidth, height: itemHeight)
@@ -145,6 +170,19 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
         NotificationCenter.default.post(name: .userProfileFetched, object: nil)
         maskView?.removeFromSuperview()
         self.dismiss(animated: true)
+    }
+    
+    func requiredExperienceForLevel(_ level: Int) -> Int {
+        switch level {
+        case 1:
+            return 10
+        case 2:
+            return 15
+        case 3:
+            return 20
+        default:
+            return 0
+        }
     }
     
 }

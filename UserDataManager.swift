@@ -60,9 +60,7 @@ class UserDataManager {
             "ownedProducts": [
                 "預設怪獸": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
             ],
-            "ownedHistory": [
-                "預設怪獸": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
-            ],
+            "ownedHistory": ["預設怪獸"],
             "homePet": "預設怪獸"
         ]
         
@@ -91,6 +89,7 @@ class UserDataManager {
             monsterName: monsterData.toDictionary()
             ]
         
+        
         userDocumentRef.setData(["ownedProducts":monsterToAdd], merge: true) { error in
                 if let error = error {
                     print("Error adding monster to ownedProducts: \(error.localizedDescription)")
@@ -98,11 +97,25 @@ class UserDataManager {
                     print("Monster added to ownedProducts successfully.")
                 }
         }
-        userDocumentRef.setData(["ownedHistory":monsterToAdd], merge: true) { error in
-            if let error = error {
-                print("Error adding monster to ownedHistory: \(error.localizedDescription)")
-            } else {
-                print("Monster added to ownedHistory successfully.")
+        userDocumentRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                if var currentHistory = document.data()?["ownedHistory"] as? [String] {
+                    // 检查要添加的名字是否已存在于 ownedHistory 中，如果不存在才添加
+                    if !currentHistory.contains(monsterName) {
+                        currentHistory.append(monsterName)
+                        
+                        // 更新 ownedHistory 数组
+                        userDocumentRef.updateData(["ownedHistory": currentHistory]) { error in
+                            if let error = error {
+                                print("Error updating ownedHistory: \(error.localizedDescription)")
+                            } else {
+                                print("Successfully added \(monsterName) to ownedHistory")
+                            }
+                        }
+                    } else {
+                        print("\(monsterName) already exists in ownedHistory")
+                    }
+                }
             }
         }
     }
