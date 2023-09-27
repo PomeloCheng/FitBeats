@@ -11,8 +11,8 @@ import FirebaseFirestore
 import FirebaseStorage
 
 struct fireBaseProduct {
-    let productsID: Int
-    let productsName: String
+    let productID: Int
+    let productName: String
     let amount: Int
     let checkinPoints: Int
     let caloriesPoints: Int
@@ -43,16 +43,16 @@ class ShopItemManager {
                 
                 let productData = document.data()
                 
-                if let productName = productData["productsName"] as? String,
+                if let productName = productData["productName"] as? String,
                    let productDescription = productData["intro"] as? String,
                    let imageURL = productData["image"] as? String,
                    let grayImageURL = productData["grayImage"] as? String,
-                   let productsID = productData["productsID"] as? Int,
+                   let productID = productData["productID"] as? Int,
                    let productAmount = productData["amount"] as? Int,
                    let productCategories = productData["categoryIDs"] as? [Int],
                    let productCheckPrice = productData["checkinPoints"] as? Int,
                    let productHeatPrice = productData["caloriesPoints"] as? Int {
-                    let product = fireBaseProduct(productsID: productsID, productsName: productName, amount: productAmount, checkinPoints: productCheckPrice, caloriesPoints: productHeatPrice, image: imageURL, grayImage: grayImageURL, categoryIDs: productCategories, intro: productDescription)
+                    let product = fireBaseProduct(productID: productID, productName: productName, amount: productAmount, checkinPoints: productCheckPrice, caloriesPoints: productHeatPrice, image: imageURL, grayImage: grayImageURL, categoryIDs: productCategories, intro: productDescription)
                     products.append(product)
                     
                 }
@@ -65,7 +65,7 @@ class ShopItemManager {
         let db = Firestore.firestore()
         let productsCollection = db.collection("Products")
         
-        productsCollection.whereField("productsName", isEqualTo: productName).getDocuments { (querySnapshot, error) in
+        productsCollection.whereField("productName", isEqualTo: productName).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching products: \(error.localizedDescription)")
                 return
@@ -104,7 +104,7 @@ class ShopItemManager {
         let db = Firestore.firestore()
         let productsCollection = db.collection("Products")
         
-        productsCollection.whereField("productsName", isEqualTo: productName).getDocuments { (querySnapshot, error) in
+        productsCollection.whereField("productName", isEqualTo: productName).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching products: \(error.localizedDescription)")
                 return

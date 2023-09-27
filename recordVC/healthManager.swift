@@ -339,7 +339,7 @@ extension UIViewController {
     
     
     func showHealthKitAuthorizationAlert() {
-            let alertController = UIAlertController(title: "沒有資料", message: "您是否尚未授權呢？\n此應用需要訪問您的健康數據。\n請點擊“設置”以前往授權。", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "沒有資料", message: "您是否尚未授權呢？\n此應用需要訪問您的健康數據。\n請點擊“設置”以前往授權。\n或是解鎖您的穿戴裝置來獲得資料。", preferredStyle: .alert)
             
             let settingsAction = UIAlertAction(title: "設置", style: .default) { (_) in
                 if let settingsURL = URL(string: UIApplication.openSettingsURLString) {

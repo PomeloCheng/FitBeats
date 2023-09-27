@@ -59,7 +59,7 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "userPocket", for: indexPath) as! userPocketViewCell
         let userPocketPet = userPcoket[indexPath.row]
-        if userPocketPet == "預設怪獸" {
+        if userPocketPet == "小圓貓" {
             cell.userOwenPetImage.image = UIImage(named: "default_home.png")
         } else {
             if let image = logImage.shared.load(filename: userPocketPet) {
@@ -96,7 +96,11 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
             cell.userExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience, requiredExperience)
             let experienceProgress =  Float(currentMonster.experience) / Float(requiredExperience)
             cell.userExperienceProgress.progress = experienceProgress
-            cell.userOwenPetLevel.text = String(format: "LV %d", currentMonster.level)
+            if currentMonster.level == currentMonster.maxLevel {
+                cell.userOwenPetLevel.text = "MAX"
+            } else {
+                cell.userOwenPetLevel.text = String(format: "LV %d", currentMonster.level)
+            }
         }
         
         

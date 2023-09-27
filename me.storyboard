@@ -470,7 +470,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybu-7v-coo">
-                                                    <rect key="frame" x="55" y="164" width="40" height="18"/>
+                                                    <rect key="frame" x="55" y="160" width="40" height="18"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -482,7 +482,7 @@
                                                 <constraint firstItem="2le-DY-mv7" firstAttribute="top" secondItem="5WK-mK-nLk" secondAttribute="top" constant="24" id="JAI-Xe-BMI"/>
                                                 <constraint firstAttribute="trailing" secondItem="5WK-mK-nLk" secondAttribute="trailing" constant="4" id="XkZ-Wf-UlT"/>
                                                 <constraint firstItem="ybu-7v-coo" firstAttribute="centerX" secondItem="4fk-Af-NA3" secondAttribute="centerX" id="YfD-k3-bta"/>
-                                                <constraint firstItem="ybu-7v-coo" firstAttribute="top" secondItem="2le-DY-mv7" secondAttribute="bottom" constant="16" id="Ylg-Mi-4Ny"/>
+                                                <constraint firstItem="ybu-7v-coo" firstAttribute="top" secondItem="2le-DY-mv7" secondAttribute="bottom" constant="12" id="Ylg-Mi-4Ny"/>
                                                 <constraint firstItem="5WK-mK-nLk" firstAttribute="top" secondItem="4fk-Af-NA3" secondAttribute="top" constant="4" id="aCo-1P-Gow"/>
                                                 <constraint firstAttribute="bottom" secondItem="5WK-mK-nLk" secondAttribute="bottom" constant="4" id="wlV-iD-bpB"/>
                                             </constraints>

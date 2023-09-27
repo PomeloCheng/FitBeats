@@ -20,7 +20,7 @@ class EnergyManager {
     private func startTimer() {
         // 创建一个定时器，在每天的晚上 23:59 触发
         let calendar = Calendar.current
-        if let date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: Date()) {
+        if let date = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: Date()) {
             let timeInterval = date.timeIntervalSinceNow
             timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(increaseEnergy), userInfo: nil, repeats: false)
         }
@@ -28,7 +28,9 @@ class EnergyManager {
     
     @objc private func increaseEnergy() {
         // 在这里将能量值 X 增加 1234
-        
+        // 停止当前的定时器
+           timer?.invalidate()
+           timer = nil
         HealthManager.shared.readCalories(for: todayDate) { calories, progress, _ in
             guard let calories = calories , let progress = progress else{
                 return

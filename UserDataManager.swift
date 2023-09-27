@@ -58,10 +58,10 @@ class UserDataManager {
             "CaloriesPoints": 0,
             "homeImage": "",
             "ownedProducts": [
-                "預設怪獸": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
+                "小圓貓": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
             ],
-            "ownedHistory": ["預設怪獸"],
-            "homePet": "預設怪獸"
+            "ownedHistory": ["小圓貓"],
+            "homePet": "小圓貓"
         ]
         
         currentUserData = userData

@@ -122,7 +122,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PHPcell", for: indexPath) as! shopCollectionViewCell
         let product = fireProducts[indexPath.row]
-        cell.name.text = product.productsName
+        cell.name.text = product.productName
         if categoryTag == 1 {
             cell.price.text = String(product.checkinPoints)
             cell.iconView.image = UIImage(named: "home_recommend_icon.png")
@@ -132,7 +132,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
             cell.iconView.image = UIImage(named: "home_hot_icon.png")
         }
         
-        if let image = logImage.shared.load(filename: product.productsName) {
+        if let image = logImage.shared.load(filename: product.productName) {
            DispatchQueue.main.async {
                cell.imageView.image = image
            }
@@ -145,7 +145,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
                 let orginImage = UIImage(data:imageData)
                 let newimage = orginImage!.resize(maxEdge: 200)
                 do {
-                    try logImage.shared.save(data: imageData, filename: product.productsName)
+                    try logImage.shared.save(data: imageData, filename: product.productName)
                 } catch {
                     print("write File error : \(error) ")
                     //建議不要print，用alert秀出來比較方便

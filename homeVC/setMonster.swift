@@ -31,7 +31,7 @@ extension homeViewController {
                 self.homeCaroLabel.text = String(format: "%d", homeCaro)
                 self.homeCheckLabel.text = String(format: "%d", homeCheck)
                 
-                if petName == "預設怪獸" {
+                if petName == "小圓貓" {
                     self.petImagView.image = UIImage(named: "default_home.png")
                 } else {
                     self.petImagView.image = logImage.shared.load(filename: petName)
@@ -44,8 +44,11 @@ extension homeViewController {
                     self.lvLabel.layer.shadowColor = UIColor.black.cgColor
                     self.lvLabel.layer.shadowOpacity = 1
                     self.lvLabel.clipsToBounds = false
+                    if currentMonster.level == currentMonster.maxLevel {
+                        self.lvLabel.text = "MAX"
+                    } else {
                     self.lvLabel.text = String(format: "LV %d", currentMonster.level)
-                    
+                    }
 //                    self.experienceView.layer.shadowOffset = CGSize(width: 0.2, height: 0.2)
 //                    self.experienceView.layer.shadowColor = UIColor.black.cgColor
 //                    self.experienceView.layer.shadowOpacity = 0.5
@@ -54,7 +57,7 @@ extension homeViewController {
                     self.experienceView.layer.borderWidth = 2
                     self.experienceView.backgroundColor = .white
                     self.experienceView.layer.cornerRadius = 4
-                    self.setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
+                    self.setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level, maxLevel: currentMonster.maxLevel)
                     
                     self.homePetExperienceLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
                     self.homePetExperienceLabel.layer.shadowColor = UIColor.black.cgColor
@@ -76,13 +79,17 @@ extension homeViewController {
         }
     }
     
-        func setProgressView(currentMonsterExperience: Int,currentMonsterLevel: Int) {
+    func setProgressView(currentMonsterExperience: Int,currentMonsterLevel: Int,maxLevel: Int) {
+//        if currentMonsterLevel == maxLevel {
+//            self.lvLabel.text = "MAX"
+//        } else {
+//        self.lvLabel.text = String(format: "LV %d", currentMonsterLevel)
+//        }
+//
             let requiredExperience = requiredExperienceForLevel(currentMonsterLevel)
                 let experienceProgress =  Float(currentMonsterExperience) / Float(requiredExperience)
-                lvLabel.text = String(format: "LV %d", currentMonsterLevel)
-                self.experienceView.progress = experienceProgress
             
-    
+                self.experienceView.progress = experienceProgress
         }
     func setEvolutionMonster(oldName: String, newName: String) {
         
@@ -113,6 +120,8 @@ extension homeViewController {
             UIView.animate(withDuration: 0.3) {
                 self.experienceView.progress = 0
                 self.lvLabel.text = "LV 1"
+                let requiredExperience = self.requiredExperienceForLevel(1)
+                self.homePetExperienceLabel.text = String(format: "(0/%d)", requiredExperience)
                 self.petImagView.layer.opacity = 1
             }
         }
@@ -143,15 +152,35 @@ extension homeViewController {
     }
     func evolution(name: String) {
         switch name {
-        case "普通蛋":
+        case "翠綠龍蛋":
             playAnimation()
-                setEvolutionMonster(oldName: name, newName: "小貓頭鷹")
-        case "小貓頭鷹":
+                setEvolutionMonster(oldName: name, newName: "幼年翡翠龍")
+        case "幼年翡翠龍":
             playAnimation()
-                setEvolutionMonster(oldName: name, newName: "中貓頭鷹")
-        case "中貓頭鷹":
+                setEvolutionMonster(oldName: name, newName: "翡翠龍")
+        case "翡翠龍":
             playAnimation()
-                setEvolutionMonster(oldName: name, newName: "大貓頭鷹")
+                setEvolutionMonster(oldName: name, newName: "翡翠大龍")
+        //new
+        case "雪莓冰蛋":
+            playAnimation()
+                setEvolutionMonster(oldName: name, newName: "雪莓冰菓")
+        case "雪莓冰菓":
+            playAnimation()
+                setEvolutionMonster(oldName: name, newName: "小雪莓")
+        case "小雪莓":
+            playAnimation()
+                setEvolutionMonster(oldName: name, newName: "雪雪莓")
+        //new
+//        case "翠綠龍蛋":
+//            playAnimation()
+//                setEvolutionMonster(oldName: name, newName: "幼年翡翠龍")
+//        case "幼年翡翠龍":
+//            playAnimation()
+//                setEvolutionMonster(oldName: name, newName: "翡翠龍")
+//        case "翡翠龍":
+//            playAnimation()
+//                setEvolutionMonster(oldName: name, newName: "翡翠大龍")
         default:
         
             break
@@ -201,6 +230,9 @@ extension homeViewController {
                         UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
                         
                     } else if currentMonster.level == currentMonster.maxLevel {
+                            DispatchQueue.main.async {
+                                self.lvLabel.text = "MAX"
+                            }
                         // 更新怪兽数据
                         monster[petName] = currentMonster.toDictionary()
                         
@@ -228,7 +260,7 @@ extension homeViewController {
             } else {
                 // 不要增加经验值
                 DispatchQueue.main.async {
-                    self.lvLabel.text = String(format: "LV %d", currentMonster.maxLevel)
+                    self.lvLabel.text = "MAX"
                     self.experienceView.progress = 1
                     self.homePetExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience,currentMonster.experience)
                 }
@@ -251,10 +283,13 @@ extension homeViewController {
     }
     
     func playAnimation() {
+        self.evlotionAnimate.isHidden = false
         let anim = LottieAnimation.named("evlotion_animate.json")
         self.evlotionAnimate.animation = anim
         self.evlotionAnimate.contentMode = .scaleAspectFill
         self.evlotionAnimate.backgroundColor = .clear
-        self.evlotionAnimate.play()
+        self.evlotionAnimate.play { _ in
+            self.evlotionAnimate.isHidden = true
+        }
     }
 }

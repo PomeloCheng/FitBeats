@@ -83,11 +83,11 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
        
         // 检查当前商品是否在 userPet 中
         
-        if userPcoket.contains(pocketPet.productsName) {
-            if pocketPet.productsName == "預設怪獸" {
+        if userPcoket.contains(pocketPet.productName) {
+            if pocketPet.productName == "小圓貓" {
                 cell.petImage.image = UIImage(named: "default_home.png")
             } else {
-                if let image = logImage.shared.load(filename: pocketPet.productsName) {
+                if let image = logImage.shared.load(filename: pocketPet.productName) {
                    DispatchQueue.main.async {
                        cell.petImage.image = image
                    }
@@ -100,7 +100,7 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
                         let orginImage = UIImage(data:imageData)
                         let newimage = orginImage!.resize(maxEdge: 200)
                         do {
-                            try logImage.shared.save(data: imageData, filename: pocketPet.productsName)
+                            try logImage.shared.save(data: imageData, filename: pocketPet.productName)
                         } catch {
                             print("write File error : \(error) ")
                             //建議不要print，用alert秀出來比較方便
@@ -116,7 +116,7 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
         } else {
             cell.petImage.layer.opacity = 0.2
             cell.petName.layer.opacity = 0.2
-            if let image = logImage.shared.load(filename: pocketPet.productsName + "_n") {
+            if let image = logImage.shared.load(filename: pocketPet.productName + "_n") {
                DispatchQueue.main.async {
                    cell.petImage.image = image
                }
@@ -129,7 +129,7 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
                     let orginImage = UIImage(data:imageData)
                     let newimage = orginImage!.resize(maxEdge: 200)
                     do {
-                        try logImage.shared.save(data: imageData, filename: pocketPet.productsName + "_n")
+                        try logImage.shared.save(data: imageData, filename: pocketPet.productName + "_n")
                     } catch {
                         print("write File error : \(error) ")
                         //建議不要print，用alert秀出來比較方便
@@ -141,7 +141,7 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
             }
         }
         
-        cell.petName.text = pocketPet.productsName
+        cell.petName.text = pocketPet.productName
         cell.petName.textColor = .black
         
         

@@ -70,9 +70,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     mainVC.calendarView.reloadData()
                 }
             }
+        } else if let mainVC = self.window?.visibleViewController as? homeViewController {
+            
+                DispatchQueue.main.async {
+                    UserDataManager.shared.fetchUserData()
+                }
+           
         } else {
-            // 转换失败的处理逻辑，例如打印错误信息
-            print("Visible view controller is not of type ViewController")
+            
+            print("Visible view controller is not of type ViewController or homeViewController")
         }
     }
 

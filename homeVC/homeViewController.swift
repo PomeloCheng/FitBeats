@@ -10,6 +10,7 @@ import MKRingProgressView
 import Lottie
 import HealthKit
 import FSCalendar
+import Firebase
 
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
@@ -104,7 +105,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         calendarManager.shared.setConfig()
         self.view.sendSubviewToBack(calendarView)
         
-        
+        calendarView.isUserInteractionEnabled = false
         setHomeUserData(animate: false)
         
         //fetch會呼叫
@@ -255,6 +256,34 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         }
         
     }
-    
-    //
+   
+//    @IBAction func uploadProducts(_ sender: Any) {
+//        
+//        let db = Firestore.firestore()
+//        let productData: [String: Any] = [
+//            
+//            "productID": 0,
+//            "productName": "",
+//            "amount": 99,
+//            "checkinPoints": 100,
+//            "caloriesPoints": 100,
+//            "image": "",
+//            "grayImage": "",
+//            "categoryIDs": [0],
+//            "intro": ""
+//            
+//        ]
+//        for i in 1...13 {
+//            let productID = String(format: "productID_%02d", i)
+//            
+//            // 使用 addDocument 方法将数据上传到 "Products" 集合
+//            db.collection("Products").document(productID).setData(productData) { error in
+//                if let error = error {
+//                    print("Error adding document: \(error)")
+//                } else {
+//                    print("Document added with ID: \(productID)")
+//                }
+//            }
+//        }
+//    }
 }

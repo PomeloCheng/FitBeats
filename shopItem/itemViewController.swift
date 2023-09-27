@@ -58,7 +58,7 @@ class itemViewController: UIViewController {
             // currentPocket 是一个字典，其中键是怪兽名称，值是怪兽的属性字典
             // 如果您只需要怪兽名称，您可以通过获取字典的键来获取它们
             
-            if currentPocket.contains(self.fireProducts.productsName) {
+            if currentPocket.contains(self.fireProducts.productName) {
                 DispatchQueue.main.async {
                     
                     self.changeBtn.isEnabled = false
@@ -95,9 +95,9 @@ class itemViewController: UIViewController {
             }
         
         purchaseAmount = finalAmount * purchCurrenct!
-        name.text = fireProducts.productsName
+        name.text = fireProducts.productName
         price.text = String(fireProducts.checkinPoints)
-        itemImage.image = logImage.shared.load(filename: fireProducts.productsName)
+        itemImage.image = logImage.shared.load(filename: fireProducts.productName)
         amountTextView.text = "1"
         
         intro.text = fireProducts.intro
@@ -225,17 +225,17 @@ class itemViewController: UIViewController {
                 }
                 
                 
-                TradingRecordManager.shared.createOrUpdateRedemptionRecordAfterPurchase(productName: fireProducts.productsName, purchaseDetails: purchaseDetails){ result in
+                TradingRecordManager.shared.createOrUpdateRedemptionRecordAfterPurchase(productName: fireProducts.productName, purchaseDetails: purchaseDetails){ result in
                     
                     if result {
                         let updateCurrency = self.userCurrency! - self.purchaseAmount
                         
-                        ShopItemManager.shared.updateProducts(productName: self.fireProducts.productsName, purchQuantity: self.finalAmount)
+                        ShopItemManager.shared.updateProducts(productName: self.fireProducts.productName, purchQuantity: self.finalAmount)
                         
                         if var ownedProducts = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String: Any],
                         var historyProducts = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String] {
                             // 获取要购买的怪兽的名称
-                            let monsterName = self.fireProducts.productsName
+                            let monsterName = self.fireProducts.productName
                             
                             // 创建新的怪兽数据
                             let newMonster = Monster(level: 1, experience: 0, maxLevel: 3)
