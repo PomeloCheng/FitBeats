@@ -14,6 +14,7 @@ import FSCalendar
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
     
+    @IBOutlet weak var evlotionAnimate: LottieAnimationView!
     @IBOutlet weak var homePetExperienceLabel: UILabel!
     @IBOutlet weak var testBtn: UIButton!
     @IBOutlet weak var experienceView: UIProgressView!

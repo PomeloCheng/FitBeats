@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 
 extension homeViewController {
@@ -45,12 +46,13 @@ extension homeViewController {
                     self.lvLabel.clipsToBounds = false
                     self.lvLabel.text = String(format: "LV %d", currentMonster.level)
                     
-//                    self.experienceView.layer.shadowOffset = CGSize(width: 1, height: 1)
+//                    self.experienceView.layer.shadowOffset = CGSize(width: 0.2, height: 0.2)
 //                    self.experienceView.layer.shadowColor = UIColor.black.cgColor
-//                    self.experienceView.layer.shadowOpacity = 1
+//                    self.experienceView.layer.shadowOpacity = 0.5
 //                    self.experienceView.clipsToBounds = false
-                    self.experienceView.layer.borderColor = UIColor.white.cgColor
-                    self.experienceView.layer.borderWidth = 1
+                    self.experienceView.layer.borderColor = .init(red: 1, green: 1, blue: 1, alpha: 0.3)
+                    self.experienceView.layer.borderWidth = 2
+                    self.experienceView.backgroundColor = .white
                     self.experienceView.layer.cornerRadius = 4
                     self.setProgressView(currentMonsterExperience: currentMonster.experience, currentMonsterLevel: currentMonster.level)
                     
@@ -142,10 +144,13 @@ extension homeViewController {
     func evolution(name: String) {
         switch name {
         case "普通蛋":
+            playAnimation()
                 setEvolutionMonster(oldName: name, newName: "小貓頭鷹")
         case "小貓頭鷹":
+            playAnimation()
                 setEvolutionMonster(oldName: name, newName: "中貓頭鷹")
         case "中貓頭鷹":
+            playAnimation()
                 setEvolutionMonster(oldName: name, newName: "大貓頭鷹")
         default:
         
@@ -172,6 +177,7 @@ extension homeViewController {
                 DispatchQueue.main.async {
                     self.lvLabel.text = String(format: "LV %d", currentMonster.level)
                     self.experienceView.progress = experienceProgress
+                    self.homePetExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience,requiredExperience)
                 }
                 
                 // 如果经验值达到所需值，重置进度视图并升级怪兽
@@ -183,6 +189,7 @@ extension homeViewController {
                         DispatchQueue.main.async {
                             self.lvLabel.text = String(format: "LV %d", currentMonster.level)
                             self.experienceView.progress = 0
+                            self.homePetExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience,requiredExperience)
                         }
                         // 更新怪兽数据
                         monster[petName] = currentMonster.toDictionary()
@@ -223,6 +230,7 @@ extension homeViewController {
                 DispatchQueue.main.async {
                     self.lvLabel.text = String(format: "LV %d", currentMonster.maxLevel)
                     self.experienceView.progress = 1
+                    self.homePetExperienceLabel.text = String(format: "(%d/%d)", currentMonster.experience,currentMonster.experience)
                 }
             }
             
@@ -240,5 +248,13 @@ extension homeViewController {
         default:
             return 0
         }
+    }
+    
+    func playAnimation() {
+        let anim = LottieAnimation.named("evlotion_animate.json")
+        self.evlotionAnimate.animation = anim
+        self.evlotionAnimate.contentMode = .scaleAspectFill
+        self.evlotionAnimate.backgroundColor = .clear
+        self.evlotionAnimate.play()
     }
 }

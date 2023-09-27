@@ -276,7 +276,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalSpacing" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mxn-K3-bRa">
-                                <rect key="frame" x="79" y="518" width="256.5" height="20.5"/>
+                                <rect key="frame" x="80.5" y="518" width="253.5" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LV" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nyx-F4-Q2Y">
                                         <rect key="frame" x="0.0" y="0.0" width="20.5" height="20.5"/>
@@ -286,30 +286,40 @@
                                     </label>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="7tU-Oa-c3O">
                                         <rect key="frame" x="28.5" y="6.5" width="180" height="8"/>
-                                        <color key="tintColor" systemColor="systemYellowColor"/>
+                                        <color key="tintColor" red="0.0" green="0.74509803919999995" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="180" id="SDa-vK-3na"/>
                                             <constraint firstAttribute="height" constant="8" id="yqd-oX-dDk"/>
                                         </constraints>
                                     </progressView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(10/10)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pL2-DJ-jlx">
-                                        <rect key="frame" x="216.5" y="3.5" width="40" height="13.5"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                                        <rect key="frame" x="216.5" y="4.5" width="37" height="12"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="pL2-DJ-jlx" firstAttribute="centerY" secondItem="nyx-F4-Q2Y" secondAttribute="centerY" id="GNm-uu-L4Q"/>
+                                    <constraint firstAttribute="trailing" secondItem="pL2-DJ-jlx" secondAttribute="trailing" id="ISV-gK-XD0"/>
+                                    <constraint firstItem="nyx-F4-Q2Y" firstAttribute="leading" secondItem="mxn-K3-bRa" secondAttribute="leading" id="Zgn-ch-RHs"/>
+                                    <constraint firstItem="pL2-DJ-jlx" firstAttribute="leading" secondItem="7tU-Oa-c3O" secondAttribute="trailing" constant="8" id="cpn-Te-1Xq"/>
                                     <constraint firstItem="7tU-Oa-c3O" firstAttribute="centerY" secondItem="nyx-F4-Q2Y" secondAttribute="centerY" id="sLi-Nx-xG1"/>
+                                    <constraint firstItem="7tU-Oa-c3O" firstAttribute="leading" secondItem="nyx-F4-Q2Y" secondAttribute="trailing" constant="8" id="vRO-eo-WnT"/>
                                 </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFf-71-GGJ" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="112" y="320" width="190" height="190"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="eFf-71-GGJ" secondAttribute="height" multiplier="1:1" id="r9H-5c-Get"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PcY-dw-ANF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PcY-dw-ANF" firstAttribute="trailing" secondItem="3K9-tI-rE2" secondAttribute="trailing" constant="112" id="0sL-Pm-U73"/>
-                            <constraint firstItem="mxn-K3-bRa" firstAttribute="centerX" secondItem="3K9-tI-rE2" secondAttribute="centerX" id="2wI-7s-vDZ"/>
+                            <constraint firstItem="eFf-71-GGJ" firstAttribute="top" secondItem="Spv-bM-XPs" secondAttribute="bottom" constant="8" id="35H-6n-Oya"/>
                             <constraint firstItem="azG-V4-5Lb" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" id="3Sl-hq-uTJ"/>
                             <constraint firstItem="FXz-aE-xfo" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" id="3Wc-Nw-BtB"/>
                             <constraint firstItem="Spv-bM-XPs" firstAttribute="centerX" secondItem="yMb-r4-8mw" secondAttribute="centerX" id="5ZH-qk-HLG"/>
@@ -328,13 +338,16 @@
                             <constraint firstItem="azG-V4-5Lb" firstAttribute="top" secondItem="PcY-dw-ANF" secondAttribute="top" id="VQ4-UY-vYC"/>
                             <constraint firstItem="3K9-tI-rE2" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="112" id="VZR-si-mA6"/>
                             <constraint firstItem="PcY-dw-ANF" firstAttribute="trailing" secondItem="yiM-Pg-55W" secondAttribute="trailing" constant="120" id="ZO6-fN-l6o"/>
+                            <constraint firstItem="mxn-K3-bRa" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="80.5" id="aIu-Tr-IaE"/>
                             <constraint firstItem="PcY-dw-ANF" firstAttribute="trailing" secondItem="azG-V4-5Lb" secondAttribute="trailing" id="abp-fk-i8Y"/>
                             <constraint firstItem="PcY-dw-ANF" firstAttribute="bottom" secondItem="RI0-gD-rhJ" secondAttribute="bottom" constant="24" id="bvj-6A-mCo"/>
+                            <constraint firstItem="eFf-71-GGJ" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="112" id="hEc-Ab-eLd"/>
                             <constraint firstItem="9wE-Vg-xuD" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="24" id="iz7-Lb-1me"/>
                             <constraint firstItem="8vE-ZS-IFz" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="24" id="jGr-YB-3NW"/>
                             <constraint firstItem="8vE-ZS-IFz" firstAttribute="top" secondItem="9wE-Vg-xuD" secondAttribute="bottom" constant="16" id="mBB-Li-k9D"/>
                             <constraint firstItem="EZX-zP-DlO" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="24" id="pXK-gI-xvP"/>
                             <constraint firstItem="mxn-K3-bRa" firstAttribute="top" secondItem="3K9-tI-rE2" secondAttribute="bottom" constant="8" id="tFu-gq-zw1"/>
+                            <constraint firstItem="PcY-dw-ANF" firstAttribute="trailing" secondItem="eFf-71-GGJ" secondAttribute="trailing" constant="112" id="vaO-LM-hIj"/>
                             <constraint firstItem="PcY-dw-ANF" firstAttribute="trailing" secondItem="RI0-gD-rhJ" secondAttribute="trailing" constant="32" id="zJp-bE-kWj"/>
                             <constraint firstItem="9wE-Vg-xuD" firstAttribute="top" secondItem="EZX-zP-DlO" secondAttribute="bottom" constant="24" id="zTt-Si-xTa"/>
                             <constraint firstItem="RI0-gD-rhJ" firstAttribute="leading" secondItem="PcY-dw-ANF" secondAttribute="leading" constant="32" id="zeJ-rg-GTe"/>
@@ -350,6 +363,7 @@
                         <outlet property="checkAnimation" destination="b4p-5g-PfX" id="6ni-8e-0EP"/>
                         <outlet property="currentPetName" destination="5Ak-lI-EiI" id="WbS-Gp-9nb"/>
                         <outlet property="distanceLabel" destination="UcQ-1T-vmL" id="e4t-Lf-07s"/>
+                        <outlet property="evlotionAnimate" destination="eFf-71-GGJ" id="0hx-YN-yO1"/>
                         <outlet property="experienceView" destination="7tU-Oa-c3O" id="TCZ-d4-gku"/>
                         <outlet property="homeCaroLabel" destination="QHP-JW-JwN" id="vKV-rH-RAS"/>
                         <outlet property="homeCheckLabel" destination="IGK-bi-liM" id="rvz-3H-pFb"/>
@@ -513,9 +527,6 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
