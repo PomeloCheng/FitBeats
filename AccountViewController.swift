@@ -73,6 +73,7 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
         if let text = phoneNumberField.text, !text.isEmpty {
             let number = "+886\(text)"
             userData.currentUserPhoneNumber = text
+            print(number)
             AuthManager.shared.startAuth(phoneNumber: number) { [weak self] success in
                 guard success else {
                     
@@ -90,7 +91,7 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
     }
     
     func startCountdown() {
-        countdownSeconds = 60 // 重置倒计时秒数
+        countdownSeconds = 30 // 重置倒计时秒数
         countdownTimer?.invalidate() // 先停止之前的计时器
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { return }
@@ -103,7 +104,7 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
                 self.countdownTimer?.invalidate()
                 self.submitBtn.isEnabled = true
                 self.submitBtn.setTitle("獲取驗證碼", for: .normal)
-                self.submitBtn.backgroundColor = UIColor.tintColor
+                self.submitBtn.backgroundColor = UIColor(red: 0, green: 190/255, blue: 164/255, alpha: 1)
                 self.submitBtn.setTitleColor(UIColor.white, for: .normal)
             }
 
