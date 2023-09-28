@@ -23,7 +23,9 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         self.navigationController?.isNavigationBarHidden = true
     }
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)//這個不管三七二十一直接關掉比較簡單
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         

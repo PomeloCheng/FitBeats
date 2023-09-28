@@ -160,7 +160,7 @@ extension homeViewController {
                 setEvolutionMonster(oldName: name, newName: "翡翠龍")
         case "翡翠龍":
             playAnimation()
-                setEvolutionMonster(oldName: name, newName: "翡翠大龍")
+                setEvolutionMonster(oldName: name, newName: "翡翠飛龍")
         //new
         case "雪莓冰蛋":
             playAnimation()
@@ -171,24 +171,38 @@ extension homeViewController {
         case "小雪莓":
             playAnimation()
                 setEvolutionMonster(oldName: name, newName: "雪雪莓")
-        //new
-//        case "翠綠龍蛋":
-//            playAnimation()
-//                setEvolutionMonster(oldName: name, newName: "幼年翡翠龍")
-//        case "幼年翡翠龍":
-//            playAnimation()
-//                setEvolutionMonster(oldName: name, newName: "翡翠龍")
-//        case "翡翠龍":
-//            playAnimation()
-//                setEvolutionMonster(oldName: name, newName: "翡翠大龍")
+            //new
+        case "甜梅熊蛋":
+            playAnimation()
+            setEvolutionMonster(oldName: name, newName: "小甜梅熊")
+        case "小甜梅熊":
+            playAnimation()
+            setEvolutionMonster(oldName: name, newName: "蜜糖熊")
+        case "蜜糖熊":
+            playAnimation()
+            setEvolutionMonster(oldName: name, newName: "甜心熊")
+            //new
+        case "飛冰蛋":
+            playAnimation()
+            setEvolutionMonster(oldName: name, newName: "寒冰幼龍")
+        case "寒冰幼龍":
+            playAnimation()
+            setEvolutionMonster(oldName: name, newName: "風雪飛龍")
+        case "風雪飛龍":
+            playAnimation()
+            setEvolutionMonster(oldName: name, newName: "寒風咆哮者")
         default:
         
             break
             
         }
     }
-    
-    func increaseExperience() {
+    @objc func updateMonsterEx(_ notification: Notification) {
+        if let increaseNumber = notification.object as? Int {
+            increaseExperience(increaseNumber)
+           }
+    }
+    func increaseExperience(_ increaseNumber: Int) {
         if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
            var monster = UserDataManager.shared.currentUserData?["ownedProducts"] as? [String:Any],
            let currentMonsterData = monster[petName] as? [String:Any],
@@ -197,7 +211,7 @@ extension homeViewController {
             if currentMonster.level < currentMonster.maxLevel || (currentMonster.level == currentMonster.maxLevel && currentMonster.experience < requiredExperienceForLevel(currentMonster.level)) {
                 // 继续增加经验值
                 print("增加前：\(currentMonster.experience)")
-                currentMonster.experience += 1
+                currentMonster.experience += increaseNumber
                 print("增加後：\(currentMonster.experience)")
                 let requiredExperience = requiredExperienceForLevel(currentMonster.level)
                 let experienceProgress = Float(currentMonster.experience) / Float(requiredExperience)

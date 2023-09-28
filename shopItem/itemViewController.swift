@@ -47,7 +47,7 @@ class itemViewController: UIViewController {
         }
         // 在進入內頁時顯示導航欄
         navigationController?.setNavigationBarHidden(false, animated: true)
-        if categoryTag == 1 {
+        if categoryTag == 4 {
             userCurrency =  UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int
         }
         else {
@@ -85,7 +85,7 @@ class itemViewController: UIViewController {
         super.viewDidLoad()
         
        
-            if categoryTag == 1 {
+            if categoryTag == 4 {
                 currencyIcon.image = UIImage(named: "home_recommend_icon.png")
                 purchCurrenct = fireProducts.checkinPoints
             }
@@ -216,7 +216,7 @@ class itemViewController: UIViewController {
                     "finalPrice": purchaseAmount
                 ]
                 
-                if categoryTag == 1 {
+                if categoryTag == 4 {
                     purchaseDetails["exchangeMethod"] = "checkPoints"
                     purchaseDetails["productPrice"] = fireProducts.checkinPoints
                 } else {
@@ -310,7 +310,7 @@ class itemViewController: UIViewController {
         let customView = UIView(frame: CGRect(x: 0, y: 0, width: 120, height: 40))
         
         var imageView:UIImageView
-        if categoryTag == 1 {
+        if categoryTag == 4 {
             imageView = UIImageView(image: UIImage(named: "home_recommend_icon.png"))
         } else {
             imageView = UIImageView(image: UIImage(named: "home_hot_icon"))

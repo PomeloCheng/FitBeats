@@ -22,11 +22,11 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
         case 1:
             return IndicatorInfo(title: "精選商品")
         case 2:
-            return IndicatorInfo(title: "新品上市")
+            return IndicatorInfo(title: "甜心寵物")
         case 3:
-            return IndicatorInfo(title: "熱門選購")
+            return IndicatorInfo(title: "神話巨龍")
         case 4:
-            return IndicatorInfo(title: "特色寵物")
+            return IndicatorInfo(title: "打卡商品")
         
         default:
             return IndicatorInfo(title: "")
@@ -71,7 +71,7 @@ class shopContentVC: UIViewController,IndicatorInfoProvider {
                 }
             }
         case 4:
-            ShopItemManager.shared.fetchProductData(categoryID: 1){ products in
+            ShopItemManager.shared.fetchProductData(categoryID: 4){ products in
                 if let products = products {
                     self.fireProducts = products
                     DispatchQueue.main.async {
@@ -123,7 +123,7 @@ extension shopContentVC : UICollectionViewDelegate,UICollectionViewDataSource,UI
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PHPcell", for: indexPath) as! shopCollectionViewCell
         let product = fireProducts[indexPath.row]
         cell.name.text = product.productName
-        if categoryTag == 1 {
+        if categoryTag == 4 {
             cell.price.text = String(product.checkinPoints)
             cell.iconView.image = UIImage(named: "home_recommend_icon.png")
         }

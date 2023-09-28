@@ -288,7 +288,7 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
                     if self.isNil {
                         DispatchQueue.main.async {
                             self.checkAnimation.isHidden = true
-                            self.cancelAnimation.isHidden = false
+                            self.cancelAnimation.isHidden = true
                             self.caroLabel.text = " -- 大卡"
                             self.caroGoalLabel.text = " -- 大卡"
                             self.stepLabel.text = " -- 步"

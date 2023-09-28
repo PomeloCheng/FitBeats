@@ -72,10 +72,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         } else if let mainVC = self.window?.visibleViewController as? homeViewController {
             
-                DispatchQueue.main.async {
-                    UserDataManager.shared.fetchUserData()
-                }
-           
+            mainVC.updateDateTitle(todayDate)
+            UserDataManager.shared.fetchUserData()
+            
         } else {
             
             print("Visible view controller is not of type ViewController or homeViewController")

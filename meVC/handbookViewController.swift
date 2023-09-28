@@ -28,11 +28,12 @@ class handbookViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
         if let currentPocket = UserDataManager.shared.currentUserData?["ownedHistory"] as? [String] {
             
             // 将怪兽名称存储在 userPcoket 中
             self.userPcoket = currentPocket
-            print(self.userPcoket)
+            
         }
         
         ShopItemManager.shared.fetchProductData(categoryID: 0){ products in

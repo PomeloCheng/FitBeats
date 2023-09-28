@@ -14,7 +14,7 @@ import Firebase
 
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
-    
+    var isNil = false //判斷資料是否為nil彈出警告 從授權那邊更改成true之後都判斷
     @IBOutlet weak var evlotionAnimate: LottieAnimationView!
     @IBOutlet weak var homePetExperienceLabel: UILabel!
     @IBOutlet weak var testBtn: UIButton!
@@ -110,11 +110,20 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
         //fetch會呼叫
         NotificationCenter.default.addObserver(self, selector: #selector(fetchUserData), name: .userProfileFetched, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMonsterEx), name: .updateMonster, object: nil)
+        
+        healthManager.checkHealthDataAuthorizationStatus { result, error in
+            if let error = error {
+                print("checkHealthDataAuthorizationStatus fail:\(error)")
+                return
+            }
+            if result { self.isNil = true }
+        }
         
     }
     
     @IBAction func testBtn(_ sender: Any) {
-        increaseExperience()
+        increaseExperience(1)
      
     }
     @objc func fetchUserData() {
@@ -255,13 +264,48 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             }
         }
         
+        healthManager.readCalories(for: date) { calories, progress, selectGoal in
+            self.healthManager.readStepCount(for: date) { selectStep in
+                
+                if calories == nil && selectGoal == nil && selectStep == 0 {
+                    if self.isNil {
+                        DispatchQueue.main.async {
+                            self.checkAnimation.isHidden = true
+                            self.cancelAnimation.isHidden = true
+                            self.isGoalLabel.isHidden = true
+                            self.homeRingView.progress = 0
+                            self.homeRingView.layer.opacity = 0.2
+                            self.caroLabel.text = " -- 大卡"
+                            self.stepLabel.text = " -- 步"
+                            self.distanceLabel.text = "  -- 公里"
+                            self.showHealthKitAuthorizationAlert()
+                        }
+                        
+                    }
+                    return
+                }
+            }
+        }
+        
     }
    
-//    @IBAction func uploadProducts(_ sender: Any) {
-//        
+    @IBAction func uploadProducts(_ sender: Any) {
+//        self.checkAnimation.isHidden = false
+//        self.isGoalLabel.isHidden = false
+//        self.cancelAnimation.isHidden = false
+//
+//        let anim = LottieAnimation.named("check.json")
+//        self.checkAnimation.animation = anim
+//        self.checkAnimation.contentMode = .scaleAspectFill
+//        self.checkAnimation.play()
+//
+//        let anim1 = LottieAnimation.named("undone.json")
+//        self.cancelAnimation.animation = anim1
+//        self.cancelAnimation.contentMode = .scaleAspectFill
+//        self.cancelAnimation.play()
 //        let db = Firestore.firestore()
 //        let productData: [String: Any] = [
-//            
+//
 //            "productID": 0,
 //            "productName": "",
 //            "amount": 99,
@@ -271,11 +315,11 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
 //            "grayImage": "",
 //            "categoryIDs": [0],
 //            "intro": ""
-//            
+//
 //        ]
 //        for i in 1...13 {
 //            let productID = String(format: "productID_%02d", i)
-//            
+//
 //            // 使用 addDocument 方法将数据上传到 "Products" 集合
 //            db.collection("Products").document(productID).setData(productData) { error in
 //                if let error = error {
@@ -285,5 +329,5 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
 //                }
 //            }
 //        }
-//    }
+    }
 }

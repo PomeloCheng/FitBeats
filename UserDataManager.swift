@@ -95,6 +95,7 @@ class UserDataManager {
                     print("Error adding monster to ownedProducts: \(error.localizedDescription)")
                 } else {
                     print("Monster added to ownedProducts successfully.")
+                    print("加入了 \(["ownedProducts":monsterToAdd])")
                 }
         }
         userDocumentRef.getDocument { (document, error) in
@@ -174,6 +175,7 @@ class UserDataManager {
                 print("Error updating user info in Firestore: \(error.localizedDescription)")
             } else {
                 print("User info updated in Firestore successfully.")
+                print("加入了 \(updatedUserData)")
                 
             }
         }
@@ -268,7 +270,7 @@ class UserDataManager {
 extension Notification.Name {
     static let userProfileFetched = Notification.Name("UserFetch")
     
-    static let userWeekCalendar = Notification.Name("UserWeekCalendar")
+    static let updateMonster = Notification.Name("UpdateMonsterEx")
     
     
 }
