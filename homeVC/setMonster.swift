@@ -12,7 +12,8 @@ import Lottie
 extension homeViewController {
     
     
-    func setHomeUserData(animate: Bool) {
+    func setHomeUserData() {
+        
         if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
            let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
            let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int,
@@ -20,18 +21,12 @@ extension homeViewController {
             
             DispatchQueue.main.async {
                 
-                if animate {
-                    UIView.animate(withDuration: 0.3) {
-                        self.homeCheckLabel.layer.opacity = 0.0
-                        self.homeCaroLabel.layer.opacity = 0.0
-                        self.petImagView.layer.opacity = 0.0
-                    }
-                }
+                
                 self.currentPetName.text = petName
                 self.homeCaroLabel.text = String(format: "%d", homeCaro)
                 self.homeCheckLabel.text = String(format: "%d", homeCheck)
                 
-                if petName == "小圓貓" {
+                if petName == "小圓貓的蛋" {
                     self.petImagView.image = UIImage(named: "default_home.png")
                 } else {
                     self.petImagView.image = logImage.shared.load(filename: petName)
@@ -68,13 +63,7 @@ extension homeViewController {
                     
                 }
                 
-                if animate {
-                    UIView.animate(withDuration: 0.1) {
-                        self.homeCheckLabel.layer.opacity = 1.0
-                        self.homeCaroLabel.layer.opacity = 1.0
-                        self.petImagView.layer.opacity = 1.0
-                    }
-                }
+                
             }
         }
     }
@@ -152,6 +141,9 @@ extension homeViewController {
     }
     func evolution(name: String) {
         switch name {
+        case "小圓貓的蛋":
+            playAnimation()
+                setEvolutionMonster(oldName: name, newName: "小圓貓")
         case "翠綠龍蛋":
             playAnimation()
                 setEvolutionMonster(oldName: name, newName: "幼年翡翠龍")

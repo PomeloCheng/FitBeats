@@ -59,7 +59,7 @@ extension userPocketViewController : UICollectionViewDelegate,UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "userPocket", for: indexPath) as! userPocketViewCell
         let userPocketPet = userPcoket[indexPath.row]
-        if userPocketPet == "小圓貓" {
+        if userPocketPet == "小圓貓的蛋" {
             cell.userOwenPetImage.image = UIImage(named: "default_home.png")
         } else {
             if let image = logImage.shared.load(filename: userPocketPet) {

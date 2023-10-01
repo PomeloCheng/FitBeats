@@ -13,7 +13,7 @@ protocol CalendarManagerDelegate: AnyObject {
     func updateDateTitle(_ date: Date)
 }
 
-let todayDate = Date()
+var todayDate = Date()
 
 class calendarManager:NSObject {
     var FSCalendar : FSCalendar!

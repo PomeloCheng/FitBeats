@@ -58,10 +58,10 @@ class UserDataManager {
             "CaloriesPoints": 0,
             "homeImage": "",
             "ownedProducts": [
-                "小圓貓": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
+                "小圓貓的蛋": Monster(level: 1, experience: 0, maxLevel: 3).toDictionary()
             ],
-            "ownedHistory": ["小圓貓"],
-            "homePet": "小圓貓"
+            "ownedHistory": ["小圓貓的蛋"],
+            "homePet": "小圓貓的蛋"
         ]
         
         currentUserData = userData
@@ -213,7 +213,74 @@ class UserDataManager {
         }
     }
     
+    func deleteUserData(completion: @escaping (Bool)->Void){
+        let db = Firestore.firestore()
+        let usersCollection = db.collection("Users")
+        
+        let user_doc_ref = usersCollection.document(currentUserUid)
+        
+
+        // 刪除使用者資料
+        
+        user_doc_ref.delete { error in
+            if let error = error {
+                print("刪除使用者資料時發生錯誤：\(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("使用者資料刪除成功")
+                self.deleteRedemptionRecordAndSubcollections() { success in
+                    if success {
+                        completion(true)
+                    }else {
+                        completion(false)
+                    }
+                }
+            }
+        }
+
+        
+    }
     
+    func deleteRedemptionRecordAndSubcollections(completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        let redemptionRecordsCollection = db.collection("RedemptionRecords")
+        let userDocRef = redemptionRecordsCollection.document(currentUserUid)
+
+        // 首先，刪除子集合內的所有文檔
+        let subcollectionRef = userDocRef.collection("purchaseHistory") // 更換為你的子集合名稱
+        subcollectionRef.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching subcollection documents: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+
+            // 刪除子集合中的文檔
+            let batch = db.batch()
+            querySnapshot?.documents.forEach { batch.deleteDocument($0.reference) }
+
+            // 提交批次刪除
+            batch.commit { (error) in
+                if let error = error {
+                    print("Error deleting subcollection documents: \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+
+                // 子集合的文檔刪除後，再刪除用戶文檔
+                userDocRef.delete { error in
+                    if let error = error {
+                        print("Error deleting user document: \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        print("User document and subcollections deleted successfully.")
+                        completion(true)
+                    }
+                }
+            }
+        }
+    }
+
     func uploadProfileImage(image: UIImage, completion: @escaping (String?) -> Void) {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
             completion(nil)
@@ -272,6 +339,7 @@ extension Notification.Name {
     
     static let updateMonster = Notification.Name("UpdateMonsterEx")
     
+    static let failGetData = Notification.Name("failGetDara")
     
 }
 

@@ -14,6 +14,7 @@ import Firebase
 
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
+    @IBOutlet weak var updateFailData: UIButton!
     var isNil = false //判斷資料是否為nil彈出警告 從授權那邊更改成true之後都判斷
     @IBOutlet weak var evlotionAnimate: LottieAnimationView!
     @IBOutlet weak var homePetExperienceLabel: UILabel!
@@ -106,11 +107,12 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         self.view.sendSubviewToBack(calendarView)
         
         calendarView.isUserInteractionEnabled = false
-        setHomeUserData(animate: false)
+        setHomeUserData()
         
         //fetch會呼叫
         NotificationCenter.default.addObserver(self, selector: #selector(fetchUserData), name: .userProfileFetched, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateMonsterEx), name: .updateMonster, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(failGetData), name: .failGetData, object: nil)
         
         healthManager.checkHealthDataAuthorizationStatus { result, error in
             if let error = error {
@@ -122,16 +124,79 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
     }
     
-    @IBAction func testBtn(_ sender: Any) {
-        increaseExperience(1)
-     
-    }
+    
     @objc func fetchUserData() {
         
-        setHomeUserData(animate: true)
+        setHomeUserData()
         
     }
+    @objc func failGetData() {
+        updateFailData.isEnabled = true
+        updateFailData.isHidden = false
+    }
     
+    @IBAction func updateFailBtnPressed(_ sender: Any) {
+        
+        // 創建一個 Calendar 實例
+        let calendar = Calendar.current
+
+        // 使用 DateComponents 來減去一天
+        var dateComponents = DateComponents()
+        dateComponents.day = -1
+
+        // 使用 Calendar 來計算前一天的日期
+        if let previousDate = calendar.date(byAdding: dateComponents, to: todayDate) {
+            HealthManager.shared.readStepCount(for: previousDate)  { step in
+                if step < 1000 {
+                    let increaseNumber = 0
+                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                } else if step < 2000 {
+                    let increaseNumber = 3
+                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                } else if step < 3000 {
+                    let increaseNumber = 4
+                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                } else {
+                    let increaseNumber = 5
+                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                }
+            }
+            
+            
+            HealthManager.shared.readCalories(for: previousDate) { calories, progress, _ in
+                guard let calories = calories , let progress = progress else{
+                    return
+                }
+                if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
+                    let currentEnergy = userCaroPoint
+                    let newCaroPoint = currentEnergy + Int(calories)
+                    
+                    
+                    UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
+                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
+                    
+                }
+                
+                if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
+                    
+                    if progress >= 1 {
+                        let currentCheckPoint = userCheckPoint
+                        let newCheckPoint = currentCheckPoint + 1
+                        
+                        UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
+                        UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+        UserDataManager.shared.fetchUserData()
+        updateFailData.isEnabled = false
+        updateFailData.isHidden = true
+        
+    }
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         self.calendarViewHeight.constant = bounds.height
         self.view.layoutIfNeeded()
@@ -289,45 +354,5 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
     }
    
-    @IBAction func uploadProducts(_ sender: Any) {
-//        self.checkAnimation.isHidden = false
-//        self.isGoalLabel.isHidden = false
-//        self.cancelAnimation.isHidden = false
-//
-//        let anim = LottieAnimation.named("check.json")
-//        self.checkAnimation.animation = anim
-//        self.checkAnimation.contentMode = .scaleAspectFill
-//        self.checkAnimation.play()
-//
-//        let anim1 = LottieAnimation.named("undone.json")
-//        self.cancelAnimation.animation = anim1
-//        self.cancelAnimation.contentMode = .scaleAspectFill
-//        self.cancelAnimation.play()
-//        let db = Firestore.firestore()
-//        let productData: [String: Any] = [
-//
-//            "productID": 0,
-//            "productName": "",
-//            "amount": 99,
-//            "checkinPoints": 100,
-//            "caloriesPoints": 100,
-//            "image": "",
-//            "grayImage": "",
-//            "categoryIDs": [0],
-//            "intro": ""
-//
-//        ]
-//        for i in 1...13 {
-//            let productID = String(format: "productID_%02d", i)
-//
-//            // 使用 addDocument 方法将数据上传到 "Products" 集合
-//            db.collection("Products").document(productID).setData(productData) { error in
-//                if let error = error {
-//                    print("Error adding document: \(error)")
-//                } else {
-//                    print("Document added with ID: \(productID)")
-//                }
-//            }
-//        }
-    }
+
 }

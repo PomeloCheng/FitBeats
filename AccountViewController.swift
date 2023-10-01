@@ -20,6 +20,7 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         phoneNumberField.delegate = self
         phoneNumberField.keyboardType = .phonePad
+        phoneNumberField.becomeFirstResponder()
         // Do any additional setup after loading the view.
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -91,7 +92,7 @@ class AccountViewController: UIViewController, UITextFieldDelegate {
     }
     
     func startCountdown() {
-        countdownSeconds = 30 // 重置倒计时秒数
+        countdownSeconds = 60 // 重置倒计时秒数
         countdownTimer?.invalidate() // 先停止之前的计时器
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { return }

@@ -85,7 +85,7 @@ extension handbookViewController : UICollectionViewDelegate,UICollectionViewData
         // 检查当前商品是否在 userPet 中
         
         if userPcoket.contains(pocketPet.productName) {
-            if pocketPet.productName == "小圓貓" {
+            if pocketPet.productName == "小圓貓的蛋" {
                 cell.petImage.image = UIImage(named: "default_home.png")
             } else {
                 if let image = logImage.shared.load(filename: pocketPet.productName) {

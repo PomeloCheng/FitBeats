@@ -11,13 +11,13 @@ import FirebaseAuth
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var lastUpdateDate: Date?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
+        checkAndUpdateTodayDate()
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
@@ -54,6 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        checkAndUpdateTodayDate()
         
         if let mainVC = self.window?.visibleViewController as? mainRecordVC {
 
@@ -80,6 +81,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             print("Visible view controller is not of type ViewController or homeViewController")
         }
     }
+    
+    func checkAndUpdateTodayDate() {
+            // 获取当前日期
+            let currentDate = Date()
+            
+            // 如果上次更新日期为空或者与当前日期不同
+            if lastUpdateDate == nil || !Calendar.current.isDate(currentDate, inSameDayAs: lastUpdateDate!) {
+                // 更新 todayDate 为当前日期
+                todayDate = currentDate
+                
+                // 更新上次更新日期为当前日期
+                lastUpdateDate = currentDate
+            }
+        }
 
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
