@@ -115,6 +115,29 @@
                                         <color key="textColor" red="0.0" green="0.54117647059999996" blue="0.63921568630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8O-we-63o">
+                                        <rect key="frame" x="242" y="15" width="45" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="3xo-yP-Yp2"/>
+                                            <constraint firstAttribute="width" constant="45" id="sjv-C3-Gy8"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="更新資料">
+                                            <color key="titleColor" red="0.0" green="0.74509803919999995" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="plain" title="刷新" cornerStyle="large">
+                                            <backgroundConfiguration key="background" strokeWidth="1.5">
+                                                <color key="strokeColor" red="0.0" green="0.74509803919999995" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </backgroundConfiguration>
+                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="12"/>
+                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                            <color key="baseForegroundColor" red="0.0" green="0.74509803919999995" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="refreshBtnPressed:" destination="EZD-f9-rXp" eventType="touchUpInside" id="jpJ-Xg-hqR"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -132,10 +155,12 @@
                                     <constraint firstItem="7M6-I3-X2q" firstAttribute="centerY" secondItem="TXo-YI-wgi" secondAttribute="centerY" id="XBg-9F-0Vo"/>
                                     <constraint firstItem="7M6-I3-X2q" firstAttribute="centerY" secondItem="TXo-YI-wgi" secondAttribute="centerY" id="Y0c-nc-ln8"/>
                                     <constraint firstItem="Bb5-NC-0QW" firstAttribute="centerX" secondItem="TXo-YI-wgi" secondAttribute="centerX" id="eg2-Bo-hWN"/>
+                                    <constraint firstAttribute="trailing" secondItem="g8O-we-63o" secondAttribute="trailing" constant="24" id="hnC-Ks-Yqs"/>
                                     <constraint firstItem="Rej-FH-FzJ" firstAttribute="leading" secondItem="RI0-gD-rhJ" secondAttribute="leading" constant="95" id="lhg-zU-Gfb"/>
                                     <constraint firstItem="9UM-5k-Div" firstAttribute="top" secondItem="RI0-gD-rhJ" secondAttribute="top" constant="16" id="nhI-NB-cB6"/>
                                     <constraint firstItem="TXo-YI-wgi" firstAttribute="leading" secondItem="RI0-gD-rhJ" secondAttribute="leading" constant="48" id="rwk-AR-f4X"/>
                                     <constraint firstItem="9UM-5k-Div" firstAttribute="centerX" secondItem="RI0-gD-rhJ" secondAttribute="centerX" id="twa-HV-wYc"/>
+                                    <constraint firstItem="g8O-we-63o" firstAttribute="centerY" secondItem="9UM-5k-Div" secondAttribute="centerY" id="wis-uJ-llg"/>
                                     <constraint firstItem="wh4-jR-gXD" firstAttribute="centerX" secondItem="RI0-gD-rhJ" secondAttribute="centerX" id="xJ8-Ta-dWi"/>
                                     <constraint firstItem="5Zl-fD-2BO" firstAttribute="centerX" secondItem="RI0-gD-rhJ" secondAttribute="centerX" id="z7e-QC-5Xb"/>
                                 </constraints>

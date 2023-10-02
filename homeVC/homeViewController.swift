@@ -363,7 +363,6 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                             self.caroLabel.text = " -- 大卡"
                             self.stepLabel.text = " -- 步"
                             self.distanceLabel.text = "  -- 公里"
-                            self.showHealthKitAuthorizationAlert()
                         }
                         
                     }
@@ -374,5 +373,9 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
     }
    
-
+    @IBAction func refreshBtnPressed(_ sender: Any) {
+        updateDateTitle(todayDate)
+        UserDataManager.shared.fetchUserData()
+    }
+    
 }
