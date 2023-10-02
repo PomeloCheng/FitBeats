@@ -96,7 +96,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         calendarManager.shared.selectTodayWeekdayLabel()
-        calendarView.reloadData()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -376,6 +376,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     @IBAction func refreshBtnPressed(_ sender: Any) {
         updateDateTitle(todayDate)
         UserDataManager.shared.fetchUserData()
+        calendarView.reloadData()
     }
     
 }
