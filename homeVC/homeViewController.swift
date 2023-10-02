@@ -18,7 +18,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     var isNil = false //判斷資料是否為nil彈出警告 從授權那邊更改成true之後都判斷
     @IBOutlet weak var evlotionAnimate: LottieAnimationView!
     @IBOutlet weak var homePetExperienceLabel: UILabel!
-    @IBOutlet weak var testBtn: UIButton!
+    
     @IBOutlet weak var experienceView: UIProgressView!
     @IBOutlet weak var lvLabel: UILabel!
     @IBOutlet weak var changePetBtn: UIImageView!
@@ -135,68 +135,88 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         updateFailData.isHidden = false
     }
     
+    @IBAction func testEvoBtnPressed(_ sender: Any) {
+    increaseExperience(5)
+    }
     @IBAction func updateFailBtnPressed(_ sender: Any) {
         
-        // 創建一個 Calendar 實例
+        let currentDate = Date()
         let calendar = Calendar.current
-
-        // 使用 DateComponents 來減去一天
-        var dateComponents = DateComponents()
-        dateComponents.day = -1
-
-        // 使用 Calendar 來計算前一天的日期
-        if let previousDate = calendar.date(byAdding: dateComponents, to: todayDate) {
-            HealthManager.shared.readStepCount(for: previousDate)  { step in
-                if step < 1000 {
-                    let increaseNumber = 0
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                } else if step < 2000 {
-                    let increaseNumber = 3
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                } else if step < 3000 {
-                    let increaseNumber = 4
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                } else {
-                    let increaseNumber = 5
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                }
+        // 检查当前时间是否在触发时间之后
+        guard let earliestBeginDate = earliestBeginDate else { return }
+        
+        if currentDate > earliestBeginDate {
+            var dateComponents = DateComponents()
+            dateComponents.day = -1
+            
+            // 使用 Calendar 來計算前一天的日期
+            if let previousDate = calendar.date(byAdding: dateComponents, to: currentDate) {
+                updateFailData.setTitle("更新昨日點數", for: .normal)
+                increaseEnergy(date: previousDate)
             }
             
-            
-            HealthManager.shared.readCalories(for: previousDate) { calories, progress, _ in
-                guard let calories = calories , let progress = progress else{
-                    return
-                }
-                if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
-                    let currentEnergy = userCaroPoint
-                    let newCaroPoint = currentEnergy + Int(calories)
-                    
-                    
-                    UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
-                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
-                    
-                }
-                
-                if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
-                    
-                    if progress >= 1 {
-                        let currentCheckPoint = userCheckPoint
-                        let newCheckPoint = currentCheckPoint + 1
-                        
-                        UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
-                        UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
-                        
-                    }
-                    
-                }
-                
-            }
+        }else {
+            updateFailData.setTitle("更新今日點數", for: .normal)
+            increaseEnergy(date: currentDate)
         }
-        UserDataManager.shared.fetchUserData()
         updateFailData.isEnabled = false
         updateFailData.isHidden = true
         
     }
+    private func increaseEnergy(date: Date) {
+        // 在这里将能量值 X 增加 1234
+        
+        
+        HealthManager.shared.readStepCount(for: date)  { step in
+            if step < 1000 {
+                let increaseNumber = 0
+                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+            } else if step < 2000 {
+                let increaseNumber = 3
+                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+            } else if step < 3000 {
+                let increaseNumber = 4
+                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+            } else {
+                let increaseNumber = 5
+                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+            }
+        }
+        
+        
+        HealthManager.shared.readCalories(for: date) { calories, progress, _ in
+            guard let calories = calories , let progress = progress else{
+                NotificationCenter.default.post(name: .failGetData, object: nil)
+                return
+            }
+            if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
+                let currentEnergy = userCaroPoint
+                let newCaroPoint = currentEnergy + Int(calories)
+                
+                
+                UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
+                UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
+                UserDataManager.shared.fetchUserData()
+            }
+            
+            if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
+                
+                if progress >= 1 {
+                    let currentCheckPoint = userCheckPoint
+                    let newCheckPoint = currentCheckPoint + 1
+                    
+                    UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
+                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
+                    UserDataManager.shared.fetchUserData()
+                }
+                
+            }
+        }
+        
+    }
+    
+    
+    
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         self.calendarViewHeight.constant = bounds.height
         self.view.layoutIfNeeded()

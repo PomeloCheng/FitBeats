@@ -304,6 +304,24 @@
                                     <action selector="updateFailBtnPressed:" destination="EZD-f9-rXp" eventType="touchUpInside" id="Yxg-6f-Pva"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXV-fO-B42">
+                                <rect key="frame" x="275" y="285" width="85" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="測試進化"/>
+                                <buttonConfiguration key="configuration" style="plain" title="測試進化" cornerStyle="capsule">
+                                    <backgroundConfiguration key="background" strokeOutset="0.0">
+                                        <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </backgroundConfiguration>
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="14"/>
+                                    <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="testEvoBtnPressed:" destination="EZD-f9-rXp" eventType="touchUpInside" id="5y8-7v-d6F"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PcY-dw-ANF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -374,7 +392,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tmv-dQ-B8k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-308.69565217391306" y="604.6875"/>
+            <point key="canvasLocation" x="-309.60000000000002" y="604.04797601199402"/>
         </scene>
         <!--User Pocket View Controller-->
         <scene sceneID="qqP-Vg-0gk">

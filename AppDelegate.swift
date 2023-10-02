@@ -9,12 +9,13 @@ import UIKit
 import FirebaseCore
 
 import BackgroundTasks
+var earliestBeginDate: Date?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let updateDaily = "com.fitbeats.dailytask"
     let healthManager = HealthManager.shared
-    var earliestBeginDate: Date?
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -91,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 設置每天的特定時間觸發
-            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 00, of: todayDate)
+            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 55, second: 00, of: todayDate)
             earliestBeginDate = taskRequest.earliestBeginDate
             do {
                 // 提交每日背景任務請求
