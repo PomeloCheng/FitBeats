@@ -10,6 +10,7 @@ import HealthKit
 
 import CoreData
 import GoogleMobileAds
+
 import AppTrackingTransparency
 
 class TargetViewController: UIViewController, UITextViewDelegate, GADBannerViewDelegate {
@@ -154,20 +155,19 @@ class TargetViewController: UIViewController, UITextViewDelegate, GADBannerViewD
         if let note = self.note.first { // 假設你只關心第一個符合條件的 Note
             textField.text = note.text
         }
-        
-        
-        
-            
-           
-                self.bannerView = GADBannerView(adSize: GADAdSizeBanner)
-                self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
-                self.bannerView?.adUnitID = "ca-app-pub-9284244039295056/4603007338"
-                //self.bannerView?.adUnitID = "ca-app-pub-3940256099942544/2934735716" //官方提供的測試ID
-                self.bannerView?.delegate = self
-                self.bannerView?.rootViewController = self
-                self.bannerView?.load(GADRequest())
-            
-   
+       
+        NotificationCenter.default.addObserver(self, selector: #selector(setGoogleAds), name: .GoogleAds, object: nil)
+    }
+    
+    @objc func setGoogleAds() {
+        self.bannerView = GADBannerView(adSize: GADAdSizeBanner)
+        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
+        self.bannerView?.adUnitID = "ca-app-pub-9284244039295056/4603007338"
+        //self.bannerView?.adUnitID = "ca-app-pub-3940256099942544/2934735716" //官方提供的測試ID
+        self.bannerView?.delegate = self
+        self.bannerView?.rootViewController = self
+        self.bannerView?.load(GADRequest())
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -48,7 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        ATTrackingManager.requestTrackingAuthorization { status in }
+        ATTrackingManager.requestTrackingAuthorization { status in
+            NotificationCenter.default.post(name: .GoogleAds, object: nil)
+        }
         
         return true
     }

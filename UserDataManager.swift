@@ -341,5 +341,7 @@ extension Notification.Name {
     
     static let failGetData = Notification.Name("failGetDara")
     
+    static let GoogleAds = Notification.Name("GoogleAds")
+    
 }
 
