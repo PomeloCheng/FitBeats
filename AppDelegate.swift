@@ -14,6 +14,7 @@ import AppTrackingTransparency
 
 var earliestBeginDate: Date?
 
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let updateDaily = "com.fitbeats.dailytask"
@@ -48,10 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        ATTrackingManager.requestTrackingAuthorization { status in
-            NotificationCenter.default.post(name: .GoogleAds, object: nil)
-        }
-        
+        ATTrackingManager.requestTrackingAuthorization { status in }
         return true
     }
     
@@ -81,10 +79,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) {
                     // 更新数据时使用前一天的日期
                     increaseEnergy(date: previousDay)
+                    
                 }
             } else {
                 // 否则，更新数据时使用当前日期
                 increaseEnergy(date: currentDate)
+                
             }
             
             task.setTaskCompleted(success: true)
@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 設置每天的特定時間觸發
-            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 55, second: 00, of: todayDate)
+            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 00, of: todayDate)
             earliestBeginDate = taskRequest.earliestBeginDate
             do {
                 // 提交每日背景任務請求

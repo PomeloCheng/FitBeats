@@ -11,6 +11,7 @@ import Lottie
 import HealthKit
 import FSCalendar
 import Firebase
+import AppTrackingTransparency
 
 class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     

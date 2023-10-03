@@ -28,9 +28,9 @@ class HealthManager {
     var typesToRead: Set<HKObjectType> = []
     
     init() {
-            guard HKHealthStore.isHealthDataAvailable() else {
-                fatalError("Your device can't use HealthKit")
-            }
+//            guard HKHealthStore.isHealthDataAvailable() else {
+//                fatalError("Your device can't use HealthKit")
+//            }
             
             
             if let stepType = HKObjectType.quantityType(forIdentifier: .stepCount),

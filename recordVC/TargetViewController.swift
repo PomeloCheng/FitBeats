@@ -156,10 +156,11 @@ class TargetViewController: UIViewController, UITextViewDelegate, GADBannerViewD
             textField.text = note.text
         }
        
-        NotificationCenter.default.addObserver(self, selector: #selector(setGoogleAds), name: .GoogleAds, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(setGoogleAds), name: .GoogleAds, object: nil)
+        setGoogleAds()
     }
     
-    @objc func setGoogleAds() {
+    func setGoogleAds() {
         self.bannerView = GADBannerView(adSize: GADAdSizeBanner)
         self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
         self.bannerView?.adUnitID = "ca-app-pub-9284244039295056/4603007338"
