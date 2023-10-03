@@ -9,6 +9,9 @@ import UIKit
 import FirebaseCore
 
 import BackgroundTasks
+import GoogleMobileAds
+import AppTrackingTransparency
+
 var earliestBeginDate: Date?
 
 @main
@@ -30,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         scheduleDailyBackgroundTask()
         
+        
+        
         ValueTransformer.setValueTransformer(HKWorkoutTransformer(), forName: NSValueTransformerName(rawValue: "HKWorkoutTransformer"))
         healthManager.requestAuthorization { success, error in
             if let error = error {
@@ -41,6 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("HealthKit authorization granted.")
             }
         }
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        ATTrackingManager.requestTrackingAuthorization { status in }
+        
         return true
     }
     

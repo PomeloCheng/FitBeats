@@ -9,10 +9,15 @@ import UIKit
 import HealthKit
 
 import CoreData
+import GoogleMobileAds
+import AppTrackingTransparency
 
-class TargetViewController: UIViewController, UITextViewDelegate {
+class TargetViewController: UIViewController, UITextViewDelegate, GADBannerViewDelegate {
 
    
+    
+    var bannerView: GADBannerView?
+    
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var distanceTitle: UILabel!
     @IBOutlet weak var textField: UITextView!
@@ -44,6 +49,7 @@ class TargetViewController: UIViewController, UITextViewDelegate {
             self.saveBtn.isHidden = true
             self.textField.textColor = UIColor.lightGray
         }
+        tabBarController?.tabBar.isHidden = false
         
     }
     override func viewDidLoad() {
@@ -149,8 +155,26 @@ class TargetViewController: UIViewController, UITextViewDelegate {
             textField.text = note.text
         }
         
+        
+        
             
+           
+                self.bannerView = GADBannerView(adSize: GADAdSizeBanner)
+                self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
+                self.bannerView?.adUnitID = "ca-app-pub-9284244039295056/4603007338"
+                //self.bannerView?.adUnitID = "ca-app-pub-3940256099942544/2934735716" //官方提供的測試ID
+                self.bannerView?.delegate = self
+                self.bannerView?.rootViewController = self
+                self.bannerView?.load(GADRequest())
+            
+   
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
         // 點擊其他空白的地方時關閉鍵盤
         self.view.endEditing(true)
@@ -248,4 +272,20 @@ class TargetViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        //self.tableView.tableHeaderView = bannerView 廣告直接在table的最上面，但一滑動他就會不見
+        
+        if bannerView.superview == nil { //表示目前沒有貼任何廣告
+            
+            self.view.addSubview(bannerView) //把banner加到畫面上才可以設定autoLayout
+            //2.重建constraint
+            NSLayoutConstraint.activate([
+                
+                bannerView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+                bannerView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+                bannerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)])
+        }
+    }
+    
 }

@@ -229,7 +229,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IjB-AM-bOG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1415" y="1393"/>
+            <point key="canvasLocation" x="1414.4927536231885" y="1392.8571428571429"/>
         </scene>
         <!--紀錄-->
         <scene sceneID="1u7-W3-bMy">
@@ -473,7 +473,7 @@
             <objects>
                 <viewController storyboardIdentifier="smallRecordContentVC" id="AwQ-0V-e4s" customClass="smallRecordContentVC" customModule="FitBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VLU-1g-VgJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="347.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="347"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="130" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ulA-HX-yPA">
