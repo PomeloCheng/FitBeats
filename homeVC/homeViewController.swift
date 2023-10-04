@@ -47,7 +47,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     @IBOutlet weak var isGoalLabel: UILabel!
     
     let healthManager = HealthManager.shared
-    var totalProducts : [fireBaseProduct] = []
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         targetBG.layer.cornerRadius = 20
@@ -86,11 +86,25 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         updateDateTitle(todayDate)
         ShopItemManager.shared.fetchProductData(categoryID: 0) { products in
             if let products = products {
-                self.totalProducts = products
+                self.downloadAllImage(allProducts: products)
             }
         }
         
         
+        ATTrackingManager.requestTrackingAuthorization { status in
+                    switch status {
+                    case .notDetermined:
+                        break
+                    case .restricted:
+                        break
+                    case .denied:
+                        break
+                    case .authorized:
+                        break
+                    @unknown default:
+                        break
+                    }
+        }
         
     }
     
@@ -377,7 +391,30 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     @IBAction func refreshBtnPressed(_ sender: Any) {
         updateDateTitle(todayDate)
         UserDataManager.shared.fetchUserData()
-        calendarView.reloadData()
+        
+    }
+    
+    func downloadAllImage(allProducts: [fireBaseProduct]) {
+        for productIndex in 0 ... allProducts.count - 1{
+            let productName = allProducts[productIndex].productName
+            
+            if logImage.shared.load(filename: productName) != nil {
+                continue
+            } else {
+                
+                ShopItemManager.shared.fetchProductURL(productName: productName) { imageData in
+                    guard let imageData = imageData else {
+                        return
+                    }
+                    
+                    do {
+                        try logImage.shared.save(data: imageData, filename: productName)
+                    } catch {
+                        print("write File error : \(error) ")
+                    }
+                }
+            }
+        }
     }
     
 }

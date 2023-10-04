@@ -11,7 +11,6 @@ import HealthKit
 import CoreData
 import GoogleMobileAds
 
-import AppTrackingTransparency
 
 class TargetViewController: UIViewController, UITextViewDelegate, GADBannerViewDelegate {
 

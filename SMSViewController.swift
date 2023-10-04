@@ -92,6 +92,14 @@ class SMSViewController: UIViewController, UITextFieldDelegate {
             }
         }
         
+        if string.isEmpty {
+            if textField.tag > 1 {
+                        if let previousTextField = view.viewWithTag(textField.tag - 1) as? UITextField {
+                            previousTextField.becomeFirstResponder()
+                        }
+                    }
+        }
+        
         return false // 返回false以避免系统自动处理文本更改
     }
     

@@ -13,7 +13,7 @@ extension homeViewController {
     
     
     func setHomeUserData() {
-        
+       
         if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
            let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
            let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int,

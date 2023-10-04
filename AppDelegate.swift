@@ -10,7 +10,6 @@ import FirebaseCore
 
 import BackgroundTasks
 import GoogleMobileAds
-import AppTrackingTransparency
 
 var earliestBeginDate: Date?
 
@@ -49,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        ATTrackingManager.requestTrackingAuthorization { status in }
+        
         return true
     }
     
@@ -103,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 設置每天的特定時間觸發
-            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 00, of: todayDate)
+            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 00, second: 00, of: todayDate)
             earliestBeginDate = taskRequest.earliestBeginDate
             do {
                 // 提交每日背景任務請求
