@@ -28,7 +28,7 @@ class EnergyManager {
         if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 设置触发时间为每天的晚上23:59:59
-            if let endDate = calendar.date(bySettingHour: 23, minute: 00, second: 0, of: todayDate) {
+            if let endDate = calendar.date(bySettingHour: 23, minute: 30, second: 0, of: todayDate) {
                 
                 // 计算时间间隔，这里是计算到指定时间的时间差
                 let timeInterval = endDate.timeIntervalSince(currentDate)
@@ -36,7 +36,7 @@ class EnergyManager {
                 // 如果时间间隔小于等于0，表示今天的触发时间已经过去，将触发时间设置为明天的时间
                 if timeInterval <= 0 {
                     if let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: todayDate),
-                       let nextEndDate = calendar.date(bySettingHour: 23, minute: 00, second: 0, of: tomorrowDate) {
+                       let nextEndDate = calendar.date(bySettingHour: 23, minute: 30, second: 0, of: tomorrowDate) {
                         
                         // 计算到明天触发时间的时间间隔
                         let nextTimeInterval = nextEndDate.timeIntervalSince(currentDate)

@@ -336,6 +336,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                     UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
                         self.homeRingView.progress = 1.0
                     })
+                    self.homeRingView.layer.opacity = 1.0
                     self.checkAnimation.isHidden = false
                     self.cancelAnimation.isHidden = true
                     self.isGoalLabel.isHidden = false
@@ -350,6 +351,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                     UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
                         self.homeRingView.progress = progress
                     })
+                    self.homeRingView.layer.opacity = 1.0
                     self.checkAnimation.isHidden = true
                     self.cancelAnimation.isHidden = false
                     self.isGoalLabel.isHidden = false
@@ -364,6 +366,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             }
         }
         
+        //三個都沒資料時
         healthManager.readCalories(for: date) { calories, progress, selectGoal in
             self.healthManager.readStepCount(for: date) { selectStep in
                 
@@ -389,8 +392,20 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     }
    
     @IBAction func refreshBtnPressed(_ sender: Any) {
-        updateDateTitle(todayDate)
-        UserDataManager.shared.fetchUserData()
+        
+        DispatchQueue.main.async {
+            //更新畫面的程式
+            UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                // 在這裡重新載入數據
+                self.updateDateTitle(todayDate)
+                UserDataManager.shared.fetchUserData()
+                
+                self.calendarView.reloadData()
+            }, completion: nil)
+            
+        }
+        
+       
         
     }
     
