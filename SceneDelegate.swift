@@ -72,9 +72,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
         } else if let mainVC = self.window?.visibleViewController as? homeViewController {
-            
-            mainVC.updateDateTitle(todayDate)
-            UserDataManager.shared.fetchUserData()
+            if appStart {
+                DispatchQueue.main.async {
+                    mainVC.refreshBtnPressed(self)
+                }
+            }
             
         } else {
             

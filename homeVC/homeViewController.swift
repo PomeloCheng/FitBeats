@@ -111,6 +111,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         calendarManager.shared.selectTodayWeekdayLabel()
+        appStart = true
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -166,12 +167,10 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             
             // 使用 Calendar 來計算前一天的日期
             if let previousDate = calendar.date(byAdding: dateComponents, to: currentDate) {
-                updateFailData.setTitle("更新昨日點數", for: .normal)
                 increaseEnergy(date: previousDate)
             }
             
         }else {
-            updateFailData.setTitle("更新今日點數", for: .normal)
             increaseEnergy(date: currentDate)
         }
         updateFailData.isEnabled = false
@@ -401,6 +400,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                 UserDataManager.shared.fetchUserData()
                 
                 self.calendarView.reloadData()
+                calendarManager.shared.selectTodayWeekdayLabel()
             }, completion: nil)
             
         }

@@ -39,7 +39,7 @@ extension homeViewController {
                     self.lvLabel.layer.shadowColor = UIColor.black.cgColor
                     self.lvLabel.layer.shadowOpacity = 1
                     self.lvLabel.clipsToBounds = false
-                    if currentMonster.level == currentMonster.maxLevel {
+                    if (currentMonster.level == currentMonster.maxLevel && currentMonster.experience == self.requiredExperienceForLevel(currentMonster.level)) {
                         self.lvLabel.text = "MAX"
                     } else {
                     self.lvLabel.text = String(format: "LV %d", currentMonster.level)
@@ -235,7 +235,7 @@ extension homeViewController {
                         // 调用添加怪兽的方法
                         UserDataManager.shared.addProductToOwnedProducts(monsterName: petName, monsterData: currentMonster)
                         
-                    } else if currentMonster.level == currentMonster.maxLevel {
+                    } else {
                             DispatchQueue.main.async {
                                 self.lvLabel.text = "MAX"
                             }

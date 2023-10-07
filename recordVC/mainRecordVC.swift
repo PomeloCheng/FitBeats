@@ -81,12 +81,13 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
         if !tapRecord {
             calendarManager.shared.selectTodayWeekdayLabel()
             
+            
         }else{
             tapRecord = false
         }
-  
-       appStart = true
-       
+        
+        
+      
     }
     
     
@@ -124,7 +125,10 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleAuthorizationSuccess), name: Notification.Name("HealthKitAuthorizationSuccess"), object: nil)
         
-
+        UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            // 在這裡重新載入數據
+            self.calendarView.reloadData()
+        }, completion: nil)
 
 
 //        if leaveVC {

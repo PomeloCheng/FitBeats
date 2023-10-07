@@ -315,10 +315,10 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yfj-mL-Z7V">
-                                <rect key="frame" x="300" y="219" width="90" height="22.5"/>
+                                <rect key="frame" x="324.5" y="219" width="65.5" height="22.5"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="更新昨日點數" cornerStyle="capsule">
+                                <buttonConfiguration key="configuration" style="plain" title="更新點數" cornerStyle="capsule">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" red="0.93333333330000001" green="0.48627450979999998" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </backgroundConfiguration>

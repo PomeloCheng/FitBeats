@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 設置每天的特定時間觸發
-            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 30, second: 00, of: todayDate)
+            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 00, second: 00, of: todayDate)
             earliestBeginDate = taskRequest.earliestBeginDate
             do {
                 // 提交每日背景任務請求
@@ -138,31 +138,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         HealthManager.shared.readCalories(for: date) { calories, progress, _ in
-            guard let calories = calories , let progress = progress else{
-                NotificationCenter.default.post(name: .failGetData, object: nil)
-                return
-            }
-            if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
-                let currentEnergy = userCaroPoint
-                let newCaroPoint = currentEnergy + Int(calories)
-                
-                
-                UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
-                UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
-                UserDataManager.shared.fetchUserData()
-            }
-            
-            if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
-                
-                if progress >= 1 {
-                    let currentCheckPoint = userCheckPoint
-                    let newCheckPoint = currentCheckPoint + 1
+            HealthManager.shared.readStepCount(for: date)  { step in
+                guard let calories = calories , let progress = progress, step != 0 else{
+                    NotificationCenter.default.post(name: .failGetData, object: nil)
+                    return
+                }
+                if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
+                    let currentEnergy = userCaroPoint
+                    let newCaroPoint = currentEnergy + Int(calories)
                     
-                    UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
-                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
+                    
+                    UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
+                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
                     UserDataManager.shared.fetchUserData()
                 }
                 
+                if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
+                    
+                    if progress >= 1 {
+                        let currentCheckPoint = userCheckPoint
+                        let newCheckPoint = currentCheckPoint + 1
+                        
+                        UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
+                        UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
+                        UserDataManager.shared.fetchUserData()
+                    }
+                    
+                }
             }
         }
     }
