@@ -343,5 +343,7 @@ extension Notification.Name {
     
     static let GoogleAds = Notification.Name("GoogleAds")
     
+    static let refreshRecordCalendar = Notification.Name("refreshRecordCalendar")
+    
 }
 

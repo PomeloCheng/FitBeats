@@ -156,22 +156,22 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     }
     @IBAction func updateFailBtnPressed(_ sender: Any) {
         
-        let currentDate = Date()
+        
         let calendar = Calendar.current
         // 检查当前时间是否在触发时间之后
         guard let earliestBeginDate = earliestBeginDate else { return }
         
-        if currentDate > earliestBeginDate {
+        if todayDate > earliestBeginDate {
             var dateComponents = DateComponents()
             dateComponents.day = -1
             
             // 使用 Calendar 來計算前一天的日期
-            if let previousDate = calendar.date(byAdding: dateComponents, to: currentDate) {
+            if let previousDate = calendar.date(byAdding: dateComponents, to: todayDate) {
                 increaseEnergy(date: previousDate)
             }
             
         }else {
-            increaseEnergy(date: currentDate)
+            increaseEnergy(date: todayDate)
         }
         updateFailData.isEnabled = false
         updateFailData.isHidden = true
@@ -404,7 +404,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             }, completion: nil)
             
         }
-        
+        NotificationCenter.default.post(name: .refreshRecordCalendar, object: nil)
        
         
     }

@@ -72,9 +72,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
         } else if let mainVC = self.window?.visibleViewController as? homeViewController {
+            calendarManager.shared.FSCalendar.currentPage = todayDate
+            mainVC.updateDateTitle(todayDate)
+
+            calendarManager.shared.resetSelectedState()
+            calendarManager.shared.selectTodayWeekdayLabel()
+            UserDataManager.shared.fetchUserData()
+            
             if appStart {
                 DispatchQueue.main.async {
-                    mainVC.refreshBtnPressed(self)
+                    mainVC.calendarView.reloadData()
                 }
             }
             

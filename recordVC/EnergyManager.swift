@@ -19,27 +19,26 @@ class EnergyManager {
     
     private func startTimer() {
         // 获取当前日期和时间
-        let currentDate = Date()
         
         // 获取日历对象
         let calendar = Calendar.current
         
         // 获取今天的日期
-        if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
+        if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: todayDate) {
             
             // 设置触发时间为每天的晚上23:59:59
-            if let endDate = calendar.date(bySettingHour: 23, minute: 00, second: 0, of: todayDate) {
+            if let endDate = calendar.date(bySettingHour: 23, minute: 00, second: 0, of: setTodayDate) {
                 
                 // 计算时间间隔，这里是计算到指定时间的时间差
-                let timeInterval = endDate.timeIntervalSince(currentDate)
+                let timeInterval = endDate.timeIntervalSince(todayDate)
                 
                 // 如果时间间隔小于等于0，表示今天的触发时间已经过去，将触发时间设置为明天的时间
                 if timeInterval <= 0 {
-                    if let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: todayDate),
+                    if let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: setTodayDate),
                        let nextEndDate = calendar.date(bySettingHour: 23, minute: 00, second: 0, of: tomorrowDate) {
                         
                         // 计算到明天触发时间的时间间隔
-                        let nextTimeInterval = nextEndDate.timeIntervalSince(currentDate)
+                        let nextTimeInterval = nextEndDate.timeIntervalSince(todayDate)
                         
                         // 创建定时器，在明天触发
                         timer = Timer.scheduledTimer(timeInterval: nextTimeInterval, target: self, selector: #selector(increaseEnergy), userInfo: nil, repeats: false)
@@ -63,13 +62,13 @@ class EnergyManager {
                     let increaseNumber = 0
                     NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
                 } else if step < 2000 {
-                    let increaseNumber = 3
+                    let increaseNumber = 1
                     NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
                 } else if step < 3000 {
-                    let increaseNumber = 4
+                    let increaseNumber = 2
                     NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
                 } else {
-                    let increaseNumber = 5
+                    let increaseNumber = 3
                     NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
                 }
             }

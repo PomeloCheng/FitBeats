@@ -70,21 +70,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func performDailyBackgroundTask(_ task: BGAppRefreshTask) {
         if isForegroundTaskCompleted == false {
-            let currentDate = Date()
+            
             let calendar = Calendar.current
             // 检查当前时间是否在触发时间之后
             guard let earliestBeginDate = earliestBeginDate else { return }
             
-            if currentDate > earliestBeginDate {
+            if todayDate > earliestBeginDate {
                 // 如果是的话，将日期回滚到前一天
-                if let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) {
+                if let previousDay = calendar.date(byAdding: .day, value: -1, to: todayDate) {
                     // 更新数据时使用前一天的日期
                     increaseEnergy(date: previousDay)
                     
                 }
             } else {
                 // 否则，更新数据时使用当前日期
-                increaseEnergy(date: currentDate)
+                increaseEnergy(date: todayDate)
                 
             }
             
@@ -99,12 +99,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 創建每日背景任務請求
         let taskRequest = BGAppRefreshTaskRequest(identifier: updateDaily)
         
-        let currentDate = Date()
+        
         let calendar = Calendar.current
-        if let todayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
+        if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: todayDate) {
             
             // 設置每天的特定時間觸發
-            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 00, second: 00, of: todayDate)
+            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 00, second: 00, of: setTodayDate)
             earliestBeginDate = taskRequest.earliestBeginDate
             do {
                 // 提交每日背景任務請求
@@ -125,13 +125,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let increaseNumber = 0
                 NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
             } else if step < 2000 {
-                let increaseNumber = 3
+                let increaseNumber = 1
                 NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
             } else if step < 3000 {
-                let increaseNumber = 4
+                let increaseNumber = 2
                 NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
             } else {
-                let increaseNumber = 5
+                let increaseNumber = 3
                 NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
             }
         }

@@ -74,6 +74,8 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
             if result { self.isNil = true }
         }
         
+        refreshCalendar()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -96,7 +98,6 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
         calendarManager.shared.resetSelectedState()
         //leaveVC = true
     }
-    
     
     @IBOutlet weak var ringView: RingProgressView!
     override func viewDidLoad() {
@@ -125,10 +126,7 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleAuthorizationSuccess), name: Notification.Name("HealthKitAuthorizationSuccess"), object: nil)
         
-        UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-            // 在這裡重新載入數據
-            self.calendarView.reloadData()
-        }, completion: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendar), name: .refreshRecordCalendar, object: nil)
 
 
 //        if leaveVC {
@@ -140,6 +138,13 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         
         calendarManager.shared.weekdayLabelTapped(sender)
+    }
+    
+    @objc func refreshCalendar() {
+        UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            // 在這裡重新載入數據
+            self.calendarView.reloadData()
+        }, completion: nil)
     }
     
     func updateDateTitle(_ date: Date) {
