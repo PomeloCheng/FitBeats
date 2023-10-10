@@ -70,21 +70,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func performDailyBackgroundTask(_ task: BGAppRefreshTask) {
         if isForegroundTaskCompleted == false {
-            
+            let currentDate = Date()
             let calendar = Calendar.current
             // 检查当前时间是否在触发时间之后
             guard let earliestBeginDate = earliestBeginDate else { return }
             
-            if todayDate > earliestBeginDate {
+            if currentDate > earliestBeginDate {
                 // 如果是的话，将日期回滚到前一天
-                if let previousDay = calendar.date(byAdding: .day, value: -1, to: todayDate) {
+                if let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) {
                     // 更新数据时使用前一天的日期
                     increaseEnergy(date: previousDay)
                     
                 }
             } else {
                 // 否则，更新数据时使用当前日期
-                increaseEnergy(date: todayDate)
+                increaseEnergy(date: currentDate)
                 
             }
             
@@ -99,9 +99,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 創建每日背景任務請求
         let taskRequest = BGAppRefreshTaskRequest(identifier: updateDaily)
         
-        
+        let currentDate = Date()
         let calendar = Calendar.current
-        if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: todayDate) {
+        if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 設置每天的特定時間觸發
             taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 00, second: 00, of: setTodayDate)
@@ -119,21 +119,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func increaseEnergy(date: Date) {
         // 在这里将能量值 X 增加 1234
         
-        
+        NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
+
         HealthManager.shared.readStepCount(for: date)  { step in
+            var increaseNumber = 0
             if step < 1000 {
-                let increaseNumber = 0
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 0
             } else if step < 2000 {
-                let increaseNumber = 1
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 1
             } else if step < 3000 {
-                let increaseNumber = 2
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 2
             } else {
-                let increaseNumber = 3
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 3
             }
+            NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
         }
         
         
@@ -167,6 +166,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        scheduleDailyBackgroundTask()
     }
     
 }

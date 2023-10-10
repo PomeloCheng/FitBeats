@@ -193,6 +193,7 @@ extension homeViewController {
         if let increaseNumber = notification.object as? Int {
             increaseExperience(increaseNumber)
            }
+        NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
     }
     func increaseExperience(_ increaseNumber: Int) {
         if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,

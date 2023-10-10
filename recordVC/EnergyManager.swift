@@ -19,18 +19,18 @@ class EnergyManager {
     
     private func startTimer() {
         // 获取当前日期和时间
-        
+        let currentDate = Date()
         // 获取日历对象
         let calendar = Calendar.current
         
         // 获取今天的日期
-        if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: todayDate) {
+        if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 设置触发时间为每天的晚上23:59:59
             if let endDate = calendar.date(bySettingHour: 23, minute: 00, second: 0, of: setTodayDate) {
                 
                 // 计算时间间隔，这里是计算到指定时间的时间差
-                let timeInterval = endDate.timeIntervalSince(todayDate)
+                let timeInterval = endDate.timeIntervalSince(currentDate)
                 
                 // 如果时间间隔小于等于0，表示今天的触发时间已经过去，将触发时间设置为明天的时间
                 if timeInterval <= 0 {
@@ -54,24 +54,22 @@ class EnergyManager {
     
     @objc private func increaseEnergy() {
         // 在这里将能量值 X 增加 1234
-        print("啟動囉")
-    
-        
-            HealthManager.shared.readStepCount(for: todayDate)  { step in
-                if step < 1000 {
-                    let increaseNumber = 0
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                } else if step < 2000 {
-                    let increaseNumber = 1
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                } else if step < 3000 {
-                    let increaseNumber = 2
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                } else {
-                    let increaseNumber = 3
-                    NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
-                }
+  
+        NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
+
+        HealthManager.shared.readStepCount(for: todayDate)  { step in
+            var increaseNumber = 0
+            if step < 1000 {
+                increaseNumber = 0
+            } else if step < 2000 {
+                increaseNumber = 1
+            } else if step < 3000 {
+                increaseNumber = 2
+            } else {
+                increaseNumber = 3
             }
+            NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+        }
             
             
             HealthManager.shared.readCalories(for: todayDate) { calories, progress, _ in

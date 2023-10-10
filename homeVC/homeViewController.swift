@@ -144,11 +144,14 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     @objc func fetchUserData() {
         
         setHomeUserData()
+        NotificationCenter.default.removeObserver(self, name: .userProfileFetched, object: nil)
         
     }
     @objc func failGetData() {
+        
         updateFailData.isEnabled = true
         updateFailData.isHidden = false
+        NotificationCenter.default.removeObserver(self, name: .failGetData, object: nil)
     }
     
     @IBAction func testEvoBtnPressed(_ sender: Any) {
@@ -156,22 +159,22 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     }
     @IBAction func updateFailBtnPressed(_ sender: Any) {
         
-        
+        let currentDate = Date()
         let calendar = Calendar.current
         // 检查当前时间是否在触发时间之后
         guard let earliestBeginDate = earliestBeginDate else { return }
         
-        if todayDate > earliestBeginDate {
+        if currentDate > earliestBeginDate {
             var dateComponents = DateComponents()
             dateComponents.day = -1
             
             // 使用 Calendar 來計算前一天的日期
-            if let previousDate = calendar.date(byAdding: dateComponents, to: todayDate) {
+            if let previousDate = calendar.date(byAdding: dateComponents, to: currentDate) {
                 increaseEnergy(date: previousDate)
             }
             
         }else {
-            increaseEnergy(date: todayDate)
+            increaseEnergy(date: currentDate)
         }
         updateFailData.isEnabled = false
         updateFailData.isHidden = true
@@ -182,19 +185,17 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
         
         HealthManager.shared.readStepCount(for: date)  { step in
+            var increaseNumber = 0
             if step < 1000 {
-                let increaseNumber = 0
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 0
             } else if step < 2000 {
-                let increaseNumber = 3
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 1
             } else if step < 3000 {
-                let increaseNumber = 4
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 2
             } else {
-                let increaseNumber = 5
-                NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+                increaseNumber = 3
             }
+            self.increaseExperience(increaseNumber)
         }
         
         
@@ -380,6 +381,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                             self.caroLabel.text = " -- 大卡"
                             self.stepLabel.text = " -- 步"
                             self.distanceLabel.text = "  -- 公里"
+                            self.setHealthData(todayDate)
                         }
                         
                     }
