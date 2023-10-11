@@ -96,7 +96,7 @@ class itemViewController: UIViewController {
         
         purchaseAmount = finalAmount * purchCurrenct!
         name.text = fireProducts.productName
-        price.text = String(fireProducts.checkinPoints)
+        price.text = String(purchCurrenct!)
         itemImage.image = logImage.shared.load(filename: fireProducts.productName)
         amountTextView.text = "1"
         
