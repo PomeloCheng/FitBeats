@@ -142,16 +142,16 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     
     
     @objc func fetchUserData() {
-        
-        setHomeUserData()
         NotificationCenter.default.removeObserver(self, name: .userProfileFetched, object: nil)
+        setHomeUserData()
+        
         
     }
     @objc func failGetData() {
-        
+        NotificationCenter.default.removeObserver(self, name: .failGetData, object: nil)
         updateFailData.isEnabled = true
         updateFailData.isHidden = false
-        NotificationCenter.default.removeObserver(self, name: .failGetData, object: nil)
+        
     }
     
     @IBAction func testEvoBtnPressed(_ sender: Any) {
@@ -210,8 +210,11 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                 
                 
                 UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
+                DispatchQueue.main.async {
+                    self.homeCaroLabel.text = String(format: "%d", newCaroPoint)
+                }
                 UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
-                UserDataManager.shared.fetchUserData()
+                
             }
             
             if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
@@ -221,8 +224,11 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                     let newCheckPoint = currentCheckPoint + 1
                     
                     UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
+                    DispatchQueue.main.async {
+                        self.homeCheckLabel.text = String(format: "%d", newCheckPoint)
+                    }
                     UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
-                    UserDataManager.shared.fetchUserData()
+                    
                 }
                 
             }
@@ -375,7 +381,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                         
                         if retryCount > 0 {
                             // 如果没有数据，且还有重试次数，延迟一段时间后重新尝试
-                            DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
+                            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
                                 self.setHealthData(date, retryCount: retryCount - 1)
                             }
                         } else {
