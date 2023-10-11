@@ -12,7 +12,9 @@ import BackgroundTasks
 import GoogleMobileAds
 
 var earliestBeginDate: Date?
-
+var updateStep = 0
+var updateCaro = 0
+var updatePrgress = 0.0
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -79,12 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // 如果是的话，将日期回滚到前一天
                 if let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) {
                     // 更新数据时使用前一天的日期
-                    increaseEnergy(date: previousDay)
+                    searchHealthData(date: previousDay)
                     
                 }
             } else {
                 // 否则，更新数据时使用当前日期
-                increaseEnergy(date: currentDate)
+                searchHealthData(date: currentDate)
                 
             }
             
@@ -104,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let setTodayDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate) {
             
             // 設置每天的特定時間觸發
-            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 00, second: 00, of: setTodayDate)
+            taskRequest.earliestBeginDate = Calendar.current.date(bySettingHour: 23, minute: 30, second: 00, of: setTodayDate)
             earliestBeginDate = taskRequest.earliestBeginDate
             do {
                 // 提交每日背景任務請求
@@ -116,58 +118,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func increaseEnergy(date: Date) {
-        // 在这里将能量值 X 增加 1234
-        
-        NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
-
+    private func searchHealthData(date: Date) {
         HealthManager.shared.readStepCount(for: date)  { step in
-            var increaseNumber = 0
-            if step < 1000 {
-                increaseNumber = 0
-            } else if step < 2000 {
-                increaseNumber = 1
-            } else if step < 3000 {
-                increaseNumber = 2
-            } else {
-                increaseNumber = 3
+            guard step != 0 else{
+                return
             }
-            NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+            updateStep = Int(step)
         }
-        
-        
         HealthManager.shared.readCalories(for: date) { calories, progress, _ in
-            HealthManager.shared.readStepCount(for: date)  { step in
-                guard let calories = calories , let progress = progress, step != 0 else{
-                    NotificationCenter.default.post(name: .failGetData, object: nil)
-                    return
-                }
-                if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
-                    let currentEnergy = userCaroPoint
-                    let newCaroPoint = currentEnergy + Int(calories)
-                    
-                    
-                    UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
-                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
-                    UserDataManager.shared.fetchUserData()
-                }
-                
-                if let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
-                    
-                    if progress >= 1 {
-                        let currentCheckPoint = userCheckPoint
-                        let newCheckPoint = currentCheckPoint + 1
-                        
-                        UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
-                        UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
-                        UserDataManager.shared.fetchUserData()
-                    }
-                    
-                }
+            guard let calories = calories , let progress = progress else{
+                return
             }
+            
+            updateCaro = Int(calories)
+            updatePrgress = progress
         }
+        
     }
-    
+
     func applicationWillEnterForeground(_ application: UIApplication) {
         scheduleDailyBackgroundTask()
     }

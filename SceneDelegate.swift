@@ -55,6 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         checkAndUpdateTodayDate()
+        increaseEnergy()
         
         if let mainVC = self.window?.visibleViewController as? mainRecordVC {
 
@@ -104,6 +105,51 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 lastUpdateDate = currentDate
             }
         }
+    
+    private func increaseEnergy() {
+        // 在这里将能量值 X 增加 1234
+        
+        NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
+        
+        if  updateStep != 0 && updateCaro != 0 && updatePrgress != 0.0 {
+        
+            var increaseNumber = 0
+            if updateStep < 1000 {
+                increaseNumber = 0
+            } else if updateStep < 2000 {
+                increaseNumber = 1
+            } else if updateStep < 3000 {
+                increaseNumber = 2
+            } else {
+                increaseNumber = 3
+            }
+            NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
+            
+            if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int,
+               let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
+                let currentEnergy = userCaroPoint
+                let newCaroPoint = currentEnergy + updateCaro
+                
+                
+                UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
+                UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
+                
+                if updatePrgress >= 1 {
+                    let currentCheckPoint = userCheckPoint
+                    let newCheckPoint = currentCheckPoint + 1
+                    
+                    UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
+                    UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
+                }
+            }
+            
+            UserDataManager.shared.fetchUserData()
+            updateStep = 0
+            updateCaro = 0
+            updatePrgress = 0.0
+        }
+       
+    }
 
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.

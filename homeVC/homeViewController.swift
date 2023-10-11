@@ -288,7 +288,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     }
     
     
-    func setHealthData(_ date: Date){
+    func setHealthData(_ date: Date, retryCount: Int = 3){
         
         healthManager.readStepDistance(for: date) { distance in
             
@@ -372,18 +372,25 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                 
                 if calories == nil && selectGoal == nil && selectStep == 0 {
                     if self.isNil {
-                        DispatchQueue.main.async {
-                            self.checkAnimation.isHidden = true
-                            self.cancelAnimation.isHidden = true
-                            self.isGoalLabel.isHidden = true
-                            self.homeRingView.progress = 0
-                            self.homeRingView.layer.opacity = 0.2
-                            self.caroLabel.text = " -- 大卡"
-                            self.stepLabel.text = " -- 步"
-                            self.distanceLabel.text = "  -- 公里"
-                            self.setHealthData(todayDate)
-                        }
                         
+                        if retryCount > 0 {
+                            // 如果没有数据，且还有重试次数，延迟一段时间后重新尝试
+                            DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
+                                self.setHealthData(date, retryCount: retryCount - 1)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.checkAnimation.isHidden = true
+                                self.cancelAnimation.isHidden = true
+                                self.isGoalLabel.isHidden = true
+                                self.homeRingView.progress = 0
+                                self.homeRingView.layer.opacity = 0.2
+                                self.caroLabel.text = " -- 大卡"
+                                self.stepLabel.text = " -- 步"
+                                self.distanceLabel.text = "  -- 公里"
+                                
+                            }
+                        }
                     }
                     return
                 }
