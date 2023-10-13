@@ -355,6 +355,12 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
         
         
     }
+    
+    func reloadCalendar() {
+        UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.calendarView.reloadData()
+        }, completion: nil)
+    }
 
     
 }

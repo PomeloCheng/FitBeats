@@ -381,7 +381,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
                         
                         if retryCount > 0 {
                             // 如果没有数据，且还有重试次数，延迟一段时间后重新尝试
-                            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+                            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
                                 self.setHealthData(date, retryCount: retryCount - 1)
                             }
                         } else {
@@ -422,6 +422,12 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         NotificationCenter.default.post(name: .refreshRecordCalendar, object: nil)
        
         
+    }
+    
+    func reloadCalendar() {
+        UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.calendarView.reloadData()
+        }, completion: nil)
     }
     
     func downloadAllImage(allProducts: [fireBaseProduct]) {

@@ -54,6 +54,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        checkAndUpdateTodayDate()
+        increaseEnergy()
+        
+        if let mainVC = self.window?.visibleViewController as? mainRecordVC {
+
+
+                calendarManager.shared.FSCalendar.currentPage = todayDate
+                mainVC.updateDateTitle(todayDate)
+
+                calendarManager.shared.resetSelectedState()
+                calendarManager.shared.selectTodayWeekdayLabel()
+                NotificationCenter.default.post(name: Notification.Name("reloadTableView"), object: nil)
+
+            if appStart {
+                DispatchQueue.main.async {
+                    mainVC.reloadCalendar()
+                }
+            }
+        } else if let mainVC = self.window?.visibleViewController as? homeViewController {
+            calendarManager.shared.FSCalendar.currentPage = todayDate
+            mainVC.updateDateTitle(todayDate)
+
+            calendarManager.shared.resetSelectedState()
+            calendarManager.shared.selectTodayWeekdayLabel()
+            UserDataManager.shared.fetchUserData()
+            
+            if appStart {
+                DispatchQueue.main.async {
+                    mainVC.reloadCalendar()
+                }
+            }
+            
+        } else {
+            
+            print("Visible view controller is not of type ViewController or homeViewController")
+        }
         
     }
     
@@ -127,43 +163,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        
-        checkAndUpdateTodayDate()
-        increaseEnergy()
-        
-        if let mainVC = self.window?.visibleViewController as? mainRecordVC {
-
-
-                calendarManager.shared.FSCalendar.currentPage = todayDate
-                mainVC.updateDateTitle(todayDate)
-
-                calendarManager.shared.resetSelectedState()
-                calendarManager.shared.selectTodayWeekdayLabel()
-                NotificationCenter.default.post(name: Notification.Name("reloadTableView"), object: nil)
-
-            if appStart {
-                DispatchQueue.main.async {
-                    mainVC.calendarView.reloadData()
-                }
-            }
-        } else if let mainVC = self.window?.visibleViewController as? homeViewController {
-            calendarManager.shared.FSCalendar.currentPage = todayDate
-            mainVC.updateDateTitle(todayDate)
-
-            calendarManager.shared.resetSelectedState()
-            calendarManager.shared.selectTodayWeekdayLabel()
-            UserDataManager.shared.fetchUserData()
-            
-            if appStart {
-                DispatchQueue.main.async {
-                    mainVC.calendarView.reloadData()
-                }
-            }
-            
-        } else {
-            
-            print("Visible view controller is not of type ViewController or homeViewController")
-        }
     
     }
 
