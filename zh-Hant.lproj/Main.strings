@@ -1,0 +1,54 @@
+
+/* Class = "UILabel"; text = "格式錯誤"; ObjectID = "0I3-Zu-cz8"; */
+"0I3-Zu-cz8.text" = "格式錯誤";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "54D-ck-P5H"; */
+"54D-ck-P5H.title" = "Item";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "5iF-nx-leJ"; */
+"5iF-nx-leJ.title" = "Item";
+
+/* Class = "UILabel"; text = "Welcome"; ObjectID = "6V6-9b-zqV"; */
+"6V6-9b-zqV.text" = "Welcome";
+
+/* Class = "UILabel"; text = "Hello !"; ObjectID = "BWh-lr-tyB"; */
+"BWh-lr-tyB.text" = "Hello !";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "BhJ-s1-sxm"; */
+"BhJ-s1-sxm.title" = "Item";
+
+/* Class = "UILabel"; text = "記錄您的運動體驗並搜集各種怪獸"; ObjectID = "JRF-e0-nmb"; */
+"JRF-e0-nmb.text" = "記錄您的運動體驗並搜集各種怪獸";
+
+/* Class = "UIButton"; configuration.title = "登入"; ObjectID = "Mh3-wr-Otx"; */
+"Mh3-wr-Otx.configuration.title" = "登入";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Mh3-wr-Otx"; */
+"Mh3-wr-Otx.normalTitle" = "Button";
+
+/* Class = "UITextField"; placeholder = "請輸入手機號碼"; ObjectID = "Phy-xW-AQ3"; */
+"Phy-xW-AQ3.placeholder" = "請輸入手機號碼";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "Xo6-dx-F7T"; */
+"Xo6-dx-F7T.title" = "Item";
+
+/* Class = "UILabel"; text = "驗證碼將會寄送至"; ObjectID = "Xth-h1-mZy"; */
+"Xth-h1-mZy.text" = "驗證碼將會寄送至";
+
+/* Class = "UILabel"; text = "0919229311"; ObjectID = "YSn-M2-5PQ"; */
+"YSn-M2-5PQ.text" = "0919229311";
+
+/* Class = "UIButton"; configuration.title = "獲取驗證碼"; ObjectID = "gjx-rz-ne6"; */
+"gjx-rz-ne6.configuration.title" = "獲取驗證碼";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "gjx-rz-ne6"; */
+"gjx-rz-ne6.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "請輸入OTP驗證碼"; ObjectID = "p6n-dC-gdR"; */
+"p6n-dC-gdR.text" = "請輸入OTP驗證碼";
+
+/* Class = "UIButton"; normalTitle = "重新輸入手機號碼"; ObjectID = "wMs-MN-cfn"; */
+"wMs-MN-cfn.normalTitle" = "重新輸入手機號碼";
+
+/* Class = "UILabel"; text = "輸入手機號碼，一同體驗美好的運動時光"; ObjectID = "zRU-a2-M1o"; */
+"zRU-a2-M1o.text" = "輸入手機號碼，一同體驗美好的運動時光";
