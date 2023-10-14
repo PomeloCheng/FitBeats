@@ -129,6 +129,7 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         NotificationCenter.default.addObserver(self, selector: #selector(fetchUserData), name: .userProfileFetched, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateMonsterEx), name: .updateMonster, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(failGetData), name: .failGetData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateHomeCurrency), name: .setHomeCurrency, object: nil)
         
         healthManager.checkHealthDataAuthorizationStatus { result, error in
             if let error = error {
@@ -140,6 +141,12 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         
     }
     
+    @objc func updateHomeCurrency() {
+        NotificationCenter.default.removeObserver(self, name: .setHomeCurrency, object: nil)
+        setHomeCurrency()
+        
+        
+    }
     
     @objc func fetchUserData() {
         NotificationCenter.default.removeObserver(self, name: .userProfileFetched, object: nil)

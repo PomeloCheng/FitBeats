@@ -345,5 +345,6 @@ extension Notification.Name {
     
     static let refreshRecordCalendar = Notification.Name("refreshRecordCalendar")
     
+    static let setHomeCurrency = Notification.Name("setHomeCurrency")
 }
 

@@ -110,21 +110,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func increaseEnergy() {
         // 在这里将能量值 X 增加 1234
         
+        
         NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
+        
+        let dispatchGroup = DispatchGroup()
         
         if  updateStep != 0 && updateCaro != 0 && updatePrgress != 0.0 {
         
-            var increaseNumber = 0
+           
             if updateStep < 1000 {
-                increaseNumber = 0
+                petIncreaseNumber = 0
             } else if updateStep < 2000 {
-                increaseNumber = 1
+                petIncreaseNumber = 1
             } else if updateStep < 3000 {
-                increaseNumber = 2
+                petIncreaseNumber = 2
             } else {
-                increaseNumber = 3
+                petIncreaseNumber = 3
             }
-            NotificationCenter.default.post(name: .updateMonster, object: increaseNumber)
             
             if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int,
                let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
@@ -144,13 +146,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
                 }
-                NotificationCenter.default.post(name: .userProfileFetched, object: nil)
+                
             }
             
+            dispatchGroup.leave()  // 離開 DispatchGroup
+            
+            // 監聽 DispatchGroup 的通知，確保所有操作完成後再發送通知
+            dispatchGroup.notify(queue: .main) {
+                NotificationCenter.default.post(name: .updateMonster, object: nil)
+                NotificationCenter.default.post(name: .setHomeCurrency, object: nil)
+            }
             
             updateStep = 0
             updateCaro = 0
             updatePrgress = 0.0
+            petIncreaseNumber = 0
         }
        
     }

@@ -15,6 +15,7 @@ var earliestBeginDate: Date?
 var updateStep = 0
 var updateCaro = 0
 var updatePrgress = 0.0
+var petIncreaseNumber = 0
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

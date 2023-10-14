@@ -11,6 +11,16 @@ import Lottie
 
 extension homeViewController {
     
+    func setHomeCurrency() {
+        
+        if let homeCheck = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int,
+           let homeCaro = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int {
+            DispatchQueue.main.async {
+                self.homeCaroLabel.text = String(format: "%d", homeCaro)
+                self.homeCheckLabel.text = String(format: "%d", homeCheck)
+            }
+        }
+    }
     
     func setHomeUserData() {
        
@@ -191,9 +201,7 @@ extension homeViewController {
     }
     @objc func updateMonsterEx(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
-        if let increaseNumber = notification.object as? Int {
-            increaseExperience(increaseNumber)
-           }
+        increaseExperience(petIncreaseNumber)
     }
     func increaseExperience(_ increaseNumber: Int) {
         if let petName = UserDataManager.shared.currentUserData?["homePet"] as? String,
