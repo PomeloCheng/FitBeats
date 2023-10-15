@@ -112,12 +112,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .setHomeCurrency, object: nil)
         
         let dispatchGroup = DispatchGroup()
         
         if  updateStep != 0 && updateCaro != 0 && updatePrgress != 0.0 {
-        
-           
+            
+            
             if updateStep < 1000 {
                 petIncreaseNumber = 0
             } else if updateStep < 2000 {
@@ -156,6 +157,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 NotificationCenter.default.post(name: .updateMonster, object: nil)
                 NotificationCenter.default.post(name: .setHomeCurrency, object: nil)
             }
+        
             
             updateStep = 0
             updateCaro = 0
