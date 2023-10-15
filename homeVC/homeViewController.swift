@@ -142,23 +142,23 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     }
     
     @objc func updateHomeCurrency() {
-        NotificationCenter.default.removeObserver(self, name: .setHomeCurrency, object: nil)
-        setHomeCurrency()
         
+        setHomeCurrency()
+        NotificationCenter.default.removeObserver(self, name: .setHomeCurrency, object: nil)
         
     }
     
     @objc func fetchUserData() {
-        NotificationCenter.default.removeObserver(self, name: .userProfileFetched, object: nil)
-        setHomeUserData()
         
+        setHomeUserData()
+        NotificationCenter.default.removeObserver(self, name: .userProfileFetched, object: nil)
         
     }
     @objc func failGetData() {
-        NotificationCenter.default.removeObserver(self, name: .failGetData, object: nil)
+        
         updateFailData.isEnabled = true
         updateFailData.isHidden = false
-        
+        NotificationCenter.default.removeObserver(self, name: .failGetData, object: nil)
     }
     
     @IBAction func testEvoBtnPressed(_ sender: Any) {

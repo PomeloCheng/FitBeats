@@ -110,12 +110,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func increaseEnergy() {
         // 在这里将能量值 X 增加 1234
         
-        
-        NotificationCenter.default.removeObserver(self, name: .updateMonster, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .setHomeCurrency, object: nil)
-        
-        let dispatchGroup = DispatchGroup()
-        
         if  updateStep != 0 && updateCaro != 0 && updatePrgress != 0.0 {
             
             
@@ -129,6 +123,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 petIncreaseNumber = 3
             }
             
+            NotificationCenter.default.post(name: .updateMonster, object: nil)
+            
             if let userCaroPoint = UserDataManager.shared.currentUserData?["CaloriesPoints"] as? Int,
                let userCheckPoint = UserDataManager.shared.currentUserData?["CheckinPoints"] as? Int {
                 let currentEnergy = userCaroPoint
@@ -138,31 +134,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 UserDataManager.shared.currentUserData?["CaloriesPoints"] = newCaroPoint
                 
                 UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CaloriesPoints", fieldValue: newCaroPoint)
-                
+                NotificationCenter.default.post(name: .setHomeCurrency, object: nil)
                 if updatePrgress >= 1 {
                     let currentCheckPoint = userCheckPoint
                     let newCheckPoint = currentCheckPoint + 1
                     
                     UserDataManager.shared.currentUserData?["CheckinPoints"] = newCheckPoint
-                    
+                    NotificationCenter.default.post(name: .setHomeCurrency, object: nil)
                     UserDataManager.shared.updateUserInfoInFirestore(fieldName: "CheckinPoints", fieldValue: newCheckPoint)
                 }
                 
             }
+           
+                updateStep = 0
+                updateCaro = 0
+                updatePrgress = 0.0
+                petIncreaseNumber = 0
             
-            dispatchGroup.leave()  // 離開 DispatchGroup
-            
-            // 監聽 DispatchGroup 的通知，確保所有操作完成後再發送通知
-            dispatchGroup.notify(queue: .main) {
-                NotificationCenter.default.post(name: .updateMonster, object: nil)
-                NotificationCenter.default.post(name: .setHomeCurrency, object: nil)
-            }
         
-            
-            updateStep = 0
-            updateCaro = 0
-            updatePrgress = 0.0
-            petIncreaseNumber = 0
         }
        
     }

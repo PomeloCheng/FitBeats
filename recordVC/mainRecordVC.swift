@@ -141,12 +141,12 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
     }
     
     @objc func refreshCalendar() {
-        NotificationCenter.default.removeObserver(self, name: .refreshRecordCalendar, object: nil)
         
         UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
             // 在這裡重新載入數據
             self.calendarView.reloadData()
         }, completion: nil)
+        NotificationCenter.default.removeObserver(self, name: .refreshRecordCalendar, object: nil)
         
     }
     
@@ -342,8 +342,7 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
     }
     
     @objc func handleAuthorizationSuccess() {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name("HealthKitAuthorizationSuccess"), object: nil)
-        
+       
         DispatchQueue.main.async {
             //更新畫面的程式
             self.updateDateTitle(todayDate)
@@ -351,6 +350,7 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
             self.isNil = true
             
         }
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("HealthKitAuthorizationSuccess"), object: nil)
         
         
         
