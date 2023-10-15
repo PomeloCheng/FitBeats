@@ -113,6 +113,12 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
         calendarManager.shared.selectTodayWeekdayLabel()
         appStart = true
         
+        if smsVCIn {
+            DispatchQueue.main.async {
+                self.reloadCalendar()
+            }
+            smsVCIn = false
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -144,21 +150,20 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
     @objc func updateHomeCurrency() {
         
         setHomeCurrency()
-        NotificationCenter.default.removeObserver(self, name: .setHomeCurrency, object: nil)
+        
         
     }
     
     @objc func fetchUserData() {
-        
+       
         setHomeUserData()
-        NotificationCenter.default.removeObserver(self, name: .userProfileFetched, object: nil)
         
     }
     @objc func failGetData() {
         
         updateFailData.isEnabled = true
         updateFailData.isHidden = false
-        NotificationCenter.default.removeObserver(self, name: .failGetData, object: nil)
+        
     }
     
     @IBAction func testEvoBtnPressed(_ sender: Any) {

@@ -146,8 +146,7 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
             // 在這裡重新載入數據
             self.calendarView.reloadData()
         }, completion: nil)
-        NotificationCenter.default.removeObserver(self, name: .refreshRecordCalendar, object: nil)
-        
+       
     }
     
     func updateDateTitle(_ date: Date) {
@@ -350,9 +349,7 @@ class mainRecordVC: UIViewController, FSCalendarDataSource, FSCalendarDelegate, 
             self.isNil = true
             
         }
-        NotificationCenter.default.removeObserver(self, name: Notification.Name("HealthKitAuthorizationSuccess"), object: nil)
-        
-        
+       
         
     }
     

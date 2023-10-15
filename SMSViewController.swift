@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseAuth
 
+var smsVCIn = false
+
 class SMSViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var inputPhoneNumber: UILabel!
@@ -133,6 +135,7 @@ class SMSViewController: UIViewController, UITextFieldDelegate {
             DispatchQueue.main.async {
                 let storyBoard = UIStoryboard(name: "Main", bundle: .main)
                 let vc = storyBoard.instantiateViewController(withIdentifier: "mainScreen")
+                smsVCIn = true
                 self?.navigationController?.pushViewController(vc, animated: true)
             
             }

@@ -64,8 +64,7 @@ class smallRecordContentVC: UIViewController, UITableViewDataSource, UITableView
         DispatchQueue.main.async {
             self.updateDateTitle(todayDate)
         }
-        NotificationCenter.default.removeObserver(self, name: Notification.Name("reloadTableView"), object: nil)
-
+       
     }
     
 //MARK: tableview
