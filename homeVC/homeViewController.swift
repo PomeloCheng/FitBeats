@@ -117,7 +117,6 @@ class homeViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSo
             DispatchQueue.main.async {
                 self.reloadCalendar()
             }
-            smsVCIn = false
         }
     }
     override func viewWillAppear(_ animated: Bool) {
